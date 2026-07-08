@@ -1,5 +1,5 @@
 from django.contrib import admin
-from core.utils import BaseAdmin
+from core.utils.admin import BaseAdmin
 
 from .models import (
     Template,
