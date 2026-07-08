@@ -1,0 +1,26 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+djangorestframework = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.13"
+python_full_version = "3.13.7"
+
+[scripts]
+r = "python manage.py runserver"
+mi = "python manage.py migrate"
+mk = "python manage.py makemigrations"
+su = "python manage.py createsuperuser"
+sh = "python manage.py shell"
+test = "python manage.py test"
+st= "python manage.py startapp"
+clearsessions = "python manage.py clearsessions"
+install-dev = "pipenv install --dev django-extensions"
+django = "python manage.py"
