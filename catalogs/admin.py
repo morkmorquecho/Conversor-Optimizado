@@ -1,12 +1,21 @@
 from django.contrib import admin
+
 from core.utils.admin import BaseAdmin
 
 from .models import (
     Supplier,
     Currency,
     Umc,
-    SupplierCatalogItem,
+    SupplierCatalog,
+    SupplierCatalogColumn,
+    SupplierCatalogRow,
 )
+
+
+class SupplierCatalogColumnInline(admin.TabularInline):
+    model = SupplierCatalogColumn
+    extra = 0
+    autocomplete_fields = ("layout_field",)
 
 
 @admin.register(Supplier)
@@ -54,27 +63,84 @@ class UmcAdmin(BaseAdmin):
     ordering = ("code",)
 
 
-@admin.register(SupplierCatalogItem)
-class SupplierCatalogItemAdmin(BaseAdmin):
+@admin.register(SupplierCatalog)
+class SupplierCatalogAdmin(BaseAdmin):
     list_display = (
         "supplier",
-        "tariff_code",
-        "commercial_description",
+        "name",
+        "pivot_field_name",
+        "is_active",
         "created_at",
     )
     list_filter = (
         "supplier",
+        "is_active",
     )
     search_fields = (
         "supplier__code",
         "supplier__name",
-        "tariff_code",
-        "commercial_description",
+        "name",
+        "pivot_field_name",
     )
     autocomplete_fields = (
         "supplier",
     )
     ordering = (
         "supplier__code",
-        "tariff_code",
+        "name",
+    )
+    inlines = (
+        SupplierCatalogColumnInline,
+    )
+
+
+@admin.register(SupplierCatalogColumn)
+class SupplierCatalogColumnAdmin(BaseAdmin):
+    list_display = (
+        "supplier_catalog",
+        "source_name",
+        "layout_field",
+    )
+    list_filter = (
+        "supplier_catalog__supplier",
+    )
+    search_fields = (
+        "supplier_catalog__name",
+        "supplier_catalog__supplier__code",
+        "supplier_catalog__supplier__name",
+        "source_name",
+        "layout_field__name",
+    )
+    autocomplete_fields = (
+        "supplier_catalog",
+        "layout_field",
+    )
+    ordering = (
+        "supplier_catalog",
+        "source_name",
+    )
+
+
+@admin.register(SupplierCatalogRow)
+class SupplierCatalogRowAdmin(BaseAdmin):
+    list_display = (
+        "supplier_catalog",
+        "pivot_value",
+        "created_at",
+    )
+    list_filter = (
+        "supplier_catalog__supplier",
+    )
+    search_fields = (
+        "supplier_catalog__name",
+        "supplier_catalog__supplier__code",
+        "supplier_catalog__supplier__name",
+        "pivot_value",
+    )
+    autocomplete_fields = (
+        "supplier_catalog",
+    )
+    ordering = (
+        "supplier_catalog",
+        "pivot_value",
     )
