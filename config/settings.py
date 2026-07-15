@@ -10,26 +10,23 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+from datetime import timedelta
+import os
+import sys
+from decouple import config
+
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+import sentry_sdk
+DOMAIN = config('DOMAIN')
 
+import warnings
+#IGNORAR WARNINGS INNUTILES
+warnings.filterwarnings('ignore', module='dj_rest_auth.registration.serializers')
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
+DEBUG = config('DEBUG')
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-_fpcynt2h*ly4iyml6%z79w_o#v8$l&(^=k_!p(_gw(g)zh+)b'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
-
-# Application definition
-
+#========================================== APPS INSTALADAS ==========================================
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -37,6 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'drf_spectacular',
 
     #APPS DEL PROYECYO
     'templates',
@@ -46,7 +44,9 @@ INSTALLED_APPS = [
     'extraction',
 ]
 
+#================================================= MIDDLEWARE ====================================================
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -56,40 +56,43 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'config.urls'
-
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
-]
-
-WSGI_APPLICATION = 'config.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+#================================================= CONFIG DATABSE =================================================
+#Autenticacion por Windows (comun en sql server)
+if config('DB_WINDOWS_AUTH', default=False, cast=bool):
+    DATABASES = {
+        'default': {
+            'ENGINE': config('DB_ENGINE'),
+            'NAME': config('DB_NAME'),      
+            'HOST': config('DB_HOST'),
+            'OPTIONS': {
+                'driver': 'ODBC Driver 17 for SQL Server',
+                'trusted_connection': 'yes',
+            },
+        }
     }
-}
+
+else:
+    # Autenticacion usual
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv('DB_NAME'),
+            'USER': os.getenv('DB_USER'),
+            'PASSWORD': os.getenv('DB_PASSWORD'),
+            'HOST': os.getenv('DB_HOST'),
+            'PORT': os.getenv('DB_PORT'),
+        }
+    }
+    
+if 'test' in sys.argv:
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': ':memory:',
+    }
 
 
-# Password validation
-# https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
 
+#================================================= PASSWORD VALIDATORS =================================================
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -105,20 +108,141 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+#================================================ REST_FRAMEWORK ======================================================
 
-# Internationalization
-# https://docs.djangoproject.com/en/6.0/topics/i18n/
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 
-LANGUAGE_CODE = 'en-us'
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
 
-TIME_ZONE = 'UTC'
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 20,
+}
 
+
+
+
+
+#================================================ DOCUMENTACION SWAGGER ======================================================
+SPECTACULAR_SETTINGS = {
+    'TITLE': config('TITLE_SWAGGER'),
+    'DESCRIPTION': config('DESCRIPTION_SWAGGER'),
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+        
+    'COMPONENT_SPLIT_REQUEST': True,  
+    'SCHEMA_PATH_PREFIX': r'/api/',   # Prefijo de tus URLs
+    
+    # Autenticación
+    'SECURITY': [{'bearerAuth': []}],
+    'SERVE_PERMISSIONS': ['rest_framework.permissions.AllowAny'],
+}
+
+
+# ================================================ CORS CONFIGURATION ================================================
+# URLs permitidas (tu frontend)
+CORS_ALLOWED_ORIGINS = config(
+    "CORS_ALLOWED_ORIGINS",
+    default="http://localhost:3000,http://localhost:5173",  # React/Vite
+    cast=lambda v: [s.strip() for s in v.split(",") if s]
+)
+
+# Permitir envío de cookies cross-origin
+CORS_ALLOW_CREDENTIALS = True 
+
+# Headers permitidos
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
+
+#========================================== CARPETAS RELEVANTES ==========================================
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# ─── ESTÁTICOS (siempre igual) ────────────────────────────────────
+STATIC_URL  = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+LOG_DIR = BASE_DIR / 'logs'
+LOG_DIR.mkdir(exist_ok=True)
+
+
+#================================================= DIRECCION DE LOS TEMPLATES(EN ESTE CASO SOLO LOS DE EMAILS) =================================================
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            BASE_DIR / 'templates',  
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+
+# ================================================ SECURITY (Producción) ================================================
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    CSRF_COOKIE_SECURE = config("CSRF_COOKIE_SECURE", default=False, cast=bool)
+    SESSION_COOKIE_SECURE = config("SESSION_COOKIE_SECURE", default=False, cast=bool)
+    CSRF_COOKIE_SAMESITE = config("CSRF_COOKIE_SAMESITE", default="Lax")
+    SESSION_COOKIE_SAMESITE = config("SESSION_COOKIE_SAMESITE", default="Lax")
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    USE_X_FORWARDED_HOST = True
+
+
+#================================================ CONFIGURACION DE SENTRY ======================================================
+if not config('DEBUG', default=True, cast=bool):
+    sentry_sdk.init(
+        dsn=config('SDK_SENTRY', default=None),
+        send_default_pii=True,
+        traces_sample_rate=1.0
+    )
+
+
+#-------------------------------------- IDIOMA - ZONA HORARIA  --------------------------------------------
+LANGUAGE_CODE = 'es-es'
+TIME_ZONE = 'America/Mexico_City'
 USE_I18N = True
-
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
+#================================================ EXTRAS ======================================================
+SECRET_KEY = config('SECRET_KEY')
+DEBUG = config('DEBUG', cast=bool)
+WSGI_APPLICATION = 'config.wsgi.application'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+ALLOWED_HOSTS = config(
+    'ALLOWED_HOSTS',
+    default='localhost,127.0.0.1',
+    cast=lambda v: [s.strip() for s in v.split(',')]
+)
+
+ROOT_URLCONF = 'config.urls'
+
+CSRF_TRUSTED_ORIGINS = config(
+    "CSRF_TRUSTED_ORIGINS",
+    default="http://localhost:3000,http://localhost:5173",
+    cast=lambda v: [s.strip() for s in v.split(",") if s]
+)
