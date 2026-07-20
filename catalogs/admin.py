@@ -9,14 +9,48 @@ from .models import (
     SupplierCatalog,
     SupplierCatalogColumn,
     SupplierCatalogRow,
+    SupplierCatalogColumnLayoutField,
 )
 
 
-class SupplierCatalogColumnInline(admin.TabularInline):
-    model = SupplierCatalogColumn
-    extra = 0
-    autocomplete_fields = ("layout_field",)
+# -------------------------
+# SupplierCatalogColumnLayoutField
+# -------------------------
 
+class SupplierCatalogColumnLayoutFieldInline(admin.TabularInline):
+    model = SupplierCatalogColumnLayoutField
+    extra = 1
+    autocomplete_fields = (
+        "layout_field",
+    )
+
+
+@admin.register(SupplierCatalogColumnLayoutField)
+class SupplierCatalogColumnLayoutFieldAdmin(BaseAdmin):
+    list_display = (
+        "column",
+        "layout_field",
+    )
+
+    search_fields = (
+        "column__source_name",
+        "column__supplier_catalog__name",
+        "layout_field__name",
+    )
+
+    autocomplete_fields = (
+        "column",
+        "layout_field",
+    )
+
+    list_filter = (
+        "layout_field__layout",
+    )
+
+
+# -------------------------
+# Supplier
+# -------------------------
 
 @admin.register(Supplier)
 class SupplierAdmin(BaseAdmin):
@@ -26,12 +60,20 @@ class SupplierAdmin(BaseAdmin):
         "created_at",
         "updated_at",
     )
+
     search_fields = (
         "code",
         "name",
     )
-    ordering = ("code",)
 
+    ordering = (
+        "code",
+    )
+
+
+# -------------------------
+# Currency
+# -------------------------
 
 @admin.register(Currency)
 class CurrencyAdmin(BaseAdmin):
@@ -41,12 +83,20 @@ class CurrencyAdmin(BaseAdmin):
         "created_at",
         "updated_at",
     )
+
     search_fields = (
         "code",
         "country",
     )
-    ordering = ("code",)
 
+    ordering = (
+        "code",
+    )
+
+
+# -------------------------
+# UMC
+# -------------------------
 
 @admin.register(Umc)
 class UmcAdmin(BaseAdmin):
@@ -56,41 +106,27 @@ class UmcAdmin(BaseAdmin):
         "created_at",
         "updated_at",
     )
+
     search_fields = (
         "code",
         "description",
     )
-    ordering = ("code",)
 
-
-@admin.register(SupplierCatalog)
-class SupplierCatalogAdmin(BaseAdmin):
-    list_display = (
-        "supplier",
-        "name",
-        "pivot_field_name",
-        "is_active",
-        "created_at",
-    )
-    list_filter = (
-        "supplier",
-        "is_active",
-    )
-    search_fields = (
-        "supplier__code",
-        "supplier__name",
-        "name",
-        "pivot_field_name",
-    )
-    autocomplete_fields = (
-        "supplier",
-    )
     ordering = (
-        "supplier__code",
-        "name",
+        "code",
     )
-    inlines = (
-        SupplierCatalogColumnInline,
+
+
+# -------------------------
+# SupplierCatalogColumn
+# -------------------------
+
+class SupplierCatalogColumnInline(admin.TabularInline):
+    model = SupplierCatalogColumn
+    extra = 1
+
+    fields = (
+        "source_name",
     )
 
 
@@ -99,27 +135,69 @@ class SupplierCatalogColumnAdmin(BaseAdmin):
     list_display = (
         "supplier_catalog",
         "source_name",
-        "layout_field",
     )
+
     list_filter = (
         "supplier_catalog__supplier",
     )
+
     search_fields = (
+        "source_name",
         "supplier_catalog__name",
         "supplier_catalog__supplier__code",
         "supplier_catalog__supplier__name",
-        "source_name",
-        "layout_field__name",
     )
+
     autocomplete_fields = (
         "supplier_catalog",
-        "layout_field",
     )
+
     ordering = (
         "supplier_catalog",
         "source_name",
     )
+# -------------------------
+# SupplierCatalog
+# -------------------------
 
+@admin.register(SupplierCatalog)
+class SupplierCatalogAdmin(BaseAdmin):
+    list_display = (
+        "supplier",
+        "name",
+        "pivot_field_name",
+        "created_at",
+        "updated_at",
+    )
+
+    list_filter = (
+        "supplier",
+    )
+
+    search_fields = (
+        "supplier__code",
+        "supplier__name",
+        "name",
+        "pivot_field_name",
+    )
+
+    autocomplete_fields = (
+        "supplier",
+    )
+
+    ordering = (
+        "supplier__code",
+        "name",
+    )
+
+    inlines = (
+        SupplierCatalogColumnInline,
+    )
+
+
+# -------------------------
+# SupplierCatalogRow
+# -------------------------
 
 @admin.register(SupplierCatalogRow)
 class SupplierCatalogRowAdmin(BaseAdmin):
@@ -127,19 +205,24 @@ class SupplierCatalogRowAdmin(BaseAdmin):
         "supplier_catalog",
         "pivot_value",
         "created_at",
+        "updated_at",
     )
+
     list_filter = (
         "supplier_catalog__supplier",
     )
+
     search_fields = (
+        "pivot_value",
         "supplier_catalog__name",
         "supplier_catalog__supplier__code",
         "supplier_catalog__supplier__name",
-        "pivot_value",
     )
+
     autocomplete_fields = (
         "supplier_catalog",
     )
+
     ordering = (
         "supplier_catalog",
         "pivot_value",

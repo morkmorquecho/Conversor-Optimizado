@@ -63,15 +63,7 @@ class SupplierCatalog(BaseModel):
         max_length=64,
         help_text="Column name inside the catalog file used as lookup key, e.g. 'PART'",
     )
-    pivot_layout_field = models.ForeignKey(
-        "layouts.LayoutField",
-        on_delete=models.PROTECT,
-        related_name="+",
-        help_text=(
-            "Which layout_field, once extracted from the invoice, is used as the "
-            "lookup value against this catalog's pivot_value"
-        ),
-    )
+
 
  
     class Meta:
@@ -84,7 +76,7 @@ class SupplierCatalog(BaseModel):
 class SupplierCatalogColumn(BaseModel):
     """Describes one column of a SupplierCatalog and, optionally, which
     layout_field it feeds when used to fill the final output."""
- 
+
     supplier_catalog = models.ForeignKey(
         SupplierCatalog, on_delete=models.CASCADE, related_name="columns"
     )
@@ -92,28 +84,18 @@ class SupplierCatalogColumn(BaseModel):
         max_length=128,
         help_text="Column name as it appears in the supplier's catalog file",
     )
-    layout_field = models.ForeignKey(
-        "layouts.LayoutField",
-        on_delete=models.PROTECT,
-        related_name="supplier_catalog_columns",
-        null=True,
-        blank=True,
-        help_text="Layout field this column fills, if any",
-    )
- 
+
     class Meta:
         constraints = [
             models.UniqueConstraint(
                 fields=["supplier_catalog", "source_name"],
                 name="unique_column_per_catalog",
-            )
+            ),
         ]
         ordering = ["supplier_catalog", "source_name"]
- 
+
     def __str__(self):
         return f"{self.supplier_catalog} - {self.source_name}"
- 
- 
 class SupplierCatalogRow(BaseModel):
     """One row of a supplier catalog. Fully replaced on each update."""
  
@@ -138,3 +120,49 @@ class SupplierCatalogRow(BaseModel):
  
     def __str__(self):
         return f"{self.supplier_catalog} - {self.pivot_value}"
+
+
+class SupplierCatalogColumnLayoutField(models.Model):
+    """Maps a catalog column to a layout_field, per layout.
+ 
+    A catalog is reused across every layout that needs it (Casa Azul,
+    Casa Roja, ...), and each layout has its own LayoutField rows, so a
+    single column needs one mapping per layout — not a single fixed FK.
+    This also covers the pivot column: it needs a mapping too, so
+    extraction code knows which extracted layout_field value to match
+    against SupplierCatalogRow.pivot_value for the layout being processed.
+    """
+ 
+    column = models.ForeignKey(
+        SupplierCatalogColumn, on_delete=models.CASCADE, related_name="layout_fields"
+    )
+    layout_field = models.ForeignKey(
+        "layouts.LayoutField", on_delete=models.PROTECT, related_name="+"
+    )
+ 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["column", "layout_field"],
+                name="unique_layout_field_per_column",
+            )
+        ]
+ 
+    def clean(self):
+        from django.core.exceptions import ValidationError
+ 
+        already_mapped = (
+            SupplierCatalogColumnLayoutField.objects.filter(
+                column=self.column, layout_field__layout=self.layout_field.layout
+            )
+            .exclude(pk=self.pk)
+            .exists()
+        )
+        if already_mapped:
+            raise ValidationError(
+                "This column already has a layout_field mapped for this layout."
+            )
+ 
+    def __str__(self):
+        return f"{self.column} -> {self.layout_field}"
+ 

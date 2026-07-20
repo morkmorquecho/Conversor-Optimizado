@@ -9,6 +9,12 @@ djangorestframework = "*"
 sentry-sdk = "*"
 python-decouple = "*"
 drf-spectacular = "*"
+psycopg = {extras = ["binary"], version = "*"}
+psycopg2-binary = "*"
+django-cors-headers = "*"
+requests = "*"
+pandas = "*"
+openpyxl = "*"
 
 [dev-packages]
 
