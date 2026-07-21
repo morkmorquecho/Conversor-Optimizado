@@ -18,3 +18,9 @@ class SupplierCatalogUploadSerializer(serializers.Serializer):
         queryset=SupplierCatalog.objects.filter(is_active=True)
     )
     file = serializers.FileField()
+
+class ExcelDeduplicateSerializer(serializers.Serializer):
+    file = serializers.FileField()
+    column = serializers.CharField(
+        help_text="Nombre de la columna usada para detectar renglones duplicados"
+    )

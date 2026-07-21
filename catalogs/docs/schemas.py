@@ -343,3 +343,102 @@ SUPPLIER_CATALOG_ROW_UPLOAD_SCHEMA = dict(
         404: RESPONSE_404,
     }
 )
+
+EXCEL_DEDUPLICATE_SCHEMA = dict(
+    tags=['catalog'],
+    summary='Eliminar duplicados de un catalogo, paso necesario para subir un catalogo',
+    description=(
+        'Sube un archivo Excel y un catálogo de proveedor, elimina filas vacías y '
+        'duplicados usando la columna pivote configurada en el catálogo.\n\n'
+        '**Proceso:**\n'
+        '1. Lee el archivo Excel y lo convierte a DataFrame\n'
+        '2. Valida que la columna pivote configurada exista en el archivo\n'
+        '3. Elimina filas completamente vacías (`dropna(how="all")`)\n'
+        '4. Elimina filas donde la columna pivote está vacía\n'
+        '5. Elimina duplicados basándose en la columna pivote, manteniendo la primera ocurrencia\n'
+        '6. Devuelve el archivo procesado listo para descargar\n\n'
+        '**Columnas permitidas:**\n'
+        '- Cualquier columna puede estar presente en el archivo\n'
+        '- La columna pivote se determina automáticamente desde el catálogo\n'
+        '- Los valores de la columna pivote deben ser únicos después del procesamiento\n\n'
+        '**Formato de respuesta:**\n'
+        '- Archivo Excel descargable\n'
+        '- Incluye header `X-Duplicates-Removed` con el número de duplicados eliminados'
+    ),
+    request={
+        'multipart/form-data': {
+            'type': 'object',
+            'properties': {
+                'supplier_catalog': {
+                    'type': 'integer',
+                    'example': 5,
+                    'description': 'ID del catálogo del proveedor que contiene la columna pivote'
+                },
+                'file': {
+                    'type': 'string',
+                    'format': 'binary',
+                    'description': 'Archivo Excel (.xlsx, .xls) para procesar'
+                }
+            },
+            'required': ['supplier_catalog', 'file']
+        }
+    },
+    responses={
+        200: {
+            'description': 'Archivo procesado exitosamente - descarga directa',
+            'content': {
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': {
+                    'schema': {
+                        'type': 'string',
+                        'format': 'binary',
+                        'description': 'Archivo Excel con duplicados eliminados'
+                    },
+                    'example': None  # Binary file response
+                }
+            },
+            'headers': {
+                'Content-Disposition': {
+                    'description': 'Nombre del archivo descargado',
+                    'schema': {
+                        'type': 'string',
+                        'example': 'attachment; filename="archivo_sin_duplicados.xlsx"'
+                    }
+                },
+                'X-Duplicates-Removed': {
+                    'description': 'Número de filas duplicadas eliminadas',
+                    'schema': {
+                        'type': 'integer',
+                        'example': 5
+                    }
+                }
+            }
+        },
+        400: {
+            'description': 'Error en la solicitud',
+            'content': {
+                'application/json': {
+                    'examples': {
+                        'archivo_invalido': {
+                            'summary': 'No se pudo leer el archivo',
+                            'value': {
+                                'code': 'VALIDATION_ERROR',
+                                'detail': 'No se pudo leer el archivo: Error de formato'
+                            }
+                        },
+                        'columna_pivote_faltante': {
+                            'summary': 'Columna pivote no encontrada',
+                            'value': {
+                                'code': 'VALIDATION_ERROR',
+                                'detail': "El archivo no trae la columna pivote 'codigo_producto' configurada para este catálogo. Columnas disponibles: producto, precio, stock"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        401: RESPONSE_401,
+        404: RESPONSE_404,
+    }
+)
+
+
