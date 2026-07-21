@@ -1,56 +1,51 @@
-# templates/migrations/0002_seed_suzuki_casa_rojo.py
-#
-# Ajusta el nombre de archivo/número y las dependencies de abajo para que
-# coincidan con tus migraciones reales (0001_initial de cada app).
-
 from django.db import migrations
 
 
 LAYOUT_FIELDS = [
-    # (id, layout_id, name, sort_order)
-    (1, 1, "NUMERO DE FACTURA", 1),
-    (2, 1, "DESCRIPCION", 2),
-    (3, 1, "CANTIDAD DE LA FACTURA", 3),
-    (4, 1, "UNIDAD DE LA FACTURA", 4),
-    (5, 1, "PRECIO DE LA PARTIDA", 5),
-    (6, 1, "MODELO", 6),
-    (7, 1, "MARCA", 7),
-    (8, 1, "SUBMODELO", 8),
-    (9, 1, "SERIE", 9),
-    (10, 2, "CLAVE DEL PROVEEDOR", 1),
-    (11, 2, "NO.FACTURA", 2),
-    (12, 2, "FECHA DE FACTURA", 3),
-    (13, 2, "MONTO DE FACTURA", 4),
-    (14, 2, "MONEDA", 5),
-    (15, 2, "INCOTERM", 6),
-    (16, 2, "SUBDIVISION", 7),
-    (17, 2, "CERT. ORIGEN", 8),
-    (18, 2, "NUMERO DE PARTE", 9),
-    (19, 2, "PAIS ORIGEN", 10),
-    (20, 2, "PAIS VENDEDOR", 11),
-    (21, 2, "FRACCION", 12),
-    (22, 2, "DESCRIPCION", 13),
-    (23, 2, "VALOR DE LA MERCANCIA", 14),
-    (24, 2, "UMC", 15),
-    (25, 2, "CANTIDAD DE UMC", 16),
-    (26, 2, "CANTIDAD DE UMT", 17),
-    (27, 2, "PREFERENCIA ARANCELARIA", 18),
-    (28, 2, "Marca", 19),
-    (29, 2, "Modelo", 20),
-    (30, 2, "Submodelo", 21),
-    (31, 2, "No. Serie", 22),
-    (32, 2, "Descripción Cove", 23),
+    # (layout_code, name, sort_order)
+    ("casa_azul", "NUMERO DE FACTURA", 1),
+    ("casa_azul", "DESCRIPCION", 2),
+    ("casa_azul", "CANTIDAD DE LA FACTURA", 3),
+    ("casa_azul", "UNIDAD DE LA FACTURA", 4),
+    ("casa_azul", "PRECIO DE LA PARTIDA", 5),
+    ("casa_azul", "MODELO", 6),
+    ("casa_azul", "MARCA", 7),
+    ("casa_azul", "SUBMODELO", 8),
+    ("casa_azul", "SERIE", 9),
+    ("casa_rojo", "CLAVE DEL PROVEEDOR", 1),
+    ("casa_rojo", "NO.FACTURA", 2),
+    ("casa_rojo", "FECHA DE FACTURA", 3),
+    ("casa_rojo", "MONTO DE FACTURA", 4),
+    ("casa_rojo", "MONEDA", 5),
+    ("casa_rojo", "INCOTERM", 6),
+    ("casa_rojo", "SUBDIVISION", 7),
+    ("casa_rojo", "CERT. ORIGEN", 8),
+    ("casa_rojo", "NUMERO DE PARTE", 9),
+    ("casa_rojo", "PAIS ORIGEN", 10),
+    ("casa_rojo", "PAIS VENDEDOR", 11),
+    ("casa_rojo", "FRACCION", 12),
+    ("casa_rojo", "DESCRIPCION", 13),
+    ("casa_rojo", "VALOR DE LA MERCANCIA", 14),
+    ("casa_rojo", "UMC", 15),
+    ("casa_rojo", "CANTIDAD DE UMC", 16),
+    ("casa_rojo", "CANTIDAD DE UMT", 17),
+    ("casa_rojo", "PREFERENCIA ARANCELARIA", 18),
+    ("casa_rojo", "Marca", 19),
+    ("casa_rojo", "Modelo", 20),
+    ("casa_rojo", "Submodelo", 21),
+    ("casa_rojo", "No. Serie", 22),
+    ("casa_rojo", "Descripción Cove", 23),
 ]
 
 TEMPLATE_FIELDS = [
-    # (id, template_id, layout_field_id, source_field, extraction_type, worksheet)
-    (1, 1, 11, "I/V NO", "header_name", "Hoja1"),
-    (2, 1, 12, "I/V DATE", "header_name", "Hoja1"),
-    (3, 1, 13, "FOB AMOUNT", "header_name", "Hoja1"),
-    (4, 1, 14, "CURRENCY", "header_name", "Hoja1"),
-    (5, 1, 15, "TERM", "header_name", "Hoja1"),
-    (6, 1, 18, "PART NO", "header_name", "Hoja1"),
-    (7, 1, 25, "QTY", "header_name", "Hoja1"),
+    # (layout_field_name, source_field, extraction_type, worksheet)
+    ("NO.FACTURA", "I/V NO", "header_name", "Hoja1"),
+    ("FECHA DE FACTURA", "I/V DATE", "header_name", "Hoja1"),
+    ("MONTO DE FACTURA", "FOB AMOUNT", "header_name", "Hoja1"),
+    ("MONEDA", "CURRENCY", "header_name", "Hoja1"),
+    ("INCOTERM", "TERM", "header_name", "Hoja1"),
+    ("NUMERO DE PARTE", "PART NO", "header_name", "Hoja1"),
+    ("CANTIDAD DE UMC", "QTY", "header_name", "Hoja1"),
 ]
 
 
@@ -61,61 +56,52 @@ def seed_data(apps, schema_editor):
     Template = apps.get_model("templates", "Template")
     TemplateField = apps.get_model("templates", "TemplateField")
 
-    supplier = Supplier.objects.create(id=1, code="SUZUKI", name="Suzuki")
-
-    Layout.objects.bulk_create(
-        [
-            Layout(id=1, code="casa_azul", name="Casa Azul", is_active=True),
-            Layout(id=2, code="casa_rojo", name="Casa Rojo", is_active=True),
-        ]
+    supplier, _ = Supplier.objects.get_or_create(
+        code="SUZUKI", defaults={"name": "Suzuki"}
     )
 
-    LayoutField.objects.bulk_create(
-        [
-            LayoutField(id=id_, layout_id=layout_id, name=name, sort_order=sort_order)
-            for id_, layout_id, name, sort_order in LAYOUT_FIELDS
-        ]
-    )
+    layouts = {}
+    for code, name in [("casa_azul", "Casa Azul"), ("casa_rojo", "Casa Rojo")]:
+        layouts[code], _ = Layout.objects.get_or_create(
+            code=code, defaults={"name": name, "is_active": True}
+        )
 
-    Template.objects.create(
-        id=1,
+    layout_fields = {}
+    for layout_code, name, sort_order in LAYOUT_FIELDS:
+        layout = layouts[layout_code]
+        lf, _ = LayoutField.objects.get_or_create(
+            layout=layout, name=name, defaults={"sort_order": sort_order}
+        )
+        # namespacing por layout, porque "DESCRIPCION" se repite en ambos layouts
+        layout_fields[(layout_code, name)] = lf
+
+    template, _ = Template.objects.get_or_create(
         supplier=supplier,
-        layout_id=2,  # casa_rojo
+        layout=layouts["casa_rojo"],
         name="susuki_casa_rojo_xlsx",
-        document_type="xlsx",
-        is_active=True,
+        defaults={"document_type": "xlsx", "is_active": True},
     )
 
-    TemplateField.objects.bulk_create(
-        [
-            TemplateField(
-                id=id_,
-                template_id=template_id,
-                layout_field_id=layout_field_id,
-                source_field=source_field,
-                extraction_type=extraction_type,
-                worksheet=worksheet,
-            )
-            for id_, template_id, layout_field_id, source_field, extraction_type, worksheet in TEMPLATE_FIELDS
-        ]
-    )
+    for field_name, source_field, extraction_type, worksheet in TEMPLATE_FIELDS:
+        TemplateField.objects.get_or_create(
+            template=template,
+            layout_field=layout_fields[("casa_rojo", field_name)],
+            defaults={
+                "source_field": source_field,
+                "extraction_type": extraction_type,
+                "worksheet": worksheet,
+            },
+        )
 
 
 def unseed_data(apps, schema_editor):
     Supplier = apps.get_model("catalogs", "Supplier")
     Layout = apps.get_model("layouts", "Layout")
-    LayoutField = apps.get_model("layouts", "LayoutField")
-    Template = apps.get_model("templates", "Template")
-    TemplateField = apps.get_model("templates", "TemplateField")
 
-    # Reverse order: children before parents.
-    TemplateField.objects.filter(
-        id__in=[row[0] for row in TEMPLATE_FIELDS]
-    ).delete()
-    Template.objects.filter(id=1).delete()
-    LayoutField.objects.filter(id__in=[row[0] for row in LAYOUT_FIELDS]).delete()
-    Layout.objects.filter(id__in=[1, 2]).delete()
-    Supplier.objects.filter(id=1).delete()
+    # Ajusta on_delete de tus FKs: si son CASCADE, esto basta.
+    # Si son PROTECT, necesitas borrar hijos primero en el orden correcto.
+    Supplier.objects.filter(code="SUZUKI").delete()
+    Layout.objects.filter(code__in=["casa_azul", "casa_rojo"]).delete()
 
 
 class Migration(migrations.Migration):
