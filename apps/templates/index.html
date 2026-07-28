@@ -1,0 +1,1702 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Sistema de extracción y normalización de facturas de proveedores">
+      
+      
+      
+      
+        <link rel="prev" href="../layouts/">
+      
+      
+        <link rel="next" href="../extraction/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>templates - Invoice Converter — Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#app-templates" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Invoice Converter — Docs" class="md-header__button md-logo" aria-label="Invoice Converter — Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Invoice Converter — Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              templates
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Invoice Converter — Docs" class="md-nav__button md-logo" aria-label="Invoice Converter — Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Invoice Converter — Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitectura
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Arquitectura
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visión general
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/data-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modelo de datos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/extraction-flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flujo de extracción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apps
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Apps
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../catalogs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    catalogs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../layouts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    layouts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    templates
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#proposito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propósito
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../extraction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    extraction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Convenciones
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Convenciones
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../conventions/code-style/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estilo de código
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../conventions/api-conventions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API (errores, respuestas)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../conventions/soft-delete.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Soft delete
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guías
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guías
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/add-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup local
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/deploy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy (Railway)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#proposito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propósito
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="app-templates">App: templates<a class="headerlink" href="#app-templates" title="Permanent link">&para;</a></h1>
+<h2 id="proposito">Propósito<a class="headerlink" href="#proposito" title="Permanent link">&para;</a></h2>
+<p>La app <code>templates</code> define cómo debe procesarse la información de un proveedor específico para convertir los datos de un documento de origen en información compatible con un <code>Layout</code>.</p>
+<p>Mientras que <code>layouts</code> define la estructura del archivo final, <code>templates</code> define la configuración necesaria para obtener los datos del documento de origen y asociarlos con los campos correspondientes del layout.</p>
+<p>Conceptualmente:</p>
+<div class="highlight"><pre><span></span><code>Supplier
+    │
+    ▼
+Template
+    │
+    ├── TemplateField
+    │       │
+    │       └── TemplateFieldRule
+    │
+    └── Layout
+            │
+            └── LayoutField
+</code></pre></div>
+<p>La relación principal es:</p>
+<div class="highlight"><pre><span></span><code>Documento del proveedor
+        │
+        ▼
+     Template
+        │
+        ▼
+   TemplateField
+        │
+        ├── Extrae del documento
+        │
+        ├── Normaliza
+        │
+        ▼
+   LayoutField
+        │
+        ▼
+Resultado final
+</code></pre></div>
+<p>Un template permite que un mismo layout pueda ser utilizado por diferentes proveedores cuyos archivos de origen tienen estructuras distintas.</p>
+<hr />
+<h1 id="template">Template<a class="headerlink" href="#template" title="Permanent link">&para;</a></h1>
+<p>El modelo <code>Template</code> representa la configuración de extracción de un proveedor para un layout y un tipo de documento específico.</p>
+<p>Un template pertenece a:</p>
+<ul>
+<li>Un <code>Supplier</code>.</li>
+<li>Un <code>Layout</code>.</li>
+<li>Un tipo de documento.</li>
+<li>Un nombre.</li>
+</ul>
+<p>Actualmente se soportan dos tipos de documentos estructurados:</p>
+<ul>
+<li><code>xlsx</code></li>
+<li><code>xml</code></li>
+</ul>
+<p>El template establece la relación:</p>
+<div class="highlight"><pre><span></span><code>Proveedor + Layout + Tipo de documento
+</code></pre></div>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>Supplier: Suzuki
+Layout: Casa Rojo
+Document Type: XLSX
+</code></pre></div>
+<p>Puede representarse como:</p>
+<div class="highlight"><pre><span></span><code>Suzuki
+   │
+   ▼
+Template Suzuki XLSX
+   │
+   ├── Layout: Casa Rojo
+   └── Document Type: XLSX
+</code></pre></div>
+<p>El template no representa un archivo individual.</p>
+<p>Representa una configuración reutilizable que puede utilizarse para procesar múltiples archivos del mismo proveedor que mantengan la estructura esperada.</p>
+<hr />
+<h1 id="un-template-por-proveedor-layout-y-formato">Un template por proveedor, layout y formato<a class="headerlink" href="#un-template-por-proveedor-layout-y-formato" title="Permanent link">&para;</a></h1>
+<p>El sistema permite que un proveedor tenga diferentes templates.</p>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>Suzuki
+   │
+   ├── Template XLSX → Casa Rojo
+   ├── Template XML  → Casa Rojo
+   ├── Template XLSX → Casa Azul
+   └── Template XML  → Casa Azul
+</code></pre></div>
+<p>Esto permite que el mismo proveedor pueda entregar documentos en diferentes formatos o que sus documentos deban procesarse para diferentes estructuras de salida.</p>
+<p>Actualmente existe una restricción para evitar tener más de un template activo para la misma combinación de:</p>
+<div class="highlight"><pre><span></span><code>Supplier
+Layout
+Document Type
+</code></pre></div>
+<p>Por ejemplo, no pueden existir simultáneamente dos templates activos para:</p>
+<div class="highlight"><pre><span></span><code>Suzuki + Casa Rojo + XLSX
+</code></pre></div>
+<p>Esto evita ambigüedades al momento de seleccionar automáticamente el template que debe utilizarse para procesar un documento.</p>
+<hr />
+<h1 id="layout-y-template">Layout y Template<a class="headerlink" href="#layout-y-template" title="Permanent link">&para;</a></h1>
+<p>El <code>Layout</code> y el <code>Template</code> tienen responsabilidades diferentes.</p>
+<p>El <code>Layout</code> responde:</p>
+<blockquote>
+<p>¿Cuál debe ser la estructura del archivo final?</p>
+</blockquote>
+<p>El <code>Template</code> responde:</p>
+<blockquote>
+<p>¿Cómo obtenemos los datos necesarios para llenar esa estructura desde el documento de este proveedor?</p>
+</blockquote>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>Archivo XLSX Suzuki
+        │
+        ▼
+Template Suzuki XLSX
+        │
+        ├── &quot;I/V NO&quot;
+        │       │
+        │       ▼
+        │   &quot;NO.FACTURA&quot;
+        │
+        ├── &quot;I/V DATE&quot;
+        │       │
+        │       ▼
+        │   &quot;FECHA DE FACTURA&quot;
+        │
+        └── &quot;FOB AMOUNT&quot;
+                │
+                ▼
+            &quot;MONTO DE FACTURA&quot;
+</code></pre></div>
+<p>El template conoce los nombres de los campos del documento de origen.</p>
+<p>El layout conoce los nombres de los campos del documento de destino.</p>
+<p>Esta separación permite reutilizar un layout entre diferentes proveedores.</p>
+<hr />
+<h1 id="templatefield">TemplateField<a class="headerlink" href="#templatefield" title="Permanent link">&para;</a></h1>
+<p>Un <code>TemplateField</code> define la relación entre un campo del documento de origen y un campo del layout.</p>
+<p>Cada <code>TemplateField</code> pertenece a:</p>
+<ul>
+<li>Un <code>Template</code>.</li>
+<li>Un <code>LayoutField</code>.</li>
+</ul>
+<p>Además, define:</p>
+<ul>
+<li><code>source_field</code>: nombre del campo que debe buscarse en el documento de origen.</li>
+<li><code>extraction_type</code>: mecanismo utilizado para localizar el valor.</li>
+<li><code>worksheet</code>: hoja del Excel donde debe buscarse el campo, cuando el documento es XLSX.</li>
+<li><code>header_occurrence</code>: ocurrencia del encabezado cuando el mismo nombre aparece varias veces.</li>
+</ul>
+<p>Conceptualmente:</p>
+<div class="highlight"><pre><span></span><code>TemplateField
+    │
+    ├── source_field
+    │
+    ├── extraction_type
+    │
+    ├── worksheet
+    │
+    ├── header_occurrence
+    │
+    └── layout_field
+</code></pre></div>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>source_field:
+&quot;I/V NO&quot;
+
+extraction_type:
+&quot;header_name&quot;
+
+worksheet:
+&quot;Hoja1&quot;
+
+layout_field:
+&quot;NO.FACTURA&quot;
+</code></pre></div>
+<p>Esto significa:</p>
+<blockquote>
+<p>Buscar el campo <code>I/V NO</code> en la hoja <code>Hoja1</code> y colocar el valor obtenido en el campo <code>NO.FACTURA</code> del layout.</p>
+</blockquote>
+<hr />
+<h1 id="tipos-de-extraccion">Tipos de extracción<a class="headerlink" href="#tipos-de-extraccion" title="Permanent link">&para;</a></h1>
+<p>Actualmente existen dos tipos de extracción configurables mediante <code>TemplateField</code>.</p>
+<h2 id="header-name">Header name<a class="headerlink" href="#header-name" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>header_name
+</code></pre></div>
+<p>Se utiliza principalmente para documentos XLSX.</p>
+<p>El sistema busca una columna utilizando el nombre configurado en <code>source_field</code>.</p>
+<p>Ejemplo:</p>
+<div class="highlight"><pre><span></span><code>Archivo XLSX
+
+| I/V NO | I/V DATE | FOB AMOUNT | CURRENCY |
+|--------|----------|------------|----------|
+| 12345  | 2026-07-01 | 5000     | USD      |
+</code></pre></div>
+<p>Configuración:</p>
+<div class="highlight"><pre><span></span><code>source_field = &quot;I/V NO&quot;
+extraction_type = &quot;header_name&quot;
+worksheet = &quot;Hoja1&quot;
+</code></pre></div>
+<p>Resultado:</p>
+<div class="highlight"><pre><span></span><code>I/V NO
+  │
+  ▼
+12345
+  │
+  ▼
+NO.FACTURA
+</code></pre></div>
+<hr />
+<h2 id="xpath">XPath<a class="headerlink" href="#xpath" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>xpath
+</code></pre></div>
+<p>Se utiliza para documentos XML.</p>
+<p>En este caso, <code>source_field</code> representa la expresión XPath utilizada para localizar el valor dentro del XML.</p>
+<p>Conceptualmente:</p>
+<div class="highlight"><pre><span></span><code>XML
+ │
+ ▼
+XPath configurado en source_field
+ │
+ ▼
+Valor encontrado
+ │
+ ▼
+LayoutField
+</code></pre></div>
+<p>Esto permite que la misma estructura de configuración <code>TemplateField</code> pueda soportar diferentes mecanismos de extracción según el tipo de documento.</p>
+<hr />
+<h1 id="worksheet">Worksheet<a class="headerlink" href="#worksheet" title="Permanent link">&para;</a></h1>
+<p>El campo <code>worksheet</code> indica la hoja de Excel donde se debe buscar la información.</p>
+<p>Este campo aplica principalmente a documentos XLSX.</p>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>worksheet = &quot;Hoja1&quot;
+</code></pre></div>
+<p>Una configuración puede ser:</p>
+<div class="highlight"><pre><span></span><code>TemplateField
+
+source_field:
+&quot;PART NO&quot;
+
+extraction_type:
+&quot;header_name&quot;
+
+worksheet:
+&quot;Hoja1&quot;
+
+layout_field:
+&quot;NUMERO DE PARTE&quot;
+</code></pre></div>
+<p>Esto permite identificar tanto la columna como la hoja donde debe buscarse.</p>
+<p>Para documentos XML, este campo no es necesario.</p>
+<hr />
+<h1 id="header-occurrence">Header occurrence<a class="headerlink" href="#header-occurrence" title="Permanent link">&para;</a></h1>
+<p>Los archivos Excel pueden contener encabezados repetidos.</p>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>| PART NO | DESCRIPTION | PART NO |
+|---------|-------------|---------|
+| 123     | Motor       | ABC     |
+</code></pre></div>
+<p>En este caso, <code>header_occurrence</code> permite indicar cuál de las columnas debe utilizarse.</p>
+<p>Por defecto:</p>
+<div class="highlight"><pre><span></span><code>header_occurrence = 1
+</code></pre></div>
+<p>Esto significa que se utilizará la primera aparición del encabezado.</p>
+<p>Si se configura:</p>
+<div class="highlight"><pre><span></span><code>header_occurrence = 2
+</code></pre></div>
+<p>se utilizará la segunda aparición.</p>
+<p>Esto permite manejar archivos Excel que tienen nombres de columnas repetidos sin modificar el documento original.</p>
+<hr />
+<h1 id="mapeo-entre-origen-y-destino">Mapeo entre origen y destino<a class="headerlink" href="#mapeo-entre-origen-y-destino" title="Permanent link">&para;</a></h1>
+<p>El objetivo principal de <code>TemplateField</code> es realizar un mapeo:</p>
+<div class="highlight"><pre><span></span><code>Campo de origen
+      │
+      ▼
+Extracción
+      │
+      ▼
+Normalización
+      │
+      ▼
+Campo de destino
+</code></pre></div>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>Archivo del proveedor
+
+&quot;I/V NO&quot;
+&quot;I/V DATE&quot;
+&quot;FOB AMOUNT&quot;
+&quot;CURRENCY&quot;
+&quot;TERM&quot;
+&quot;PART NO&quot;
+&quot;QTY&quot;
+
+        │
+        │ TemplateField
+        ▼
+
+Layout Casa Rojo
+
+&quot;NO.FACTURA&quot;
+&quot;FECHA DE FACTURA&quot;
+&quot;MONTO DE FACTURA&quot;
+&quot;MONEDA&quot;
+&quot;INCOTERM&quot;
+&quot;NUMERO DE PARTE&quot;
+&quot;CANTIDAD DE UMC&quot;
+</code></pre></div>
+<p>La configuración de cada <code>TemplateField</code> determina cómo se realiza esta correspondencia.</p>
+<hr />
+<h1 id="templatefieldrule">TemplateFieldRule<a class="headerlink" href="#templatefieldrule" title="Permanent link">&para;</a></h1>
+<p>Un <code>TemplateFieldRule</code> permite asociar reglas de normalización a un <code>TemplateField</code>.</p>
+<p>Su función es definir qué transformaciones deben aplicarse al valor extraído antes de colocarlo en el layout.</p>
+<p>La relación es:</p>
+<div class="highlight"><pre><span></span><code>TemplateField
+      │
+      ├── Rule 1
+      │
+      ├── Rule 2
+      │
+      └── Rule 3
+</code></pre></div>
+<p>Las reglas se ejecutan según el campo <code>sort_order</code>.</p>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>Valor extraído
+      │
+      ▼
+Rule #1
+      │
+      ▼
+Rule #2
+      │
+      ▼
+Rule #3
+      │
+      ▼
+Valor final
+      │
+      ▼
+LayoutField
+</code></pre></div>
+<p>Esto permite encadenar múltiples transformaciones sobre un mismo campo.</p>
+<p>Por ejemplo, conceptualmente:</p>
+<div class="highlight"><pre><span></span><code>&quot; usd &quot;
+   │
+   ▼
+Trim
+   │
+   ▼
+Uppercase
+   │
+   ▼
+Catalog lookup
+   │    
+   ▼
+&quot;USD&quot;
+</code></pre></div>
+<p>La definición de la lógica específica de cada regla corresponde a <code>NormalizationRule</code>.</p>
+<p><code>TemplateFieldRule</code> únicamente determina qué reglas deben aplicarse a un campo y en qué orden.</p>
+<hr />
+<h1 id="normalizacion">Normalización<a class="headerlink" href="#normalizacion" title="Permanent link">&para;</a></h1>
+<p>Las reglas de normalización permiten adaptar la información extraída del documento al formato esperado por el sistema.</p>
+<p>Esto es necesario porque los proveedores pueden utilizar valores diferentes a los valores oficiales utilizados por el sistema.</p>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>Documento del proveedor:
+
+&quot;US DOLLAR&quot;
+
+        │
+        ▼
+NormalizationRule
+
+        │
+        ▼
+
+&quot;USD&quot;
+</code></pre></div>
+<p>En otros casos, la información puede requerir una consulta a un catálogo para obtener el valor oficial.</p>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>Invoice
+   │
+   ▼
+&quot;United States Dollar&quot;
+   │
+   ▼
+Currency Catalog
+   │
+   ▼
+&quot;USD&quot;
+</code></pre></div>
+<p>La normalización permite que el valor final sea consistente con los catálogos y con los valores esperados por el layout.</p>
+<hr />
+<h1 id="relacion-con-catalogs">Relación con catalogs<a class="headerlink" href="#relacion-con-catalogs" title="Permanent link">&para;</a></h1>
+<p>Los templates trabajan junto con la app <code>catalogs</code>.</p>
+<p>La diferencia principal es:</p>
+<div class="highlight"><pre><span></span><code>Template
+    │
+    │ define cómo extraer
+    ▼
+Información presente en el invoice
+</code></pre></div>
+<p>Mientras que:</p>
+<div class="highlight"><pre><span></span><code>Catalog
+    │
+    │ proporciona información adicional
+    │ o normaliza información existente
+    ▼
+Información final del layout
+</code></pre></div>
+<p>Un dato puede seguir diferentes caminos.</p>
+<h3 id="dato-presente-en-el-invoice">Dato presente en el invoice<a class="headerlink" href="#dato-presente-en-el-invoice" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Invoice
+   │
+   ▼
+TemplateField
+   │
+   ▼
+NormalizationRule
+   │
+   ▼
+LayoutField
+</code></pre></div>
+<h3 id="dato-que-requiere-un-catalogo">Dato que requiere un catálogo<a class="headerlink" href="#dato-que-requiere-un-catalogo" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Invoice
+   │
+   ▼
+TemplateField
+   │
+   ▼
+Valor pivote
+   │
+   ▼
+SupplierCatalog
+   │
+   ▼
+Información adicional
+   │
+   ▼
+LayoutField
+</code></pre></div>
+<p>Por lo tanto, un template no necesariamente representa todos los datos que terminarán en el layout.</p>
+<p>Algunos campos pueden completarse posteriormente mediante catálogos.</p>
+<hr />
+<h1 id="restriccion-de-layoutfield">Restricción de LayoutField<a class="headerlink" href="#restriccion-de-layoutfield" title="Permanent link">&para;</a></h1>
+<p>Cada <code>TemplateField</code> debe apuntar a un <code>LayoutField</code> perteneciente al mismo layout del template.</p>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>Template
+   │
+   └── Layout: Casa Rojo
+           │
+           └── TemplateField
+                   │
+                   └── LayoutField: NO.FACTURA
+</code></pre></div>
+<p>No sería válido configurar:</p>
+<div class="highlight"><pre><span></span><code>Template
+   │
+   └── Layout: Casa Rojo
+           │
+           └── TemplateField
+                   │
+                   └── LayoutField de Casa Azul
+</code></pre></div>
+<p>Esta validación evita que un template termine escribiendo información en una estructura de salida diferente a la que tiene configurada.</p>
+<hr />
+<h1 id="template-para-xlsx">Template para XLSX<a class="headerlink" href="#template-para-xlsx" title="Permanent link">&para;</a></h1>
+<p>Un template XLSX normalmente define campos mediante el nombre de los encabezados.</p>
+<p>Ejemplo:</p>
+<div class="highlight"><pre><span></span><code>Template
+├── Supplier: Suzuki
+├── Layout: Casa Rojo
+└── Document Type: XLSX
+</code></pre></div>
+<p>Sus campos pueden ser:</p>
+<div class="highlight"><pre><span></span><code>&quot;I/V NO&quot;
+    └──► NO.FACTURA
+
+&quot;I/V DATE&quot;
+    └──► FECHA DE FACTURA
+
+&quot;FOB AMOUNT&quot;
+    └──► MONTO DE FACTURA
+
+&quot;CURRENCY&quot;
+    └──► MONEDA
+
+&quot;TERM&quot;
+    └──► INCOTERM
+
+&quot;PART NO&quot;
+    └──► NUMERO DE PARTE
+
+&quot;QTY&quot;
+    └──► CANTIDAD DE UMC
+</code></pre></div>
+<p>El usuario únicamente debe seleccionar el template correspondiente al procesar el archivo.</p>
+<p>El sistema utiliza la configuración del template para realizar la extracción y construir el resultado.</p>
+<hr />
+<h1 id="template-para-xml">Template para XML<a class="headerlink" href="#template-para-xml" title="Permanent link">&para;</a></h1>
+<p>Un template XML utiliza el mismo concepto general, pero cambia el mecanismo de extracción.</p>
+<p>En lugar de buscar una columna mediante un encabezado, el sistema utiliza una expresión XPath.</p>
+<p>Conceptualmente:</p>
+<div class="highlight"><pre><span></span><code>Template XML
+      │
+      ▼
+TemplateField
+      │
+      ├── source_field = XPath
+      │
+      └── extraction_type = xpath
+      │
+      ▼
+Valor extraído
+      │
+      ▼
+LayoutField
+</code></pre></div>
+<p>Esto permite mantener una configuración uniforme para diferentes formatos de documentos.</p>
+<hr />
+<h1 id="configuracion-desde-django-admin">Configuración desde Django Admin<a class="headerlink" href="#configuracion-desde-django-admin" title="Permanent link">&para;</a></h1>
+<p>La configuración de templates está pensada para administrarse desde el Django Admin.</p>
+<p>El flujo general para configurar un nuevo proveedor es:</p>
+<div class="highlight"><pre><span></span><code>1. Crear o registrar Supplier
+       │
+       ▼
+2. Seleccionar Layout
+       │
+       ▼
+3. Crear Template
+       │
+       ├── Proveedor
+       ├── Layout
+       ├── Nombre
+       └── Tipo de documento
+       │
+       ▼
+4. Crear TemplateFields
+       │
+       ├── Campo de origen
+       ├── Tipo de extracción
+       ├── Hoja (XLSX)
+       ├── Ocurrencia
+       └── Campo del Layout
+       │
+       ▼
+5. Configurar reglas de normalización
+   cuando sean necesarias
+       │
+       ▼
+6. Procesar documentos utilizando el Template
+</code></pre></div>
+<p>Una vez configurado el template, los usuarios no necesitan definir nuevamente los campos de extracción cada vez que suben una factura.</p>
+<p>El template representa la configuración reutilizable para ese proveedor y formato.</p>
+<hr />
+<h1 id="pdf-y-pdfextractionconfig">PDF y PdfExtractionConfig<a class="headerlink" href="#pdf-y-pdfextractionconfig" title="Permanent link">&para;</a></h1>
+<p>Los archivos PDF representan un flujo diferente al utilizado para XLSX y XML.</p>
+<p>En XLSX y XML existen campos estructurados que pueden ser configurados mediante <code>TemplateField</code>.</p>
+<p>En un PDF, especialmente cuando se trata de facturas con formatos variables, puede no existir una estructura de campos confiable que permita realizar una extracción directa mediante encabezados o XPath.</p>
+<p>Por este motivo, los PDFs utilizan una configuración independiente mediante <code>PdfExtractionConfig</code>.</p>
+<p>Conceptualmente:</p>
+<div class="highlight"><pre><span></span><code>PDF
+ │
+ ▼
+Extracción de texto
+ │
+ ▼
+LLM
+ │
+ ├── base_prompt
+ ├── hints
+ │
+ ▼
+Información estructurada
+ │
+ ▼
+Layout
+</code></pre></div>
+<p><code>PdfExtractionConfig</code> pertenece a un proveedor y a un layout.</p>
+<p>Contiene:</p>
+<ul>
+<li><code>supplier</code>: proveedor al que corresponde la configuración.</li>
+<li><code>layout</code>: estructura de salida que debe generarse.</li>
+<li><code>base_prompt</code>: prompt principal utilizado para instruir al LLM.</li>
+<li><code>hints</code>: instrucciones específicas del proveedor o del documento.</li>
+<li><code>is_active</code>: permite habilitar o deshabilitar una configuración.</li>
+</ul>
+<p>La configuración permite adaptar el procesamiento del PDF a las particularidades de cada proveedor.</p>
+<p>Por ejemplo, los <code>hints</code> pueden indicar:</p>
+<ul>
+<li>Dónde se encuentra la moneda.</li>
+<li>Cómo identificar el número de factura.</li>
+<li>En qué sección aparecen las partidas.</li>
+<li>Cómo interpretar determinados valores.</li>
+<li>Particularidades conocidas del formato del proveedor.</li>
+</ul>
+<hr />
+<h1 id="flujo-general-de-templates">Flujo general de Templates<a class="headerlink" href="#flujo-general-de-templates" title="Permanent link">&para;</a></h1>
+<p>Para documentos XLSX y XML:</p>
+<div class="highlight"><pre><span></span><code>Usuario
+   │
+   │ selecciona Template
+   ▼
+Template
+   │
+   ├── Supplier
+   ├── Layout
+   └── Document Type
+        │
+        ▼
+   TemplateFields
+        │
+        ├── Extraer
+        │
+        ▼
+   NormalizationRules
+        │
+        ├── Normalizar
+        │
+        ▼
+   Catalogs
+        │
+        ├── Completar / validar / normalizar
+        │
+        ▼
+   LayoutFields
+        │
+        ▼
+   Excel final
+</code></pre></div>
+<p>Para documentos PDF:</p>
+<div class="highlight"><pre><span></span><code>Usuario
+   │
+   │ selecciona configuración PDF
+   ▼
+PdfExtractionConfig
+   │
+   ▼
+Extraer texto del PDF
+   │
+   ▼
+LLM
+   │
+   ├── base_prompt
+   └── hints
+   │
+   ▼
+Datos estructurados
+   │
+   ▼
+Layout
+   │
+   ▼
+Excel final
+</code></pre></div>
+<p>El procesamiento PDF es, por tanto, un flujo separado del mecanismo principal de templates estructurados, aunque ambos terminan utilizando un <code>Layout</code> como estructura de salida.</p>
+<hr />
+<h1 id="responsabilidades">Responsabilidades<a class="headerlink" href="#responsabilidades" title="Permanent link">&para;</a></h1>
+<p>La app <code>templates</code> es responsable de:</p>
+<ul>
+<li>Asociar proveedores con layouts.</li>
+<li>Definir el tipo de documento que puede procesarse.</li>
+<li>Definir cómo localizar campos en documentos XLSX.</li>
+<li>Definir cómo localizar campos en documentos XML.</li>
+<li>Asociar campos de origen con campos de destino.</li>
+<li>Definir la hoja de Excel donde buscar información.</li>
+<li>Manejar encabezados repetidos en archivos XLSX.</li>
+<li>Asociar reglas de normalización a campos extraídos.</li>
+<li>Definir la configuración de procesamiento de PDFs mediante LLM.</li>
+</ul>
+<hr />
+<h1 id="lo-que-no-hace-esta-app">Lo que NO hace esta app<a class="headerlink" href="#lo-que-no-hace-esta-app" title="Permanent link">&para;</a></h1>
+<p>La app <code>templates</code> no es responsable de:</p>
+<ul>
+<li>Definir la estructura del archivo final.</li>
+<li>Crear los campos de un layout.</li>
+<li>Almacenar los datos de los catálogos.</li>
+<li>Eliminar duplicados de catálogos.</li>
+<li>Ejecutar por sí misma la extracción de archivos.</li>
+<li>Leer directamente los archivos durante la configuración.</li>
+<li>Generar físicamente el Excel final.</li>
+<li>Implementar la lógica interna de cada regla de normalización.</li>
+</ul>
+<p>Estas responsabilidades pertenecen a otras partes del sistema, principalmente <code>layouts</code>, <code>catalogs</code> y <code>extraction</code>.</p>
+<hr />
+<h1 id="puntos-de-extension">Puntos de extensión<a class="headerlink" href="#puntos-de-extension" title="Permanent link">&para;</a></h1>
+<p>La arquitectura permite extender el sistema mediante nuevos tipos de extracción.</p>
+<p>Actualmente:</p>
+<div class="highlight"><pre><span></span><code>header_name
+xpath
+</code></pre></div>
+<p>Si en el futuro se necesita soportar otro mecanismo de extracción, puede agregarse un nuevo <code>ExtractionType</code> y su lógica correspondiente en el motor de extracción.</p>
+<p>Por ejemplo, podrían incorporarse mecanismos especializados para:</p>
+<ul>
+<li>Posiciones específicas de celdas.</li>
+<li>Expresiones regulares.</li>
+<li>JSON.</li>
+<li>Tablas de Excel con estructuras especiales.</li>
+</ul>
+<p>También es posible extender las reglas de normalización mediante nuevos tipos de <code>NormalizationRule</code>, sin modificar necesariamente la estructura de <code>TemplateField</code>.</p>
+<p>Para PDFs, pueden agregarse configuraciones específicas por proveedor y layout mediante <code>PdfExtractionConfig</code>.</p>
+<hr />
+<h1 id="decisiones-de-diseno-relevantes">Decisiones de diseño relevantes<a class="headerlink" href="#decisiones-de-diseno-relevantes" title="Permanent link">&para;</a></h1>
+<h2 id="separacion-entre-template-y-layout">Separación entre Template y Layout<a class="headerlink" href="#separacion-entre-template-y-layout" title="Permanent link">&para;</a></h2>
+<p>El layout define la estructura de salida, mientras que el template define cómo obtener la información de un proveedor.</p>
+<p>Esto evita acoplar el formato del proveedor con el formato final.</p>
+<p>Un mismo layout puede ser utilizado por múltiples proveedores:</p>
+<div class="highlight"><pre><span></span><code>Proveedor A ──► Template A ──┐
+                              │
+Proveedor B ──► Template B ──┼──► Casa Rojo
+                              │
+Proveedor C ──► Template C ──┘
+</code></pre></div>
+<p>Cada proveedor puede tener nombres y estructuras diferentes en sus documentos, pero todos pueden generar el mismo formato de salida.</p>
+<hr />
+<h2 id="separacion-entre-extraccion-y-normalizacion">Separación entre extracción y normalización<a class="headerlink" href="#separacion-entre-extraccion-y-normalizacion" title="Permanent link">&para;</a></h2>
+<p>El <code>TemplateField</code> determina cómo localizar y extraer un valor.</p>
+<p>El <code>TemplateFieldRule</code> determina qué reglas de normalización deben aplicarse posteriormente.</p>
+<p>Esta separación permite cambiar la forma de normalizar un valor sin cambiar necesariamente la configuración utilizada para encontrarlo en el documento.</p>
+<hr />
+<h2 id="los-pdfs-utilizan-un-flujo-independiente">Los PDFs utilizan un flujo independiente<a class="headerlink" href="#los-pdfs-utilizan-un-flujo-independiente" title="Permanent link">&para;</a></h2>
+<p>Los documentos XLSX y XML cuentan con estructuras que permiten configurar campos mediante <code>TemplateField</code>.</p>
+<p>Los PDFs pueden requerir interpretación del contenido mediante un LLM.</p>
+<p>Por este motivo, la configuración de PDF se mantiene separada mediante <code>PdfExtractionConfig</code>, aunque continúa utilizando un <code>Layout</code> como estructura final.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

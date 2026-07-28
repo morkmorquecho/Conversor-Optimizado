@@ -1,0 +1,1546 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Sistema de extracción y normalización de facturas de proveedores">
+      
+      
+      
+      
+        <link rel="prev" href="../../architecture/extraction-flow/">
+      
+      
+        <link rel="next" href="../layouts/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>catalogs - Invoice Converter — Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#app-catalogs" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Invoice Converter — Docs" class="md-header__button md-logo" aria-label="Invoice Converter — Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Invoice Converter — Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              catalogs
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Invoice Converter — Docs" class="md-nav__button md-logo" aria-label="Invoice Converter — Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Invoice Converter — Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitectura
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Arquitectura
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visión general
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/data-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modelo de datos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/extraction-flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flujo de extracción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apps
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Apps
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    catalogs
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    catalogs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#proposito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propósito
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tipos-de-informacion-administrada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tipos de información administrada
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tipos de información administrada">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#catalogos-maestros" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Catálogos maestros
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#proveedores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Proveedores
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#monedas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monedas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unidades-de-medida-umc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unidades de medida (UMC)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../layouts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    layouts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../extraction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    extraction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Convenciones
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Convenciones
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../conventions/code-style/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estilo de código
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../conventions/api-conventions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API (errores, respuestas)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../conventions/soft-delete.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Soft delete
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guías
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guías
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/add-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup local
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/deploy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy (Railway)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#proposito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propósito
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tipos-de-informacion-administrada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tipos de información administrada
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tipos de información administrada">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#catalogos-maestros" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Catálogos maestros
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#proveedores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Proveedores
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#monedas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monedas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unidades-de-medida-umc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unidades de medida (UMC)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="app-catalogs">App: catalogs<a class="headerlink" href="#app-catalogs" title="Permanent link">&para;</a></h1>
+<h2 id="proposito">Propósito<a class="headerlink" href="#proposito" title="Permanent link">&para;</a></h2>
+<p>La app <code>catalogs</code> administra la información de referencia utilizada durante el procesamiento y normalización de facturas.</p>
+<p>Su función principal es proporcionar información adicional que puede ser necesaria para validar, normalizar o completar los datos que finalmente se enviarán al layout de salida.</p>
+<p>La app maneja dos tipos principales de información:</p>
+<ol>
+<li><strong>Catálogos maestros</strong>, como proveedores, monedas y unidades de medida.</li>
+<li><strong>Catálogos específicos de proveedores</strong>, que contienen información adicional utilizada para completar los layouts.</li>
+</ol>
+<p>Los catálogos son una pieza fundamental del proceso de extracción, ya que no toda la información necesaria para generar el layout final se encuentra directamente en el invoice.</p>
+<hr />
+<h2 id="tipos-de-informacion-administrada">Tipos de información administrada<a class="headerlink" href="#tipos-de-informacion-administrada" title="Permanent link">&para;</a></h2>
+<h3 id="catalogos-maestros">Catálogos maestros<a class="headerlink" href="#catalogos-maestros" title="Permanent link">&para;</a></h3>
+<p>La app administra información general utilizada como referencia por el sistema.</p>
+<p>Actualmente se contemplan:</p>
+<ul>
+<li>Proveedores (<code>Supplier</code>).</li>
+<li>Monedas (<code>Currency</code>).</li>
+<li>Unidades de medida (<code>Umc</code>).</li>
+</ul>
+<p>Esta información proviene principalmente de un sistema externo denominado <strong>Casa</strong>.</p>
+<p>La intención es que estos datos sean sincronizados periódicamente desde una base de datos externa para mantener la información actualizada y consistente con el sistema de origen.</p>
+<p>Sin embargo, el sistema también permite registrar información manualmente cuando sea necesario.</p>
+<h3 id="proveedores">Proveedores<a class="headerlink" href="#proveedores" title="Permanent link">&para;</a></h3>
+<p>El modelo <code>Supplier</code> representa a los proveedores cuyos invoices pueden ser procesados por el sistema.</p>
+<p>Un proveedor puede tener múltiples templates asociados, ya que un mismo proveedor puede entregar diferentes tipos de documentos o utilizar diferentes estructuras de archivo.</p>
+<p>Conceptualmente:</p>
+<div class="highlight"><pre><span></span><code>Supplier
+   │
+   ├── Template
+   ├── Template
+   └── Template
+</code></pre></div>
+<p>El proveedor también puede tener uno o varios catálogos específicos asociados.</p>
+<div class="highlight"><pre><span></span><code>Supplier
+   │
+   ├── SupplierCatalog
+   ├── SupplierCatalog
+   └── SupplierCatalog
+</code></pre></div>
+<h3 id="monedas">Monedas<a class="headerlink" href="#monedas" title="Permanent link">&para;</a></h3>
+<p>El modelo <code>Currency</code> representa el catálogo de monedas utilizado por el sistema.</p>
+<p>La información puede utilizarse para validar o normalizar los valores provenientes del invoice.</p>
+<p>Por ejemplo, un invoice puede contener una representación de moneda que no coincide exactamente con el formato esperado por el sistema. En estos casos, la información del catálogo permite realizar la correspondencia y utilizar el valor estandarizado.</p>
+<p>El catálogo de monedas no necesariamente aporta información que no exista en el invoice. Su función principal es permitir validar o normalizar la información recibida.</p>
+<h3 id="unidades-de-medida-umc">Unidades de medida (UMC)<a class="headerlink" href="#unidades-de-medida-umc" title="Permanent link">&para;</a></h3>
+<p>El modelo <code>Umc</code> representa el catálogo de unidades de medida utilizado por el sistema.</p>
+<p>Al igual que las monedas, la información puede utilizarse para validar o normalizar valores obtenidos del invoice.</p>
+<p>El valor recibido desde el proveedor puede requerir una correspondencia con el valor registrado en el catálogo para garantizar que el resultado final utilice la representación esperada.</p>
+<hr />
+<h1 id="catalogos-especificos-de-proveedores">Catálogos específicos de proveedores<a class="headerlink" href="#catalogos-especificos-de-proveedores" title="Permanent link">&para;</a></h1>
+<p>Los <code>SupplierCatalog</code> representan catálogos de información proporcionados por un proveedor.</p>
+<p>A diferencia de los catálogos maestros, estos catálogos se utilizan principalmente para obtener información adicional que <strong>no está presente directamente en el invoice</strong>.</p>
+<p>Por ejemplo, un invoice puede proporcionar únicamente un número de parte:</p>
+<div class="highlight"><pre><span></span><code>PART = 12345
+</code></pre></div>
+<p>El sistema puede utilizar ese valor para buscar información adicional en el catálogo del proveedor:</p>
+<div class="highlight"><pre><span></span><code>PART = 12345
+DESCRIPTION = Refacción para motor
+FRACTION = 8708.99
+</code></pre></div>
+<p>De esta manera, el catálogo permite completar información que no estaba disponible originalmente en el invoice.</p>
+<p>El flujo conceptual es:</p>
+<div class="highlight"><pre><span></span><code>Invoice
+   │
+   │ Contiene
+   ▼
+Valor de referencia
+   │
+   │ Ejemplo: PART = 12345
+   ▼
+SupplierCatalog
+   │
+   │ Busca por pivot
+   ▼
+SupplierCatalogRow
+   │
+   │ Obtiene información adicional
+   ▼
+Campos del Layout
+</code></pre></div>
+<hr />
+<h2 id="suppliercatalog">SupplierCatalog<a class="headerlink" href="#suppliercatalog" title="Permanent link">&para;</a></h2>
+<p>El modelo <code>SupplierCatalog</code> representa un catálogo específico perteneciente a un proveedor.</p>
+<p>Un proveedor puede tener múltiples catálogos.</p>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>Supplier: Suzuki
+│
+├── Catálogo de partes
+├── Catálogo de fracciones
+└── Catálogo de descripciones
+</code></pre></div>
+<p>Cada catálogo define un campo pivote mediante <code>pivot_field_name</code>.</p>
+<p>El campo pivote identifica la columna del archivo Excel que será utilizada como clave de búsqueda.</p>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>PART
+DESCRIPTION
+FRACTION
+COUNTRY
+</code></pre></div>
+<p>Si <code>PART</code> es el campo pivote:</p>
+<div class="highlight"><pre><span></span><code>pivot_field_name = &quot;PART&quot;
+</code></pre></div>
+<p>Entonces el valor obtenido del invoice se utilizará para buscar una fila del catálogo mediante ese campo.</p>
+<p>El pivote funciona como el vínculo entre la información extraída del invoice y la información almacenada en el catálogo.</p>
+<div class="highlight"><pre><span></span><code>Invoice
+   │
+   │ Extrae PART = 12345
+   ▼
+pivot_value = 12345
+   │
+   ▼
+SupplierCatalogRow
+   │
+   │ supplier_catalog = Catálogo Suzuki
+   │ pivot_value = 12345
+   ▼
+Fila encontrada
+</code></pre></div>
+<hr />
+<h2 id="suppliercatalogcolumn">SupplierCatalogColumn<a class="headerlink" href="#suppliercatalogcolumn" title="Permanent link">&para;</a></h2>
+<p><code>SupplierCatalogColumn</code> representa una columna configurada dentro de un <code>SupplierCatalog</code>.</p>
+<p>Cada columna contiene un <code>source_name</code>, que corresponde al nombre de la columna tal como aparece en el archivo Excel del catálogo del proveedor.</p>
+<p>Por ejemplo, un archivo puede tener:</p>
+<div class="highlight"><pre><span></span><code>PART | DESCRIPTION | FRACTION | BRAND
+</code></pre></div>
+<p>El sistema puede representar estas columnas mediante:</p>
+<div class="highlight"><pre><span></span><code>SupplierCatalogColumn
+├── PART
+├── DESCRIPTION
+├── FRACTION
+└── BRAND
+</code></pre></div>
+<p>Las columnas se configuran previamente y se utilizan para validar la estructura del archivo cargado.</p>
+<p>Cuando un catálogo es cargado, el sistema verifica que el archivo contenga las columnas esperadas.</p>
+<hr />
+<h2 id="suppliercatalogrow">SupplierCatalogRow<a class="headerlink" href="#suppliercatalogrow" title="Permanent link">&para;</a></h2>
+<p><code>SupplierCatalogRow</code> representa una fila individual de información dentro de un catálogo de proveedor.</p>
+<p>Cada fila contiene:</p>
+<ul>
+<li>El catálogo al que pertenece.</li>
+<li>El valor pivote utilizado para realizar búsquedas.</li>
+<li>Los valores de las columnas del catálogo.</li>
+</ul>
+<p>Los datos de las columnas se almacenan en el campo <code>data</code> como un objeto JSON.</p>
+<p>Conceptualmente:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;PART&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;12345&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;DESCRIPTION&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Refacción para motor&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;FRACTION&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;8708.99&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>La relación completa es:</p>
+<div class="highlight"><pre><span></span><code>SupplierCatalog
+       │
+       │ 1:N
+       ▼
+SupplierCatalogRow
+       │
+       ├── pivot_value
+       │
+       └── data
+</code></pre></div>
+<p>El <code>pivot_value</code> identifica la fila que debe utilizarse durante una búsqueda.</p>
+<p>El modelo también mantiene una restricción de unicidad para evitar que un mismo catálogo contenga dos filas con el mismo valor pivote.</p>
+<div class="highlight"><pre><span></span><code>SupplierCatalog A
+│
+├── pivot_value = 12345  ✓
+├── pivot_value = 12346  ✓
+└── pivot_value = 12345  ✗ duplicado
+</code></pre></div>
+<hr />
+<h1 id="mapeo-de-catalogos-hacia-layouts">Mapeo de catálogos hacia layouts<a class="headerlink" href="#mapeo-de-catalogos-hacia-layouts" title="Permanent link">&para;</a></h1>
+<p>Un catálogo puede reutilizarse con diferentes layouts.</p>
+<p>Por esta razón, una columna del catálogo no tiene un único destino fijo. El destino depende del layout que se esté procesando.</p>
+<p>La relación se define mediante <code>SupplierCatalogColumnLayoutField</code>.</p>
+<p>Conceptualmente:</p>
+<div class="highlight"><pre><span></span><code>SupplierCatalogColumn
+        │
+        ▼
+SupplierCatalogColumnLayoutField
+        │
+        ▼
+LayoutField
+</code></pre></div>
+<p>Esto permite que una misma columna del catálogo pueda alimentar diferentes campos dependiendo del layout.</p>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>Catálogo Suzuki
+│
+└── DESCRIPTION
+       │
+       ├── Casa Azul
+       │      └── LayoutField: product_description
+       │
+       └── Casa Rojo
+              └── LayoutField: item_description
+</code></pre></div>
+<p>El catálogo puede mantenerse reutilizable, mientras que cada layout define su propio mapeo.</p>
+<p>Esto evita duplicar el mismo catálogo cuando diferentes layouts requieren utilizar la misma información.</p>
+<hr />
+<h1 id="uso-del-campo-pivote">Uso del campo pivote<a class="headerlink" href="#uso-del-campo-pivote" title="Permanent link">&para;</a></h1>
+<p>El campo pivote es el mecanismo que permite relacionar la información del invoice con una fila específica del catálogo.</p>
+<p>El proceso general es:</p>
+<div class="highlight"><pre><span></span><code>1. El invoice contiene un valor de referencia.
+           │
+           ▼
+2. El TemplateField extrae ese valor.
+           │
+           ▼
+3. El valor extraído se relaciona con el campo
+   pivote configurado en SupplierCatalog.
+           │
+           ▼
+4. Se busca una SupplierCatalogRow.
+           │
+           ▼
+5. Se obtienen los valores almacenados en data.
+           │
+           ▼
+6. SupplierCatalogColumnLayoutField determina
+   qué campos del layout deben recibir esos valores.
+</code></pre></div>
+<p>Ejemplo:</p>
+<div class="highlight"><pre><span></span><code>Invoice
+PART = 12345
+     │
+     ▼
+SupplierCatalog
+pivot_field_name = PART
+     │
+     ▼
+SupplierCatalogRow
+pivot_value = 12345
+     │
+     ▼
+data
+{
+    &quot;DESCRIPTION&quot;: &quot;Refacción para motor&quot;,
+    &quot;FRACTION&quot;: &quot;8708.99&quot;
+}
+     │
+     ▼
+SupplierCatalogColumnLayoutField
+     │
+     ├── DESCRIPTION → LayoutField A
+     └── FRACTION → LayoutField B
+     │
+     ▼
+Layout final
+</code></pre></div>
+<hr />
+<h1 id="carga-de-catalogos">Carga de catálogos<a class="headerlink" href="#carga-de-catalogos" title="Permanent link">&para;</a></h1>
+<p>Los catálogos específicos de proveedores se cargan mediante archivos Excel.</p>
+<p>El catálogo debe estar previamente configurado en el sistema con:</p>
+<ul>
+<li>Proveedor.</li>
+<li>Nombre del catálogo.</li>
+<li>Campo pivote.</li>
+<li>Columnas esperadas.</li>
+</ul>
+<p>La configuración del catálogo se administra mediante el <strong>Django Admin</strong>.</p>
+<p>El archivo Excel cargado debe contener:</p>
+<ul>
+<li>La columna configurada como pivote.</li>
+<li>Todas las columnas configuradas en <code>SupplierCatalogColumn</code>.</li>
+</ul>
+<p>Durante la carga, el sistema valida que las columnas esperadas existan en el archivo.</p>
+<p>Si falta alguna columna requerida, la carga es rechazada.</p>
+<hr />
+<h2 id="reemplazo-de-informacion">Reemplazo de información<a class="headerlink" href="#reemplazo-de-informacion" title="Permanent link">&para;</a></h2>
+<p>La carga de un catálogo funciona como una operación de reemplazo completo.</p>
+<p>El proceso es:</p>
+<div class="highlight"><pre><span></span><code>Archivo Excel
+     │
+     ▼
+Validación
+     │
+     ▼
+Lectura de registros
+     │
+     ▼
+Eliminación de filas anteriores
+     │
+     ▼
+Inserción de nuevas filas
+</code></pre></div>
+<p>La operación se ejecuta dentro de una transacción atómica.</p>
+<p>Esto significa que el catálogo se reemplaza completamente con la información del nuevo archivo.</p>
+<p>El sistema no agrega únicamente las filas nuevas sobre las existentes; en su lugar, elimina las filas actuales del catálogo y crea nuevamente los registros a partir del archivo cargado.</p>
+<hr />
+<h1 id="validacion-de-duplicados">Validación de duplicados<a class="headerlink" href="#validacion-de-duplicados" title="Permanent link">&para;</a></h1>
+<p>Durante la carga de un catálogo, el sistema valida que no existan valores pivote duplicados.</p>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>PART
+-----
+12345
+12346
+12345  ← duplicado
+</code></pre></div>
+<p>Si existen valores duplicados en la columna pivote, la carga del catálogo es rechazada.</p>
+<p>Esto garantiza que una búsqueda por <code>pivot_value</code> pueda identificar una única fila del catálogo.</p>
+<p>La restricción también se encuentra reforzada a nivel de base de datos mediante una restricción de unicidad sobre:</p>
+<div class="highlight"><pre><span></span><code>supplier_catalog
+pivot_value
+</code></pre></div>
+<hr />
+<h1 id="eliminacion-de-duplicados-en-archivos-excel">Eliminación de duplicados en archivos Excel<a class="headerlink" href="#eliminacion-de-duplicados-en-archivos-excel" title="Permanent link">&para;</a></h1>
+<p>La app también proporciona un endpoint independiente para limpiar archivos Excel antes de cargarlos.</p>
+<p>Este endpoint:</p>
+<ol>
+<li>Recibe un archivo Excel.</li>
+<li>Recibe el <code>SupplierCatalog</code> al que pertenece.</li>
+<li>Obtiene automáticamente el <code>pivot_field_name</code> configurado.</li>
+<li>Elimina filas completamente vacías.</li>
+<li>Elimina filas cuyo campo pivote esté vacío.</li>
+<li>Elimina registros duplicados utilizando el campo pivote.</li>
+<li>Conserva la primera aparición de cada valor pivote.</li>
+<li>Devuelve un nuevo archivo Excel listo para descargar.</li>
+</ol>
+<p>Conceptualmente:</p>
+<div class="highlight"><pre><span></span><code>Excel original
+      │
+      ▼
+Eliminar filas vacías
+      │
+      ▼
+Eliminar filas sin pivote
+      │
+      ▼
+Eliminar duplicados por pivote
+      │
+      ▼
+Excel limpio
+</code></pre></div>
+<p>El usuario no necesita indicar manualmente cuál columna utilizar para detectar duplicados. El sistema obtiene esta información desde la configuración del <code>SupplierCatalog</code>.</p>
+<p>Este proceso es independiente de la carga del catálogo.</p>
+<hr />
+<h1 id="responsabilidades">Responsabilidades<a class="headerlink" href="#responsabilidades" title="Permanent link">&para;</a></h1>
+<p>La app <code>catalogs</code> es responsable de:</p>
+<ul>
+<li>Administrar proveedores.</li>
+<li>Administrar monedas.</li>
+<li>Administrar unidades de medida.</li>
+<li>Administrar catálogos específicos de proveedores.</li>
+<li>Definir el campo pivote de cada catálogo.</li>
+<li>Definir las columnas esperadas de cada catálogo.</li>
+<li>Almacenar las filas de los catálogos.</li>
+<li>Validar la estructura de archivos Excel cargados.</li>
+<li>Validar la unicidad de los valores pivote.</li>
+<li>Proporcionar información para completar layouts.</li>
+<li>Proporcionar información para validar y normalizar datos.</li>
+<li>Mapear columnas de catálogos hacia campos de layouts.</li>
+<li>Limpiar archivos Excel eliminando registros duplicados.</li>
+</ul>
+<hr />
+<h1 id="lo-que-no-hace-esta-app">Lo que NO hace esta app<a class="headerlink" href="#lo-que-no-hace-esta-app" title="Permanent link">&para;</a></h1>
+<p>La app <code>catalogs</code> no es responsable de:</p>
+<ul>
+<li>Definir la estructura de los layouts.</li>
+<li>Definir los campos de los layouts.</li>
+<li>Definir cómo se extraen campos desde XML o XLSX de facturas.</li>
+<li>Definir templates de proveedores.</li>
+<li>Ejecutar directamente el proceso completo de extracción de facturas.</li>
+<li>Generar el archivo final de salida.</li>
+</ul>
+<p>Estas responsabilidades corresponden principalmente a las apps:</p>
+<ul>
+<li><code>layouts</code></li>
+<li><code>templates</code></li>
+<li><code>extraction</code></li>
+</ul>
+<p>La app <code>catalogs</code> proporciona información que puede ser utilizada por el proceso de extracción y transformación.</p>
+<hr />
+<h1 id="dependencias">Dependencias<a class="headerlink" href="#dependencias" title="Permanent link">&para;</a></h1>
+<p>La app <code>catalogs</code> mantiene una relación con <code>layouts</code> para poder mapear columnas de catálogos hacia campos específicos del layout.</p>
+<p>La relación principal es:</p>
+<div class="highlight"><pre><span></span><code>SupplierCatalogColumn
+        │
+        ▼
+SupplierCatalogColumnLayoutField
+        │
+        ▼
+LayoutField
+</code></pre></div>
+<p>Durante el procesamiento de una factura, la información de los catálogos puede ser utilizada por el proceso de extracción para completar o normalizar la información que será enviada al layout.</p>
+<p>Por lo tanto, conceptualmente:</p>
+<div class="highlight"><pre><span></span><code>catalogs
+    │
+    │ proporciona información
+    ▼
+extraction
+    │
+    │ genera / completa
+    ▼
+layouts
+</code></pre></div>
+<hr />
+<h1 id="puntos-de-extension">Puntos de extensión<a class="headerlink" href="#puntos-de-extension" title="Permanent link">&para;</a></h1>
+<h3 id="sincronizacion-con-casa">Sincronización con Casa<a class="headerlink" href="#sincronizacion-con-casa" title="Permanent link">&para;</a></h3>
+<p>Actualmente, información como proveedores, monedas y unidades de medida puede ser administrada manualmente, pero está previsto que estos datos puedan sincronizarse periódicamente desde una base de datos externa del sistema Casa.</p>
+<p>La implementación de este mecanismo debe mantener la responsabilidad de sincronización separada de la lógica de procesamiento de facturas.</p>
+<h3 id="nuevos-tipos-de-catalogos">Nuevos tipos de catálogos<a class="headerlink" href="#nuevos-tipos-de-catalogos" title="Permanent link">&para;</a></h3>
+<p>Si el sistema requiere administrar un nuevo catálogo maestro o de referencia, debe evaluarse si corresponde crear un nuevo modelo o extender la estructura existente.</p>
+<h3 id="nuevas-estrategias-de-busqueda">Nuevas estrategias de búsqueda<a class="headerlink" href="#nuevas-estrategias-de-busqueda" title="Permanent link">&para;</a></h3>
+<p>Actualmente los catálogos específicos de proveedores utilizan un campo pivote como clave de búsqueda.</p>
+<p>Si en el futuro se requieren búsquedas utilizando múltiples campos o claves compuestas, deberá revisarse el diseño actual de <code>pivot_field_name</code> y <code>pivot_value</code>.</p>
+<hr />
+<h1 id="flujo-completo-de-uso-durante-una-extraccion">Flujo completo de uso durante una extracción<a class="headerlink" href="#flujo-completo-de-uso-durante-una-extraccion" title="Permanent link">&para;</a></h1>
+<p>La utilización de catálogos durante el procesamiento de una factura puede resumirse de la siguiente manera:</p>
+<div class="highlight"><pre><span></span><code>                    Invoice
+                       │
+                       ▼
+                 Extracción
+                       │
+                       ▼
+              Valor de referencia
+              Ejemplo: PART = 12345
+                       │
+                       ▼
+                SupplierCatalog
+                       │
+                Busca por pivot
+                       │
+                       ▼
+              SupplierCatalogRow
+                       │
+                       ▼
+                 data (JSON)
+                       │
+                       ▼
+        SupplierCatalogColumnLayoutField
+                       │
+                       ▼
+                 LayoutField
+                       │
+                       ▼
+              Layout de salida
+</code></pre></div>
+<p>Este mecanismo permite que la información adicional de un proveedor se incorpore automáticamente al resultado final sin necesidad de que dicha información esté presente en el invoice original.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

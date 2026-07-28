@@ -1,0 +1,1400 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Sistema de extracción y normalización de facturas de proveedores">
+      
+      
+      
+      
+      
+        <link rel="next" href="architecture/overview/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Invoice Converter — Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#invoice-converter" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="." title="Invoice Converter — Docs" class="md-header__button md-logo" aria-label="Invoice Converter — Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Invoice Converter — Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Inicio
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="Invoice Converter — Docs" class="md-nav__button md-logo" aria-label="Invoice Converter — Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Invoice Converter — Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#formatos-de-entrada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Formatos de entrada
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#formatos-de-salida" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Formatos de salida
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flujo-general" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flujo general
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Flujo general">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#xlsx-y-xml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        XLSX y XML
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pdf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PDF
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#componentes-principales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Componentes principales
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Componentes principales">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#catalogs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Catalogs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layouts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layouts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Templates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extraction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extraction
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#administracion-y-configuracion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Administración y configuración
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arquitectura-orientada-a-configuracion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arquitectura orientada a configuración
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitectura
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Arquitectura
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="architecture/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visión general
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="architecture/data-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modelo de datos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="architecture/extraction-flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flujo de extracción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apps
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Apps
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="apps/catalogs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    catalogs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="apps/layouts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    layouts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="apps/templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="apps/extraction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    extraction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Convenciones
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Convenciones
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="conventions/code-style/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estilo de código
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="conventions/api-conventions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API (errores, respuestas)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="conventions/soft-delete.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Soft delete
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guías
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guías
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="guides/add-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup local
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="guides/deploy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy (Railway)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#formatos-de-entrada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Formatos de entrada
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#formatos-de-salida" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Formatos de salida
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flujo-general" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flujo general
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Flujo general">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#xlsx-y-xml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        XLSX y XML
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pdf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PDF
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#componentes-principales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Componentes principales
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Componentes principales">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#catalogs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Catalogs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layouts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layouts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Templates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extraction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extraction
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#administracion-y-configuracion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Administración y configuración
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arquitectura-orientada-a-configuracion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arquitectura orientada a configuración
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="invoice-converter">Invoice Converter<a class="headerlink" href="#invoice-converter" title="Permanent link">&para;</a></h1>
+<p>Sistema interno para automatizar la conversión de facturas de proveedores hacia formatos estructurados y definidos por la organización.</p>
+<p>Actualmente, el sistema está orientado principalmente a generar los formatos requeridos por CASA mediante los layouts <strong>Casa Azul</strong> y <strong>Casa Rojo</strong>, aunque su arquitectura está diseñada para permitir la incorporación de nuevos layouts y formatos de salida en el futuro.</p>
+<h2 id="objetivo">Objetivo<a class="headerlink" href="#objetivo" title="Permanent link">&para;</a></h2>
+<p>El objetivo principal del sistema es reemplazar el proceso manual utilizado anteriormente para procesar facturas y catálogos.</p>
+<p>El sistema legacy dependía de una lógica específica para cada archivo y utilizaba archivos Excel como parte del proceso de transformación. Los layouts se manejaban mediante archivos Excel vacíos que eran rellenados durante cada ejecución y posteriormente almacenados. De igual forma, los catálogos de información eran archivos Excel de gran tamaño que debían editarse y mantenerse manualmente.</p>
+<p>Invoice Converter busca reemplazar este flujo por un sistema centralizado, configurable y escalable que permita:</p>
+<ul>
+<li>Automatizar la conversión de facturas de proveedores al formato requerido por CASA.</li>
+<li>Reducir la dependencia de archivos Excel utilizados como fuente de configuración y procesamiento.</li>
+<li>Centralizar la extracción de información de las facturas.</li>
+<li>Normalizar y validar los datos obtenidos.</li>
+<li>Enriquecer la información utilizando catálogos almacenados y administrados por el sistema.</li>
+<li>Permitir configurar el procesamiento de diferentes proveedores sin implementar una lógica independiente para cada archivo.</li>
+<li>Facilitar la incorporación de nuevos proveedores, formatos de entrada y layouts en el futuro.</li>
+</ul>
+<h2 id="formatos-de-entrada">Formatos de entrada<a class="headerlink" href="#formatos-de-entrada" title="Permanent link">&para;</a></h2>
+<p>El sistema contempla actualmente tres tipos de documentos de entrada:</p>
+<ul>
+<li><strong>XLSX</strong></li>
+<li><strong>XML</strong></li>
+<li><strong>PDF</strong></li>
+</ul>
+<p>Los archivos XLSX y XML utilizan configuraciones basadas en templates para definir cómo debe interpretarse la información de cada proveedor.</p>
+<p>Los archivos PDF siguen un flujo diferente, debido a que su información no necesariamente tiene una estructura fija que permita definir campos de extracción de la misma forma que en un Excel o XML. En estos casos se extrae el texto disponible en el documento y posteriormente se utiliza un modelo de lenguaje para interpretar y estructurar la información mediante configuraciones y prompts específicos del proveedor.</p>
+<h2 id="formatos-de-salida">Formatos de salida<a class="headerlink" href="#formatos-de-salida" title="Permanent link">&para;</a></h2>
+<p>La salida del proceso de extracción se genera actualmente en formato <strong>XLSX</strong>.</p>
+<p>La estructura del archivo generado está determinada por un <strong>Layout</strong>, que define las columnas y el orden en que deben aparecer en el archivo final.</p>
+<p>Actualmente existen dos layouts principales:</p>
+<ul>
+<li><strong>Casa Azul</strong></li>
+<li><strong>Casa Rojo</strong></li>
+</ul>
+<p>Estos layouts representan estructuras utilizadas por el sistema y se encuentran definidos previamente. El diseño del sistema permite incorporar nuevos layouts en caso de que sea necesario soportar nuevos formatos de salida.</p>
+<h2 id="flujo-general">Flujo general<a class="headerlink" href="#flujo-general" title="Permanent link">&para;</a></h2>
+<p>De forma simplificada, el procesamiento de una factura sigue el siguiente flujo:</p>
+<div class="highlight"><pre><span></span><code>Factura
+   │
+   ▼
+Identificación del proveedor
+   │
+   ▼
+Configuración de extracción
+   │
+   ▼
+Extracción de información
+   │
+   ▼
+Normalización y validación
+   │
+   ▼
+Enriquecimiento mediante catálogos
+   │
+   ▼
+Generación del Layout
+   │
+   ▼
+Excel final
+</code></pre></div>
+<p>El flujo exacto depende del formato de entrada.</p>
+<h3 id="xlsx-y-xml">XLSX y XML<a class="headerlink" href="#xlsx-y-xml" title="Permanent link">&para;</a></h3>
+<p>Para estos formatos, el sistema utiliza un <strong>Template</strong> asociado a un proveedor y a un Layout.</p>
+<p>El Template define los campos que deben extraerse del documento de entrada y la forma en que se debe localizar cada valor. La información extraída se relaciona con los campos correspondientes del Layout.</p>
+<p>Posteriormente, los valores pueden pasar por procesos de normalización y, cuando es necesario, utilizar información proveniente de catálogos para completar o corregir los datos.</p>
+<p>El resultado final es un archivo XLSX con la estructura definida por el Layout seleccionado.</p>
+<h3 id="pdf">PDF<a class="headerlink" href="#pdf" title="Permanent link">&para;</a></h3>
+<p>El procesamiento de PDF utiliza un flujo independiente.</p>
+<p>Primero se obtiene el texto disponible en el documento. Debido a que los documentos PDF pueden presentar estructuras diferentes y no siempre cuentan con campos claramente identificables, la extracción se realiza mediante instrucciones específicas para cada proveedor.</p>
+<p>Un modelo de lenguaje interpreta el contenido del documento y obtiene la información necesaria para construir los campos requeridos por el Layout.</p>
+<h2 id="componentes-principales">Componentes principales<a class="headerlink" href="#componentes-principales" title="Permanent link">&para;</a></h2>
+<p>El sistema está dividido conceptualmente en cuatro áreas principales:</p>
+<h3 id="catalogs">Catalogs<a class="headerlink" href="#catalogs" title="Permanent link">&para;</a></h3>
+<p>Administra la información utilizada durante el procesamiento de las facturas.</p>
+<p>Incluye información general como:</p>
+<ul>
+<li>Proveedores.</li>
+<li>Monedas.</li>
+<li>Unidades de medida (UMC).</li>
+<li>Catálogos específicos de proveedores.</li>
+</ul>
+<p>Los catálogos de proveedores permiten complementar información que no está presente directamente en la factura. Por otro lado, catálogos como monedas y UMC pueden utilizarse para validar o normalizar información obtenida desde el documento de entrada.</p>
+<h3 id="layouts">Layouts<a class="headerlink" href="#layouts" title="Permanent link">&para;</a></h3>
+<p>Define la estructura del archivo final que será generado.</p>
+<p>Cada Layout está compuesto por un conjunto de campos ordenados. Estos campos representan las columnas que tendrá el archivo XLSX de salida.</p>
+<p>Los layouts principales actualmente son:</p>
+<ul>
+<li>Casa Azul.</li>
+<li>Casa Rojo.</li>
+</ul>
+<h3 id="templates">Templates<a class="headerlink" href="#templates" title="Permanent link">&para;</a></h3>
+<p>Define cómo debe procesarse un documento de un proveedor específico.</p>
+<p>Un Template relaciona:</p>
+<ul>
+<li>Un proveedor.</li>
+<li>Un Layout de destino.</li>
+<li>Un tipo de documento de entrada.</li>
+</ul>
+<p>Sus campos permiten indicar qué información debe extraerse del documento y a qué campo del Layout debe asignarse.</p>
+<p>Los Templates permiten que el procesamiento sea configurable y reutilizable, evitando implementar una lógica independiente para cada proveedor o archivo.</p>
+<h3 id="extraction">Extraction<a class="headerlink" href="#extraction" title="Permanent link">&para;</a></h3>
+<p>Es el componente encargado de ejecutar el proceso de extracción.</p>
+<p>Se encarga de coordinar el procesamiento del archivo, obtener los valores configurados, aplicar normalizaciones, consultar catálogos cuando sea necesario y generar el archivo final utilizando la estructura definida por el Layout.</p>
+<p>También registra el resultado del procesamiento y los errores encontrados durante la extracción.</p>
+<h2 id="administracion-y-configuracion">Administración y configuración<a class="headerlink" href="#administracion-y-configuracion" title="Permanent link">&para;</a></h2>
+<p>La configuración del sistema se administra desde el panel administrativo.</p>
+<p>El flujo de configuración para un nuevo proveedor consiste, de forma general, en:</p>
+<ol>
+<li>Registrar el proveedor.</li>
+<li>Seleccionar el Layout que utilizará.</li>
+<li>Crear el Template correspondiente al tipo de documento.</li>
+<li>Configurar los campos que deben extraerse.</li>
+<li>Definir las reglas de normalización cuando sean necesarias.</li>
+<li>Configurar los catálogos que serán utilizados durante el procesamiento.</li>
+<li>Asociar los campos de los catálogos con los campos correspondientes del Layout.</li>
+</ol>
+<p>Una vez configurada esta información, el procesamiento de una factura consiste principalmente en seleccionar el Template correspondiente y proporcionar el archivo de entrada.</p>
+<h2 id="arquitectura-orientada-a-configuracion">Arquitectura orientada a configuración<a class="headerlink" href="#arquitectura-orientada-a-configuracion" title="Permanent link">&para;</a></h2>
+<p>Una de las principales características del sistema es que la lógica de procesamiento no debe depender directamente de un archivo específico.</p>
+<p>En lugar de implementar código independiente para cada proveedor, el sistema busca utilizar configuraciones que describan:</p>
+<ul>
+<li>Qué proveedor está procesando el sistema.</li>
+<li>Qué Layout debe generarse.</li>
+<li>Qué campos deben extraerse.</li>
+<li>De dónde deben obtenerse esos campos.</li>
+<li>Cómo deben normalizarse.</li>
+<li>Qué información debe consultarse en los catálogos.</li>
+<li>Cómo debe incorporarse la información complementaria al resultado final.</li>
+</ul>
+<p>Este enfoque permite que el sistema sea más mantenible y escalable que el proceso anterior basado en archivos Excel y lógica específica por documento.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "content.code.copy"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

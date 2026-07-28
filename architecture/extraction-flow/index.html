@@ -1,0 +1,1591 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Sistema de extracción y normalización de facturas de proveedores">
+      
+      
+      
+      
+        <link rel="prev" href="../data-model/">
+      
+      
+        <link rel="next" href="../../apps/catalogs/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Flujo de extracción - Invoice Converter — Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#flujo-de-extraccion-xlsx" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Invoice Converter — Docs" class="md-header__button md-logo" aria-label="Invoice Converter — Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Invoice Converter — Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Flujo de extracción
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Invoice Converter — Docs" class="md-nav__button md-logo" aria-label="Invoice Converter — Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Invoice Converter — Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitectura
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Arquitectura
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visión general
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modelo de datos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flujo de extracción
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flujo de extracción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#resumen-del-flujo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resumen del flujo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#invoicexlsxextractionservice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        InvoiceXlsxExtractionService
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="InvoiceXlsxExtractionService">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#inicializacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inicialización
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lectura-de-encabezados-y-soporte-de-columnas-duplicadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lectura de encabezados y soporte de columnas duplicadas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#normalizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Normalización
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Normalización">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#value_map-extendido" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        value_map extendido
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resolucion-de-datos-de-catalogo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resolución de datos de catálogo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#campos-de-sistema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Campos de sistema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generacion-del-excel-de-salida" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generación del Excel de salida
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estados-resultantes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estados resultantes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#endpoint-processinvoicexlsxview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Endpoint: ProcessInvoiceXlsxView
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Endpoint: ProcessInvoiceXlsxView">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#request" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Request
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#respuestas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Respuestas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-de-request" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejemplo de request
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apps
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Apps
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/catalogs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    catalogs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/layouts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    layouts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/extraction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    extraction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Convenciones
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Convenciones
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../conventions/code-style/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estilo de código
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../conventions/api-conventions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API (errores, respuestas)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../conventions/soft-delete.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Soft delete
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guías
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guías
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/add-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup local
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/deploy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy (Railway)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#resumen-del-flujo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resumen del flujo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#invoicexlsxextractionservice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        InvoiceXlsxExtractionService
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="InvoiceXlsxExtractionService">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#inicializacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inicialización
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lectura-de-encabezados-y-soporte-de-columnas-duplicadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lectura de encabezados y soporte de columnas duplicadas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#normalizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Normalización
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Normalización">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#value_map-extendido" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        value_map extendido
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resolucion-de-datos-de-catalogo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resolución de datos de catálogo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#campos-de-sistema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Campos de sistema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generacion-del-excel-de-salida" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generación del Excel de salida
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estados-resultantes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estados resultantes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#endpoint-processinvoicexlsxview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Endpoint: ProcessInvoiceXlsxView
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Endpoint: ProcessInvoiceXlsxView">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#request" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Request
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#respuestas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Respuestas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-de-request" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejemplo de request
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="flujo-de-extraccion-xlsx">Flujo de extracción: XLSX<a class="headerlink" href="#flujo-de-extraccion-xlsx" title="Permanent link">&para;</a></h1>
+<p>Este documento describe la implementación concreta del flujo de extracción para facturas en formato <strong>XLSX</strong>, correspondiente a <code>extraction/services.py</code> (<code>InvoiceXlsxExtractionService</code>) y su endpoint <code>ProcessInvoiceXlsxView</code>.</p>
+<p>Para el modelo de datos subyacente (<code>ExtractionBatch</code>, <code>ExtractionJob</code>, <code>TemplateField</code>, <code>NormalizationRule</code>, etc.) ver <a href="../data-model/"><code>data-model.md</code></a>.</p>
+<h2 id="resumen-del-flujo">Resumen del flujo<a class="headerlink" href="#resumen-del-flujo" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>sequenceDiagram
+    actor Cliente
+    participant View as ProcessInvoiceXlsxView
+    participant Service as InvoiceXlsxExtractionService
+    participant DB as Base de datos
+
+    Cliente-&gt;&gt;View: POST multipart (file, template_id, supplier_catalog_id?)
+    View-&gt;&gt;DB: Template.objects.get(pk, is_active=True)
+    opt supplier_catalog_id presente
+        View-&gt;&gt;DB: SupplierCatalog.objects.get(pk, supplier=template.supplier)
+    end
+    View-&gt;&gt;Service: InvoiceXlsxExtractionService(template, supplier_catalog)
+    Service-&gt;&gt;DB: carga TemplateField (extraction_type=header_name)
+    Service-&gt;&gt;DB: carga LayoutField del layout
+    opt supplier_catalog presente
+        Service-&gt;&gt;DB: resuelve SupplierCatalogColumnLayoutField
+    end
+    Cliente-&gt;&gt;Service: service.process(file, file_name)
+    activate Service
+    Service-&gt;&gt;DB: crea ExtractionBatch (status=pending)
+    loop por cada fila con datos
+        Service-&gt;&gt;DB: crea ExtractionJob
+        Service-&gt;&gt;Service: extrae + normaliza TemplateFields
+        Service-&gt;&gt;DB: guarda ExtractionResult por campo
+        opt supplier_catalog presente
+            Service-&gt;&gt;Service: busca fila de catálogo por valor pivote
+            Service-&gt;&gt;DB: guarda ExtractionResult de columnas de catálogo
+        end
+        Service-&gt;&gt;Service: resuelve campos de sistema
+        Service-&gt;&gt;DB: actualiza status del Job (processed/review)
+    end
+    Service-&gt;&gt;DB: actualiza status del Batch (processed/review)
+    Service-&gt;&gt;Service: genera workbook de salida
+    deactivate Service
+    Service--&gt;&gt;View: (output_bytes, batch)
+    View--&gt;&gt;Cliente: 200 xlsx + header X-Extraction-Batch-Id
+</code></pre></div>
+<h2 id="invoicexlsxextractionservice"><code>InvoiceXlsxExtractionService</code><a class="headerlink" href="#invoicexlsxextractionservice" title="Permanent link">&para;</a></h2>
+<h3 id="inicializacion">Inicialización<a class="headerlink" href="#inicializacion" title="Permanent link">&para;</a></h3>
+<p><code>InvoiceXlsxExtractionService(template, supplier_catalog=None)</code> valida y precarga todo lo que se reutiliza fila a fila, para no repetir queries dentro del loop de procesamiento:</p>
+<table>
+<thead>
+<tr>
+<th>Se valida / precarga</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>template.document_type == XLSX</code></td>
+<td>Si no, lanza <code>ExtractionProcessingError</code>.</td>
+</tr>
+<tr>
+<td><code>template_fields</code></td>
+<td>Solo <code>TemplateField</code> con <code>extraction_type=HEADER_NAME</code> (la extracción XLSX no soporta <code>xpath</code>). Si no hay ninguno, lanza <code>ExtractionProcessingError</code>.</td>
+</tr>
+<tr>
+<td><code>layout_fields</code></td>
+<td>Todos los <code>LayoutField</code> del layout del template, ordenados por <code>sort_order</code> — define las columnas del Excel de salida.</td>
+</tr>
+<tr>
+<td><code>_catalog_mappings</code></td>
+<td>Solo si se pasa <code>supplier_catalog</code>: los <code>SupplierCatalogColumnLayoutField</code> de ese catálogo para el layout del template (ver <a href="#resolucion-de-datos-de-catalogo"><code>_resolve_catalog_mappings</code></a>).</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Errores de configuración vs. errores de datos</p>
+<p><code>ExtractionProcessingError</code> se reserva para errores de <strong>configuración</strong> que impiden arrancar el proceso completo (template mal tipado, sin campos configurados, sin filas en el Excel). Los errores de una fila individual (no encontró la fila del catálogo, valor pivote vacío, etc.) <strong>no</strong> detienen el batch: se registran como <code>ExtractionError</code> y esa fila queda en <code>REVIEW</code>.</p>
+</div>
+<h3 id="lectura-de-encabezados-y-soporte-de-columnas-duplicadas">Lectura de encabezados y soporte de columnas duplicadas<a class="headerlink" href="#lectura-de-encabezados-y-soporte-de-columnas-duplicadas" title="Permanent link">&para;</a></h3>
+<p><code>_load_headers()</code> lee la fila 1 de la <strong>primera hoja</strong> del workbook y construye <code>{nombre_de_encabezado: [índices_de_columna]}</code>, permitiendo que un mismo nombre de encabezado aparezca más de una vez.</p>
+<p><code>_iter_data_rows()</code> recorre las filas desde la 2 en adelante y, para cada <code>TemplateField</code>, selecciona la columna correcta usando <code>TemplateField.header_occurrence</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">occurrence_idx</span> <span class="o">=</span> <span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">header_occurrence</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="n">col_idx</span> <span class="o">=</span> <span class="n">occurrences</span><span class="p">[</span><span class="n">occurrence_idx</span><span class="p">]</span>  <span class="c1"># si existe</span>
+</code></pre></div>
+<ul>
+<li><code>header_occurrence=1</code> → primera columna con ese nombre de encabezado.</li>
+<li><code>header_occurrence=2</code> → segunda columna con ese mismo nombre.</li>
+</ul>
+<p>Una fila se considera vacía (<code>all_blank</code>) y se <strong>omite</strong> si ninguno de los <code>TemplateField</code> configurados tiene valor en esa fila; de lo contrario, se produce como <code>(row_idx, raw_values_by_tf_id)</code>.</p>
+<h3 id="normalizacion">Normalización<a class="headerlink" href="#normalizacion" title="Permanent link">&para;</a></h3>
+<p><code>apply_normalization_chain(template_field, raw_value)</code> aplica, en orden (<code>TemplateFieldRule.sort_order</code>), cada <code>NormalizationRule</code> encadenada al <code>TemplateField</code>. Si <code>raw_value</code> es <code>None</code> o <code>""</code>, la cadena completa se omite y se devuelve el valor tal cual (las reglas no se ejecutan sobre valores vacíos).</p>
+<p><code>apply_normalization_rule(rule, value)</code> implementa cada <code>rule_type</code>:</p>
+<table>
+<thead>
+<tr>
+<th><code>rule_type</code></th>
+<th>Comportamiento</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>trim</code></td>
+<td><code>value.strip()</code>.</td>
+</tr>
+<tr>
+<td><code>uppercase</code></td>
+<td><code>value.strip().upper()</code>.</td>
+</tr>
+<tr>
+<td><code>regex_replace</code></td>
+<td><code>re.sub(config["pattern"], config["replacement"], value)</code>. Si no hay <code>pattern</code> configurado, devuelve <code>value</code> sin tocar.</td>
+</tr>
+<tr>
+<td><code>date_format</code></td>
+<td>Reparsea <code>value</code> con <code>config["input_format"]</code> y lo reformatea con <code>config["output_format"]</code> (<code>datetime.strptime</code> / <code>strftime</code>). Si falta alguno de los dos formatos, o el parseo falla (<code>ValueError</code>), devuelve <code>value</code> sin tocar — <strong>falla silenciosa intencional</strong>, no se registra <code>ExtractionError</code>.</td>
+</tr>
+<tr>
+<td><code>value_map</code></td>
+<td>Ver detalle abajo.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="value_map-extendido"><code>value_map</code> extendido<a class="headerlink" href="#value_map-extendido" title="Permanent link">&para;</a></h4>
+<p>A diferencia de un mapeo plano simple, <code>_apply_value_map</code> soporta una forma extendida de <code>config</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;map&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;DLS&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;USA&quot;</span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;case_insensitive&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;lookup&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;app_label&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;catalogs&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Currency&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;match_field&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;country&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;result_field&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;code&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Orden de resolución:</p>
+<ol>
+<li>Se busca <code>value</code> (normalizado a mayúsculas si <code>case_insensitive</code> es <code>true</code>, que es el default) dentro de <code>map</code>.</li>
+<li>Si no está en <code>map</code>, se usa <code>config.get("default", value)</code> — <strong>importante</strong>: si no hay <code>default</code> explícito, el valor original pasa sin transformar en vez de quedar vacío o marcarse como error.</li>
+<li>Si además hay <code>lookup</code> configurado, el resultado del paso anterior (<code>mapped_value</code>) se usa como filtro (<code>match_field</code>) contra el modelo indicado (<code>app_label</code>/<code>model</code>, resuelto dinámicamente vía <code>django.apps.apps.get_model</code>), y se devuelve <code>result_field</code> de ese objeto en vez de <code>mapped_value</code>.</li>
+</ol>
+<h3 id="resolucion-de-datos-de-catalogo">Resolución de datos de catálogo<a class="headerlink" href="#resolucion-de-datos-de-catalogo" title="Permanent link">&para;</a></h3>
+<p>Cuando se pasa un <code>supplier_catalog</code>, cada fila pasa por <code>_fill_from_catalog(job)</code>:</p>
+<ol>
+<li>Se busca, dentro de <code>_catalog_mappings</code>, el mapping cuyo <code>column.source_name == supplier_catalog.pivot_field_name</code> — es decir, el <code>LayoutField</code> que contiene el valor pivote ya extraído del Excel.</li>
+<li>Si no existe ese mapping → <code>ExtractionError</code> ("No se encontró un LayoutField asociado al campo pivote...") y la fila queda incompleta.</li>
+<li>Se lee el <code>ExtractionResult</code> de ese <code>LayoutField</code> para el job actual, usando <code>normalized_value</code> (o <code>raw_value</code> si el normalizado está vacío) como valor pivote.</li>
+<li>Si el valor pivote resulta vacío → <code>ExtractionError</code>.</li>
+<li>Se busca <code>SupplierCatalogRow</code> con <code>pivot_value</code> igual al valor pivote extraído.</li>
+<li>Si no hay match → <code>ExtractionError</code> con el nombre del catálogo y el valor buscado.</li>
+<li>Si se encontró la fila, se recorren todos los <code>_catalog_mappings</code> <strong>excepto</strong> el del campo pivote, y por cada uno se lee <code>catalog_row.data.get(mapping.column.source_name)</code> y se guarda como <code>ExtractionResult</code> (mismo valor en <code>raw_value</code> y <code>normalized_value</code> — <strong>el catálogo no pasa por la cadena de normalización de <code>TemplateFieldRule</code></strong>, esa cadena solo aplica a campos extraídos directamente del Excel).</li>
+</ol>
+<p>Cualquiera de los tres primeros casos marca el job como incompleto (<code>had_errors=True</code>) y, al terminar <code>_process_row</code>, el <code>ExtractionJob.status</code> queda en <code>REVIEW</code> en vez de <code>PROCESSED</code>.</p>
+<div class="admonition note">
+<p class="admonition-title">El campo pivote no requiere ser columna de catálogo</p>
+<p><code>pivot_field_name</code> en <code>SupplierCatalog</code> solo identifica qué campo del <strong>Excel/layout</strong> sirve para buscar la fila; no necesita tener una <code>SupplierCatalogColumn</code> propia ni un mapping en <code>SupplierCatalogColumnLayoutField</code> para <em>extraerse</em> del catálogo — de hecho, el paso 4 lo excluye explícitamente. El mapping del pivote solo se usa para saber <strong>de qué <code>LayoutField</code></strong> leer el valor de búsqueda.</p>
+</div>
+<h3 id="campos-de-sistema">Campos de sistema<a class="headerlink" href="#campos-de-sistema" title="Permanent link">&para;</a></h3>
+<p><code>_fill_system_fields</code> resuelve campos calculados fuera de la extracción normal, mapeando por <strong>nombre exacto</strong> de <code>LayoutField</code> contra <code>SYSTEM_FIELD_HANDLERS</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">SYSTEM_FIELD_HANDLERS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;CLAVE DEL PROVEEDOR&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">job</span><span class="p">,</span> <span class="n">row_data</span><span class="p">:</span> <span class="n">job</span><span class="o">.</span><span class="n">extraction_batch</span><span class="o">.</span><span class="n">supplier</span><span class="o">.</span><span class="n">code</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Si el <code>Layout</code> tiene un <code>LayoutField</code> cuyo <code>name</code> coincide con una clave de este diccionario, su valor se llena automáticamente con el resultado del handler (en este caso, el <code>code</code> del <code>Supplier</code> del batch), sin depender de ningún <code>TemplateField</code>. Para agregar un nuevo campo de sistema, basta con agregar una entrada a <code>SYSTEM_FIELD_HANDLERS</code> con el nombre exacto del <code>LayoutField</code> destino.</p>
+<h3 id="generacion-del-excel-de-salida">Generación del Excel de salida<a class="headerlink" href="#generacion-del-excel-de-salida" title="Permanent link">&para;</a></h3>
+<p><code>_build_output_workbook(jobs)</code> genera un único workbook con:</p>
+<ul>
+<li>Una hoja cuyo título es <code>layout.code</code> (truncado a 31 caracteres, límite de Excel para nombres de hoja).</li>
+<li>Encabezados: los <code>name</code> de todos los <code>layout_fields</code>, en <code>sort_order</code>.</li>
+<li>Una fila por <code>ExtractionJob</code>, tomando de cada <code>ExtractionResult</code> el <code>normalized_value</code> (o <code>raw_value</code> si el normalizado está vacío); si un <code>LayoutField</code> no tiene <code>ExtractionResult</code> para ese job, la celda queda vacía.</li>
+</ul>
+<h3 id="estados-resultantes">Estados resultantes<a class="headerlink" href="#estados-resultantes" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Nivel</th>
+<th>Condición</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ExtractionJob</code></td>
+<td>Todos los campos y (si aplica) el catálogo se resolvieron sin error</td>
+<td><code>PROCESSED</code></td>
+</tr>
+<tr>
+<td><code>ExtractionJob</code></td>
+<td>Al menos un error registrado en <code>_fill_from_catalog</code></td>
+<td><code>REVIEW</code></td>
+</tr>
+<tr>
+<td><code>ExtractionBatch</code></td>
+<td>Ningún <code>ExtractionJob</code> en <code>REVIEW</code></td>
+<td><code>PROCESSED</code></td>
+</tr>
+<tr>
+<td><code>ExtractionBatch</code></td>
+<td>Al menos un <code>ExtractionJob</code> en <code>REVIEW</code></td>
+<td><code>REVIEW</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>ExtractionBatch</code> nunca queda en <code>ERROR</code> como resultado de <code>process()</code> — ese status solo tiene sentido si el proceso completo falla antes de terminar (no cubierto por este servicio, que solo lanza <code>ExtractionProcessingError</code> <em>antes</em> de crear el batch).</p>
+<hr />
+<h2 id="endpoint-processinvoicexlsxview">Endpoint: <code>ProcessInvoiceXlsxView</code><a class="headerlink" href="#endpoint-processinvoicexlsxview" title="Permanent link">&para;</a></h2>
+<p><code>POST</code> — sube un Excel de factura y regresa el Excel ya transformado al layout de destino.</p>
+<h3 id="request">Request<a class="headerlink" href="#request" title="Permanent link">&para;</a></h3>
+<p><code>multipart/form-data</code></p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Requerido</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>file</code></td>
+<td>archivo</td>
+<td>Sí</td>
+<td>Excel de la factura a procesar.</td>
+</tr>
+<tr>
+<td><code>template_id</code></td>
+<td>integer</td>
+<td>Sí</td>
+<td>PK de un <code>Template</code> con <code>document_type=xlsx</code> y <code>is_active=True</code>.</td>
+</tr>
+<tr>
+<td><code>supplier_catalog_id</code></td>
+<td>integer</td>
+<td>No</td>
+<td>PK de un <code>SupplierCatalog</code> perteneciente al <strong>mismo proveedor</strong> que el template (<code>supplier_catalog.supplier == template.supplier</code>), usado para completar datos por valor pivote.</td>
+</tr>
+</tbody>
+</table>
+<p>Validación de payload vía <code>ProcessInvoiceXlsxSerializer</code> (<code>serializer.is_valid(raise_exception=True)</code>) antes de tocar la base de datos.</p>
+<h3 id="respuestas">Respuestas<a class="headerlink" href="#respuestas" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Caso</th>
+<th>Status</th>
+<th>Cuerpo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Éxito</td>
+<td><code>200 OK</code></td>
+<td>Archivo <code>.xlsx</code> binario (<code>Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</code>), como adjunto (<code>Content-Disposition: attachment; filename="&lt;LAYOUT_CODE&gt;_extraccion.xlsx"</code>).</td>
+</tr>
+<tr>
+<td><code>template_id</code> no existe o no está activo</td>
+<td><code>404 Not Found</code></td>
+<td>Estándar de <code>get_object_or_404</code>.</td>
+</tr>
+<tr>
+<td><code>supplier_catalog_id</code> no existe o no pertenece al proveedor del template</td>
+<td><code>404 Not Found</code></td>
+<td>Estándar de <code>get_object_or_404</code>.</td>
+</tr>
+<tr>
+<td>Error de configuración (<code>ExtractionProcessingError</code>)</td>
+<td><code>400 Bad Request</code></td>
+<td><code>{"detail": "&lt;mensaje&gt;"}</code></td>
+</tr>
+</tbody>
+</table>
+<p>En toda respuesta <code>200</code>, además se incluye el header custom:</p>
+<div class="highlight"><pre><span></span><code>X-Extraction-Batch-Id: &lt;id del ExtractionBatch creado&gt;
+</code></pre></div>
+<p>Esto permite al cliente consultar después el detalle del batch (jobs, resultados, errores por fila) sin tener que parsear el Excel de salida.</p>
+<div class="admonition note">
+<p class="admonition-title">Un <code>200</code> no garantiza cero errores de fila</p>
+<p>El endpoint responde <code>200</code> con el Excel generado incluso si algunas filas quedaron en <code>REVIEW</code> por errores de catálogo — el archivo de salida siempre se genera con lo que sí se pudo resolver, dejando vacías las celdas sin dato. Para saber si el batch tuvo filas con problemas, el cliente debe consultar el batch (<code>X-Extraction-Batch-Id</code>) y revisar <code>status</code>/<code>failed_records</code>, no basta con el código HTTP.</p>
+</div>
+<h3 id="ejemplo-de-request">Ejemplo de request<a class="headerlink" href="#ejemplo-de-request" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://api.example.com/extraction/process-invoice-xlsx/<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer &lt;token&gt;&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-F<span class="w"> </span><span class="s2">&quot;file=@factura_suzuki.xlsx&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-F<span class="w"> </span><span class="s2">&quot;template_id=4&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-F<span class="w"> </span><span class="s2">&quot;supplier_catalog_id=2&quot;</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

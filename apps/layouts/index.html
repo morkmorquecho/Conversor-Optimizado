@@ -1,0 +1,1328 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Sistema de extracción y normalización de facturas de proveedores">
+      
+      
+      
+      
+        <link rel="prev" href="../catalogs/">
+      
+      
+        <link rel="next" href="../templates/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>layouts - Invoice Converter — Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#app-layouts" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Invoice Converter — Docs" class="md-header__button md-logo" aria-label="Invoice Converter — Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Invoice Converter — Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              layouts
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Invoice Converter — Docs" class="md-nav__button md-logo" aria-label="Invoice Converter — Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Invoice Converter — Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitectura
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Arquitectura
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visión general
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/data-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modelo de datos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/extraction-flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flujo de extracción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apps
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Apps
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../catalogs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    catalogs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    layouts
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    layouts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#proposito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propósito
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../extraction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    extraction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Convenciones
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Convenciones
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../conventions/code-style/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estilo de código
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../conventions/api-conventions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API (errores, respuestas)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../conventions/soft-delete.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Soft delete
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guías
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guías
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/add-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup local
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/deploy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy (Railway)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#proposito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propósito
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="app-layouts">App: layouts<a class="headerlink" href="#app-layouts" title="Permanent link">&para;</a></h1>
+<h2 id="proposito">Propósito<a class="headerlink" href="#proposito" title="Permanent link">&para;</a></h2>
+<p>La app <code>layouts</code> define las estructuras de salida que utiliza el sistema para generar los archivos Excel finales.</p>
+<p>Un <code>Layout</code> representa un formato de salida completo y está compuesto por uno o varios <code>LayoutField</code>, donde cada <code>LayoutField</code> representa una columna del archivo Excel final.</p>
+<p>La responsabilidad de esta app es definir <strong>qué estructura debe tener el archivo de salida</strong>, pero no definir de dónde provienen los valores que se colocarán en cada campo.</p>
+<p>La obtención de los valores corresponde a otras partes del sistema, principalmente <code>templates</code>, <code>catalogs</code> y <code>extraction</code>.</p>
+<p>Conceptualmente:</p>
+<div class="highlight"><pre><span></span><code>Layout
+   │
+   ├── LayoutField
+   ├── LayoutField
+   ├── LayoutField
+   └── ...
+</code></pre></div>
+<p>Por ejemplo, un layout puede definir:</p>
+<div class="highlight"><pre><span></span><code>NUMERO DE PARTE
+DESCRIPCION
+CANTIDAD
+UMC
+MONEDA
+</code></pre></div>
+<p>El layout establece que estas columnas deben existir en el archivo de salida y en qué orden deben aparecer.</p>
+<hr />
+<h1 id="layout">Layout<a class="headerlink" href="#layout" title="Permanent link">&para;</a></h1>
+<p>El modelo <code>Layout</code> representa una estructura de salida.</p>
+<p>Cada layout tiene:</p>
+<ul>
+<li>Un código único.</li>
+<li>Un nombre.</li>
+<li>Un estado activo.</li>
+</ul>
+<p>El código permite identificar el layout de forma estable dentro del sistema.</p>
+<p>Actualmente existen dos layouts principales:</p>
+<ul>
+<li><code>casa_azul</code></li>
+<li><code>casa_rojo</code></li>
+</ul>
+<p>Estos corresponden a los formatos de salida utilizados por el sistema Casa.</p>
+<p>Aunque la arquitectura está diseñada para permitir diferentes layouts, estos dos formatos representan actualmente las estructuras principales del sistema.</p>
+<hr />
+<h1 id="layoutfield">LayoutField<a class="headerlink" href="#layoutfield" title="Permanent link">&para;</a></h1>
+<p>Un <code>LayoutField</code> representa un campo o columna dentro de un layout.</p>
+<p>Su función es definir:</p>
+<ul>
+<li>El nombre de la columna.</li>
+<li>El layout al que pertenece.</li>
+<li>El orden en el que debe aparecer dentro del archivo Excel final.</li>
+</ul>
+<p>Por ejemplo, el layout <code>Casa Rojo</code> contiene campos como:</p>
+<div class="highlight"><pre><span></span><code>1. CLAVE DEL PROVEEDOR
+2. NO.FACTURA
+3. FECHA DE FACTURA
+4. MONTO DE FACTURA
+5. MONEDA
+6. INCOTERM
+7. SUBDIVISION
+8. CERT. ORIGEN
+9. NUMERO DE PARTE
+10. PAIS ORIGEN
+11. PAIS VENDEDOR
+12. FRACCION
+13. DESCRIPCION
+14. VALOR DE LA MERCANCIA
+15. UMC
+16. CANTIDAD DE UMC
+17. CANTIDAD DE UMT
+18. PREFERENCIA ARANCELARIA
+19. Marca
+20. Modelo
+21. Submodelo
+22. No. Serie
+23. Descripción Cove
+</code></pre></div>
+<p>El campo <code>sort_order</code> permite mantener el orden esperado de las columnas al generar el archivo final.</p>
+<p>Por lo tanto, el <code>LayoutField</code> representa tanto el <strong>destino de la información</strong> como su <strong>posición dentro del resultado final</strong>.</p>
+<hr />
+<h1 id="el-layout-como-estructura-de-destino">El layout como estructura de destino<a class="headerlink" href="#el-layout-como-estructura-de-destino" title="Permanent link">&para;</a></h1>
+<p>El layout debe entenderse como el contrato que define la estructura del archivo final.</p>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>                 Layout
+                    │
+                    ▼
+        ┌──────────────────────┐
+        │ NUMERO DE FACTURA    │
+        │ DESCRIPCION          │
+        │ CANTIDAD             │
+        │ UMC                  │
+        │ MONEDA               │
+        └──────────────────────┘
+</code></pre></div>
+<p>El layout no necesita conocer si <code>NUMERO DE FACTURA</code> proviene de:</p>
+<ul>
+<li>Un archivo XLSX.</li>
+<li>Un XML.</li>
+<li>Un PDF.</li>
+<li>Un catálogo.</li>
+<li>Una normalización.</li>
+<li>Una combinación de diferentes fuentes.</li>
+</ul>
+<p>Su única responsabilidad es definir que ese campo existe y dónde debe aparecer en el resultado.</p>
+<p>Esta separación permite que el mismo layout sea utilizado por diferentes proveedores.</p>
+<hr />
+<h1 id="relacion-con-templates">Relación con Templates<a class="headerlink" href="#relacion-con-templates" title="Permanent link">&para;</a></h1>
+<p>Los <code>Layout</code> y los <code>Template</code> tienen responsabilidades diferentes.</p>
+<p>El <code>Layout</code> define:</p>
+<blockquote>
+<p><strong>¿Cómo debe ser el resultado final?</strong></p>
+</blockquote>
+<p>El <code>Template</code> define:</p>
+<blockquote>
+<p><strong>¿Cómo obtenemos los datos de un proveedor específico para llenar ese resultado?</strong></p>
+</blockquote>
+<p>La relación conceptual es:</p>
+<div class="highlight"><pre><span></span><code>Supplier
+    │
+    ▼
+Template
+    │
+    │ utiliza
+    ▼
+Layout
+    │
+    ▼
+LayoutFields
+</code></pre></div>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>Proveedor Suzuki
+       │
+       ▼
+Template Suzuki XLSX
+       │
+       ▼
+Casa Rojo
+       │
+       ▼
+LayoutFields
+</code></pre></div>
+<p>El template puede indicar:</p>
+<div class="highlight"><pre><span></span><code>&quot;I/V NO&quot;  ──────────► &quot;NO.FACTURA&quot;
+&quot;I/V DATE&quot; ─────────► &quot;FECHA DE FACTURA&quot;
+&quot;FOB AMOUNT&quot; ───────► &quot;MONTO DE FACTURA&quot;
+&quot;CURRENCY&quot; ─────────► &quot;MONEDA&quot;
+&quot;PART NO&quot; ───────────► &quot;NUMERO DE PARTE&quot;
+</code></pre></div>
+<p>En este caso:</p>
+<ul>
+<li><code>I/V NO</code> pertenece al archivo de origen del proveedor.</li>
+<li><code>NO.FACTURA</code> pertenece al layout de destino.</li>
+</ul>
+<p>El layout únicamente conoce <code>NO.FACTURA</code>.</p>
+<p>La lógica que determina que debe obtenerse desde <code>I/V NO</code> pertenece al template.</p>
+<hr />
+<h1 id="relacion-con-catalogos">Relación con Catálogos<a class="headerlink" href="#relacion-con-catalogos" title="Permanent link">&para;</a></h1>
+<p>Los layouts también pueden recibir información proveniente de catálogos.</p>
+<p>En estos casos, una columna de un catálogo puede estar asociada a un <code>LayoutField</code>.</p>
+<p>La relación se realiza mediante:</p>
+<div class="highlight"><pre><span></span><code>SupplierCatalogColumn
+        │
+        ▼
+SupplierCatalogColumnLayoutField
+        │
+        ▼
+LayoutField
+</code></pre></div>
+<p>Esto permite que la información de un catálogo pueda completar campos del layout que no estaban presentes originalmente en el invoice.</p>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>Invoice
+PART = 12345
+    │
+    ▼
+SupplierCatalog
+    │
+    ▼
+DESCRIPTION = &quot;Refacción para motor&quot;
+    │
+    ▼
+LayoutField
+DESCRIPCION
+</code></pre></div>
+<p>El layout no necesita conocer el origen de la información.</p>
+<p>Solo define el campo de destino.</p>
+<hr />
+<h1 id="layouts-actuales">Layouts actuales<a class="headerlink" href="#layouts-actuales" title="Permanent link">&para;</a></h1>
+<p>Actualmente el sistema cuenta con dos layouts principales.</p>
+<h2 id="casa-azul">Casa Azul<a class="headerlink" href="#casa-azul" title="Permanent link">&para;</a></h2>
+<p>Código:</p>
+<div class="highlight"><pre><span></span><code>casa_azul
+</code></pre></div>
+<p>Campos actuales:</p>
+<div class="highlight"><pre><span></span><code>1. NUMERO DE FACTURA
+2. DESCRIPCION
+3. CANTIDAD DE LA FACTURA
+4. UNIDAD DE LA FACTURA
+5. PRECIO DE LA PARTIDA
+6. MODELO
+7. MARCA
+8. SUBMODELO
+9. SERIE
+</code></pre></div>
+<h2 id="casa-rojo">Casa Rojo<a class="headerlink" href="#casa-rojo" title="Permanent link">&para;</a></h2>
+<p>Código:</p>
+<div class="highlight"><pre><span></span><code>casa_rojo
+</code></pre></div>
+<p>Campos actuales:</p>
+<div class="highlight"><pre><span></span><code>1. CLAVE DEL PROVEEDOR
+2. NO.FACTURA
+3. FECHA DE FACTURA
+4. MONTO DE FACTURA
+5. MONEDA
+6. INCOTERM
+7. SUBDIVISION
+8. CERT. ORIGEN
+9. NUMERO DE PARTE
+10. PAIS ORIGEN
+11. PAIS VENDEDOR
+12. FRACCION
+13. DESCRIPCION
+14. VALOR DE LA MERCANCIA
+15. UMC
+16. CANTIDAD DE UMC
+17. CANTIDAD DE UMT
+18. PREFERENCIA ARANCELARIA
+19. Marca
+20. Modelo
+21. Submodelo
+22. No. Serie
+23. Descripción Cove
+</code></pre></div>
+<p>Estos layouts representan los formatos de salida utilizados actualmente por el sistema.</p>
+<hr />
+<h1 id="definicion-mediante-seeds">Definición mediante seeds<a class="headerlink" href="#definicion-mediante-seeds" title="Permanent link">&para;</a></h1>
+<p>Los layouts actuales se crean mediante una migración de datos (<code>RunPython</code>) que funciona como seed.</p>
+<p>La migración crea:</p>
+<ol>
+<li>El layout.</li>
+<li>Los campos del layout.</li>
+<li>El orden de cada campo.</li>
+</ol>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>Migration
+    │
+    ▼
+Layout: casa_rojo
+    │
+    ├── LayoutField 1
+    ├── LayoutField 2
+    ├── LayoutField 3
+    └── ...
+</code></pre></div>
+<p>La definición inicial de los layouts forma parte del código fuente del proyecto.</p>
+<p>Esto se debe a que el sistema actual es una evolución de un sistema legacy en el que los formatos de Casa Azul y Casa Rojo eran estructuras centrales y prácticamente fijas.</p>
+<p>La nueva arquitectura desacopla estos formatos de la lógica de extracción y permite que el sistema pueda soportar otros layouts, pero los layouts principales siguen estando definidos como parte del código inicial del sistema.</p>
+<hr />
+<h1 id="agregar-un-nuevo-layout">Agregar un nuevo layout<a class="headerlink" href="#agregar-un-nuevo-layout" title="Permanent link">&para;</a></h1>
+<p>La arquitectura permite agregar nuevos layouts además de Casa Azul y Casa Rojo.</p>
+<p>El proceso general es:</p>
+<div class="highlight"><pre><span></span><code>1. Crear Layout
+       │
+       ▼
+2. Definir LayoutFields
+       │
+       ▼
+3. Definir el sort_order
+       │
+       ▼
+4. Crear Templates para los proveedores
+       │
+       ▼
+5. Configurar TemplateFields
+       │
+       ▼
+6. Configurar mappings de catálogos
+   cuando sea necesario
+</code></pre></div>
+<p>El layout debe existir antes de crear templates que lo utilicen.</p>
+<hr />
+<h1 id="responsabilidades">Responsabilidades<a class="headerlink" href="#responsabilidades" title="Permanent link">&para;</a></h1>
+<p>La app <code>layouts</code> es responsable de:</p>
+<ul>
+<li>Definir las estructuras de salida.</li>
+<li>Administrar los layouts disponibles.</li>
+<li>Definir los campos de cada layout.</li>
+<li>Definir el orden de las columnas de salida.</li>
+<li>Servir como estructura de destino para los datos extraídos.</li>
+<li>Permitir que templates diferentes utilicen una misma estructura de salida.</li>
+<li>Permitir que los catálogos mapeen información hacia campos específicos.</li>
+</ul>
+<hr />
+<h1 id="lo-que-no-hace-esta-app">Lo que NO hace esta app<a class="headerlink" href="#lo-que-no-hace-esta-app" title="Permanent link">&para;</a></h1>
+<p>La app <code>layouts</code> no es responsable de:</p>
+<ul>
+<li>Extraer información de archivos.</li>
+<li>Leer archivos XML.</li>
+<li>Leer archivos XLSX de proveedores.</li>
+<li>Procesar archivos PDF.</li>
+<li>Determinar de qué campo de origen se obtiene un valor.</li>
+<li>Normalizar valores.</li>
+<li>Consultar catálogos.</li>
+<li>Definir proveedores.</li>
+<li>Definir templates.</li>
+<li>Ejecutar el pipeline de extracción.</li>
+</ul>
+<p>La app únicamente define la estructura y los campos de destino.</p>
+<hr />
+<h1 id="dependencias">Dependencias<a class="headerlink" href="#dependencias" title="Permanent link">&para;</a></h1>
+<p>La app <code>layouts</code> es utilizada por otras partes del sistema para definir la estructura final de los datos.</p>
+<p>Las principales relaciones conceptuales son:</p>
+<div class="highlight"><pre><span></span><code>layouts
+   ▲
+   │
+   │ utiliza
+   │
+templates
+   │
+   │ define cómo llenar
+   │
+   ▼
+extraction
+</code></pre></div>
+<p>También existe una relación con <code>catalogs</code>:</p>
+<div class="highlight"><pre><span></span><code>catalogs
+   │
+   │ proporciona información
+   ▼
+SupplierCatalogColumnLayoutField
+   │
+   ▼
+layouts.LayoutField
+</code></pre></div>
+<p>Por lo tanto, <code>layouts</code> representa una estructura de destino compartida por el resto del sistema.</p>
+<hr />
+<h1 id="puntos-de-extension">Puntos de extensión<a class="headerlink" href="#puntos-de-extension" title="Permanent link">&para;</a></h1>
+<p>La arquitectura está diseñada para permitir la incorporación de nuevos layouts.</p>
+<p>Agregar un nuevo layout implica definir:</p>
+<ul>
+<li>Un nuevo código.</li>
+<li>Un nombre.</li>
+<li>Sus <code>LayoutFields</code>.</li>
+<li>El orden de sus campos.</li>
+</ul>
+<p>Después de crear el layout, pueden configurarse templates específicos de proveedores para utilizarlo.</p>
+<p>También pueden configurarse mappings entre columnas de catálogos y los nuevos <code>LayoutFields</code> cuando el procesamiento requiera información adicional proveniente de catálogos.</p>
+<p>Esto permite que la arquitectura pueda crecer más allá de los formatos actuales de Casa Azul y Casa Rojo sin modificar necesariamente el motor general de extracción.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1730 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Sistema de extracción y normalización de facturas de proveedores">
+      
+      
+      
+      
+        <link rel="prev" href="../../conventions/api-conventions/">
+      
+      
+        <link rel="next" href="../deploy/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Setup local - Invoice Converter — Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#configuracion-de-contenido-layouts-templates-y-catalogos" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Invoice Converter — Docs" class="md-header__button md-logo" aria-label="Invoice Converter — Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Invoice Converter — Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Setup local
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Invoice Converter — Docs" class="md-nav__button md-logo" aria-label="Invoice Converter — Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Invoice Converter — Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitectura
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Arquitectura
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visión general
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/data-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modelo de datos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/extraction-flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flujo de extracción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apps
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Apps
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/catalogs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    catalogs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/layouts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    layouts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/extraction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    extraction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Convenciones
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Convenciones
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../conventions/code-style/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estilo de código
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../conventions/api-conventions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API (errores, respuestas)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../conventions/soft-delete.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Soft delete
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guías
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guías
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup local
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup local
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#que-se-administra-desde-el-admin-de-django-y-que-desde-la-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Qué se administra desde el admin de Django y qué desde la API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#orden-de-alta-dependencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Orden de alta (dependencias)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#layouts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layouts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Layouts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layoutfield" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LayoutField
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reglas-de-normalizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reglas de normalización
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reglas de normalización">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#normalizationrule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NormalizationRule
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Templates
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Templates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Template
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#templatefield" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TemplateField
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#templatefieldrule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TemplateFieldRule
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#catalogos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Catálogos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Catálogos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#suppliercatalog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SupplierCatalog
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#suppliercatalogcolumn-y-suppliercatalogcolumnlayoutfield" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SupplierCatalogColumn y SupplierCatalogColumnLayoutField
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#suppliercatalogrow-datos-via-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SupplierCatalogRow (datos) — vía API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SupplierCatalogRow (datos) — vía API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#suppliercatalogrowviewset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SupplierCatalogRowViewSet
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exceldeduplicateview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ExcelDeduplicateView
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deploy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy (Railway)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#que-se-administra-desde-el-admin-de-django-y-que-desde-la-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Qué se administra desde el admin de Django y qué desde la API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#orden-de-alta-dependencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Orden de alta (dependencias)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#layouts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layouts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Layouts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layoutfield" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LayoutField
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reglas-de-normalizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reglas de normalización
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reglas de normalización">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#normalizationrule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NormalizationRule
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Templates
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Templates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Template
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#templatefield" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TemplateField
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#templatefieldrule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TemplateFieldRule
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#catalogos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Catálogos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Catálogos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#suppliercatalog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SupplierCatalog
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#suppliercatalogcolumn-y-suppliercatalogcolumnlayoutfield" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SupplierCatalogColumn y SupplierCatalogColumnLayoutField
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#suppliercatalogrow-datos-via-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SupplierCatalogRow (datos) — vía API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SupplierCatalogRow (datos) — vía API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#suppliercatalogrowviewset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SupplierCatalogRowViewSet
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exceldeduplicateview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ExcelDeduplicateView
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="configuracion-de-contenido-layouts-templates-y-catalogos">Configuración de contenido: Layouts, Templates y Catálogos<a class="headerlink" href="#configuracion-de-contenido-layouts-templates-y-catalogos" title="Permanent link">&para;</a></h1>
+<p>A diferencia de <a href="extraction-flow.md"><code>extraction-flow.md</code></a>, que documenta el procesamiento de facturas, este documento describe <strong>cómo se da de alta la configuración</strong> que ese procesamiento necesita: layouts, reglas de normalización, templates y catálogos.</p>
+<h2 id="que-se-administra-desde-el-admin-de-django-y-que-desde-la-api">Qué se administra desde el admin de Django y qué desde la API<a class="headerlink" href="#que-se-administra-desde-el-admin-de-django-y-que-desde-la-api" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Modelo</th>
+<th>Se crea desde</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Layout</code>, <code>LayoutField</code></td>
+<td>Admin de Django</td>
+</tr>
+<tr>
+<td><code>NormalizationRule</code></td>
+<td>Admin de Django</td>
+</tr>
+<tr>
+<td><code>Supplier</code></td>
+<td>Admin de Django</td>
+</tr>
+<tr>
+<td><code>Template</code>, <code>TemplateField</code>, <code>TemplateFieldRule</code></td>
+<td>Admin de Django</td>
+</tr>
+<tr>
+<td><code>SupplierCatalog</code>, <code>SupplierCatalogColumn</code>, <code>SupplierCatalogColumnLayoutField</code></td>
+<td>Admin de Django</td>
+</tr>
+<tr>
+<td><code>SupplierCatalogRow</code> (los <strong>datos</strong> del catálogo)</td>
+<td>API — <code>SupplierCatalogRowViewSet</code> (CRUD individual + carga masiva)</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition info">
+<p class="admonition-title">Por qué la data de catálogo sí tiene API y el resto no</p>
+<p>Todo lo anterior es <strong>configuración</strong>: se define una vez por proveedor/layout y cambia poco. <code>SupplierCatalogRow</code> es <strong>data</strong>: el contenido del catálogo de un proveedor (fracciones, descripciones, etc.) se actualiza con frecuencia y en volumen (cientos/miles de filas), por eso tiene endpoints propios en vez de capturarse a mano en el admin.</p>
+</div>
+<hr />
+<h2 id="orden-de-alta-dependencias">Orden de alta (dependencias)<a class="headerlink" href="#orden-de-alta-dependencias" title="Permanent link">&para;</a></h2>
+<p>Como cada modelo depende del anterior, seguir este orden evita errores de referencias faltantes:</p>
+<div class="highlight"><pre><span></span><code>flowchart TD
+    A[&quot;1. Layout&quot;] --&gt; B[&quot;2. LayoutField (uno por cada columna del layout de salida)&quot;]
+    C[&quot;3. NormalizationRule (catálogo reutilizable, independiente de layout/template)&quot;]
+    D[&quot;4. Supplier&quot;] --&gt; E[&quot;5. Template (supplier + layout)&quot;]
+    B --&gt; E
+    E --&gt; F[&quot;6. TemplateField (uno por cada columna del Excel origen)&quot;]
+    F --&gt; G[&quot;7. TemplateFieldRule (encadena NormalizationRule a cada TemplateField)&quot;]
+    C --&gt; G
+    D --&gt; H[&quot;8. SupplierCatalog&quot;]
+    H --&gt; I[&quot;9. SupplierCatalogColumn (una por cada columna del catálogo)&quot;]
+    I --&gt; J[&quot;10. SupplierCatalogColumnLayoutField (mapea columna de catálogo -&gt; LayoutField, por layout)&quot;]
+    B --&gt; J
+    J --&gt; K[&quot;11. SupplierCatalogRow (datos, vía API/upload)&quot;]
+</code></pre></div>
+<hr />
+<h2 id="layouts">Layouts<a class="headerlink" href="#layouts" title="Permanent link">&para;</a></h2>
+<h3 id="layout"><code>Layout</code><a class="headerlink" href="#layout" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Convención</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>code</code></td>
+<td><code>snake_case</code>, siempre en minúsculas.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>Libre, pero se recomienda con mayúscula inicial en cada palabra (ej. <code>Casa Azul</code>).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="layoutfield"><code>LayoutField</code><a class="headerlink" href="#layoutfield" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Convención</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>layout</code></td>
+<td>El layout al que pertenece este campo.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><strong>Sin convención fija</strong> — debe escribirse exactamente como se espera que aparezca en el archivo de salida final. Depende de lo que necesite el usuario/proceso destino, no de una regla del sistema.</td>
+</tr>
+<tr>
+<td><code>sort_order</code></td>
+<td>Define el orden en que aparecen las columnas en el Excel de salida.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Cuida el <code>sort_order</code> al agregar campos</p>
+<p><code>sort_order</code> es único por <code>Layout</code> (<code>unique_sort_order_per_layout</code>). Si al agregar un nuevo <code>LayoutField</code> reutilizas un <code>sort_order</code> ya usado en ese layout, el admin rechazará el registro con un error de "ya existe uno con ese sort_order". Antes de dar de alta un campo nuevo, revisa el último <code>sort_order</code> usado en ese layout, o deja huecos (10, 20, 30...) al planear el layout para poder insertar campos después sin reordenar todo.</p>
+</div>
+<hr />
+<h2 id="reglas-de-normalizacion">Reglas de normalización<a class="headerlink" href="#reglas-de-normalizacion" title="Permanent link">&para;</a></h2>
+<h3 id="normalizationrule"><code>NormalizationRule</code><a class="headerlink" href="#normalizationrule" title="Permanent link">&para;</a></h3>
+<p>Es un catálogo <strong>reutilizable</strong>, independiente de layout o template — la misma regla puede encadenarse a <code>TemplateField</code>s distintos vía <code>TemplateFieldRule</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Convención</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td>Muy descriptivo y en español, indicando el cambio concreto que hace. Ejemplo: <code>Fecha YYYYMMDD a dd/mm/yyyy</code>.</td>
+</tr>
+<tr>
+<td><code>rule_type</code></td>
+<td>Elegir uno de los tipos disponibles: <code>date_format</code>, <code>value_map</code>, <code>regex_replace</code>, <code>trim</code>, <code>uppercase</code>.</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>Muy descriptiva: qué hace, <strong>qué espera recibir</strong> y <strong>qué entrega</strong>. Esta descripción es la única documentación que verá quien configure un <code>TemplateFieldRule</code> después, así que debe bastar para decidir si aplica sin tener que leer el código.</td>
+</tr>
+<tr>
+<td><code>config</code></td>
+<td>Ver la tabla de formas esperadas por <code>rule_type</code> en <a href="data-model.md#normalizationrule"><code>data-model.md</code></a> y el detalle de <code>value_map</code> extendido (con <code>lookup</code>) en <a href="extraction-flow.md#value_map-extendido"><code>extraction-flow.md</code></a>.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Ejemplo de buena <code>description</code></p>
+<p>Para una regla <code>value_map</code> con <code>lookup</code> hacia <code>Currency</code>:</p>
+<blockquote>
+<p>"Convierte el código de moneda tal como viene en la factura (ej. <code>DLS</code>, <code>PES</code>) al <code>code</code> interno de <code>Currency</code>. Recibe texto libre; si no hay match en <code>map</code> ni <code>lookup</code>, entrega el valor original sin cambios."</p>
+</blockquote>
+</div>
+<hr />
+<h2 id="templates">Templates<a class="headerlink" href="#templates" title="Permanent link">&para;</a></h2>
+<h3 id="template"><code>Template</code><a class="headerlink" href="#template" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Convención</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>supplier</code></td>
+<td>Obligatorio siempre — el proveedor al que pertenece el template.</td>
+</tr>
+<tr>
+<td><code>layout</code></td>
+<td>El layout destino de este template.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>snake_case</code>, minúsculas, con el patrón <strong><code>supplier_layout_tipo</code></strong>. Ejemplo: <code>suzuki_casaazul_xlsx</code>.</td>
+</tr>
+<tr>
+<td><code>document_type</code></td>
+<td>Elegir entre <code>xml</code> / <code>xlsx</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Recuerda que <code>(supplier, layout, document_type)</code> es único entre templates activos (<code>unique_active_template_per_supplier_layout_format</code>) — no puede haber dos templates activos para la misma combinación proveedor/layout/formato.</p>
+<h3 id="templatefield"><code>TemplateField</code><a class="headerlink" href="#templatefield" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Convención</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>layout_field</code></td>
+<td>El campo destino — sencillo, se elige de una lista.</td>
+</tr>
+<tr>
+<td><code>source_field</code></td>
+<td>Debe ser <strong>exacto</strong> a como viene en el Excel de origen (nombre de encabezado literal) o el XPath, según <code>extraction_type</code>.</td>
+</tr>
+<tr>
+<td><code>extraction_type</code>, <code>worksheet</code>, <code>header_occurrence</code></td>
+<td>Sin convención adicional — ver <a href="data-model.md#templatefield"><code>data-model.md</code></a> para su significado.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition danger">
+<p class="admonition-title"><code>source_field</code> exacto, incluyendo espacios y mayúsculas</p>
+<p>La extracción por <code>header_name</code> busca coincidencia exacta de string contra el encabezado del Excel (ver <code>_iter_data_rows</code> en <code>extraction-flow.md</code>). Un espacio de más, un acento faltante o una mayúscula distinta hacen que el campo simplemente no se encuentre — y no genera error, la celda queda vacía.</p>
+</div>
+<h3 id="templatefieldrule"><code>TemplateFieldRule</code><a class="headerlink" href="#templatefieldrule" title="Permanent link">&para;</a></h3>
+<p>No tiene convención de captura: es literal solo <strong>relacionar</strong> un <code>TemplateField</code> con una <code>NormalizationRule</code> existente y darle un <code>sort_order</code> para definir el orden de la cadena.</p>
+<hr />
+<h2 id="catalogos">Catálogos<a class="headerlink" href="#catalogos" title="Permanent link">&para;</a></h2>
+<h3 id="suppliercatalog"><code>SupplierCatalog</code><a class="headerlink" href="#suppliercatalog" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Convención</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td>Sin convención estricta, pero debe ser muy descriptivo. Ejemplo: <code>Catálogo Suzuki</code>.</td>
+</tr>
+<tr>
+<td><code>pivot_field_name</code></td>
+<td>Debe ser <strong>exacto</strong> a como viene la columna pivote en el archivo del catálogo (mismo criterio que <code>source_field</code> en <code>TemplateField</code>).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="suppliercatalogcolumn-y-suppliercatalogcolumnlayoutfield"><code>SupplierCatalogColumn</code> y <code>SupplierCatalogColumnLayoutField</code><a class="headerlink" href="#suppliercatalogcolumn-y-suppliercatalogcolumnlayoutfield" title="Permanent link">&para;</a></h3>
+<p>Sin convenciones adicionales a las ya documentadas en <a href="data-model.md#app-catalogs"><code>data-model.md</code></a> — <code>source_name</code> exacto al encabezado del archivo de catálogo, y el mapping a <code>LayoutField</code> se define una vez por cada layout que necesite ese dato.</p>
+<h3 id="suppliercatalogrow-datos-via-api"><code>SupplierCatalogRow</code> (datos) — vía API<a class="headerlink" href="#suppliercatalogrow-datos-via-api" title="Permanent link">&para;</a></h3>
+<p>A diferencia de todo lo anterior, la <strong>data</strong> del catálogo no se captura en el admin: se sube por archivo.</p>
+<h4 id="suppliercatalogrowviewset"><code>SupplierCatalogRowViewSet</code><a class="headerlink" href="#suppliercatalogrowviewset" title="Permanent link">&para;</a></h4>
+<p>CRUD estándar de DRF sobre filas individuales, más una acción de reemplazo masivo.</p>
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Método</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/catalog-rows/</code></td>
+<td><code>GET</code></td>
+<td>Lista filas. Filtrable por <code>?supplier_catalog=&lt;id&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>/catalog-rows/</code></td>
+<td><code>POST</code></td>
+<td>Crea una fila individual.</td>
+</tr>
+<tr>
+<td><code>/catalog-rows/{id}/</code></td>
+<td><code>GET</code> / <code>PUT</code> / <code>PATCH</code> / <code>DELETE</code></td>
+<td>CRUD de una fila puntual.</td>
+</tr>
+<tr>
+<td><code>/catalog-rows/upload/</code></td>
+<td><code>POST</code></td>
+<td><strong>Reemplazo completo</strong> de las filas de un catálogo desde un Excel.</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>upload</code> — request</strong> (<code>multipart/form-data</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>supplier_catalog</code></td>
+<td>PK del <code>SupplierCatalog</code> a reemplazar.</td>
+</tr>
+<tr>
+<td><code>file</code></td>
+<td>Excel cuyos encabezados deben incluir <code>pivot_field_name</code> <strong>y</strong> el <code>source_name</code> de cada <code>SupplierCatalogColumn</code> configurada para ese catálogo.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Validaciones, en orden:</strong></p>
+<ol>
+<li>El archivo debe poder leerse con <code>pandas.read_excel</code> → si falla, <code>400</code> con <code>code=VALIDATION_ERROR</code>.</li>
+<li>Se descartan filas completamente vacías (<code>dropna(how="all")</code>).</li>
+<li>Deben estar presentes todas las columnas esperadas (<code>pivot_field_name</code> + columnas configuradas) → si falta alguna, <code>400</code> listando cuáles.</li>
+<li>Se descartan filas con el valor pivote vacío.</li>
+<li>No puede haber valores de pivote duplicados dentro del archivo → si hay, <code>400</code> listando hasta 10 valores duplicados.</li>
+</ol>
+<p><strong>Comportamiento de escritura:</strong> dentro de una transacción atómica, se <strong>borran todas</strong> las <code>SupplierCatalogRow</code> existentes de ese catálogo y se insertan las nuevas con <code>bulk_create</code>. No es un upsert — es reemplazo total.</p>
+<p><strong>Response de éxito:</strong> <code>201 Created</code>, <code>{"created": &lt;n&gt;}</code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">El <code>upload</code> es destructivo</p>
+<p>Cada llamada a <code>upload</code> <strong>borra por completo</strong> las filas previas del catálogo antes de insertar las nuevas, incluso si el archivo nuevo trae menos filas que las que ya existían. Si el archivo a subir es un extracto parcial del catálogo (no el catálogo completo), esta acción va a eliminar las filas que no vengan en ese archivo.</p>
+</div>
+<h4 id="exceldeduplicateview"><code>ExcelDeduplicateView</code><a class="headerlink" href="#exceldeduplicateview" title="Permanent link">&para;</a></h4>
+<p>Utilidad para <strong>limpiar un archivo antes de subirlo</strong> — no toca la base de datos, solo procesa el archivo y lo devuelve.</p>
+<p><code>POST /catalog-rows/deduplicate-excel/</code> (<code>multipart/form-data</code>), mismo request que <code>upload</code>: <code>supplier_catalog</code> + <code>file</code>.</p>
+<p>Quita renglones vacíos y duplicados usando el <code>pivot_field_name</code> ya configurado en ese <code>SupplierCatalog</code> — el usuario no tiene que escribir/adivinar cuál es la columna pivote.</p>
+<table>
+<thead>
+<tr>
+<th>Caso</th>
+<th>Status</th>
+<th>Cuerpo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>El archivo no se puede leer</td>
+<td><code>400</code></td>
+<td><code>{"code": VALIDATION_ERROR, "detail": "No se pudo leer el archivo: ..."}</code></td>
+</tr>
+<tr>
+<td>El archivo no trae la columna pivote configurada</td>
+<td><code>400</code></td>
+<td><code>{"code": VALIDATION_ERROR, "detail": "...", }</code> con las columnas disponibles listadas</td>
+</tr>
+<tr>
+<td>Éxito</td>
+<td><code>200</code></td>
+<td>Archivo <code>.xlsx</code> (<code>archivo_sin_duplicados.xlsx</code>) como adjunto, con header <code>X-Duplicates-Removed: &lt;n&gt;</code> indicando cuántas filas duplicadas se quitaron.</td>
+</tr>
+</tbody>
+</table>
+<p>Al deduplicar conserva la <strong>primera</strong> ocurrencia de cada valor pivote (<code>drop_duplicates(subset=[pivot_col], keep="first")</code>).</p>
+<div class="admonition tip">
+<p class="admonition-title">Flujo recomendado para actualizar un catálogo</p>
+<ol>
+<li><code>POST /catalog-rows/deduplicate-excel/</code> con el archivo crudo del proveedor → descargar el archivo limpio.</li>
+<li>Revisar manualmente el header <code>X-Duplicates-Removed</code> para confirmar que la cantidad de duplicados removidos tiene sentido.</li>
+<li><code>POST /catalog-rows/upload/</code> con el archivo ya limpio, para reemplazar el catálogo.</li>
+</ol>
+</div>
+<hr />
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
