@@ -58,12 +58,22 @@ class TemplateField(BaseModel):
     worksheet = models.CharField(
         max_length=128, blank=True, help_text="XLSX only"
     )
+    header_occurrence = models.PositiveIntegerField(
+        default=1,
+        help_text="Si el encabezado se repite en el excel, indica qué ocurrencia "
+                "corresponde a este campo (1 = primera columna con ese nombre, "
+                "2 = segunda, etc.). Para encabezados únicos, deja 1.",
+    )
 
     class Meta:
         constraints = [
             models.UniqueConstraint(
                 fields=["template", "layout_field"],
                 name="unique_layout_field_per_template",
+            ),
+            models.UniqueConstraint(
+                fields=["template", "source_field", "header_occurrence"],
+                name="unique_source_field_occurrence_per_template",
             )
         ]
         ordering = ["template", "layout_field__sort_order"]
@@ -102,7 +112,7 @@ class TemplateFieldRule(BaseModel):
             models.UniqueConstraint(
                 fields=["template_field", "normalization_rule"],
                 name="unique_rule_per_template_field",
-            )
+            ),
         ]
         ordering = ["template_field", "sort_order"]
 
