@@ -15,6 +15,7 @@ django-cors-headers = "*"
 requests = "*"
 pandas = "*"
 openpyxl = "*"
+mkdocs-material = "*"
 
 [dev-packages]
 

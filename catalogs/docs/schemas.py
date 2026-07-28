@@ -44,7 +44,7 @@ SUPPLIER_CATALOG_ROW_SCHEMA = dict(
             }
         },
         400: lambda source: response_400(source),
-        401: RESPONSE_401,
+        
         404: RESPONSE_404,
     }
 )
@@ -107,7 +107,7 @@ SUPPLIER_CATALOG_ROW_CREATE_SCHEMA = dict(
             }
         },
         400: lambda source: response_400(source),
-        401: RESPONSE_401,
+        
         404: RESPONSE_404,
     }
 )
@@ -138,7 +138,7 @@ SUPPLIER_CATALOG_ROW_RETRIEVE_SCHEMA = dict(
                 }
             }
         },
-        401: RESPONSE_401,
+        
         404: RESPONSE_404,
     }
 )
@@ -194,7 +194,7 @@ SUPPLIER_CATALOG_ROW_UPDATE_SCHEMA = dict(
             }
         },
         400: lambda source: response_400(source),
-        401: RESPONSE_401,
+        
         404: RESPONSE_404,
     }
 )
@@ -246,7 +246,7 @@ SUPPLIER_CATALOG_ROW_PARTIAL_UPDATE_SCHEMA = dict(
             }
         },
         400: lambda source: response_400(source),
-        401: RESPONSE_401,
+        
         404: RESPONSE_404,
     }
 )
@@ -262,7 +262,7 @@ SUPPLIER_CATALOG_ROW_DELETE_SCHEMA = dict(
         204: {
             'description': 'Fila eliminada exitosamente (sin contenido)'
         },
-        401: RESPONSE_401,
+        
         404: RESPONSE_404,
     }
 )
@@ -339,7 +339,7 @@ SUPPLIER_CATALOG_ROW_UPLOAD_SCHEMA = dict(
                 }
             }
         },
-        401: RESPONSE_401,
+        
         404: RESPONSE_404,
     }
 )
@@ -436,7 +436,7 @@ EXCEL_DEDUPLICATE_SCHEMA = dict(
                 }
             }
         },
-        401: RESPONSE_401,
+        
         404: RESPONSE_404,
     }
 )

@@ -1,0 +1,41 @@
+site_name: Invoice Converter — Docs
+site_description: Sistema de extracción y normalización de facturas de proveedores
+
+theme:
+  name: material
+  language: es
+  palette:
+    scheme: slate
+    primary: indigo
+  features:
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - content.code.copy
+
+markdown_extensions:
+  - admonition        # para notas/warnings tipo !!! note
+  - pymdownx.superfences  # code blocks con mermaid, etc.
+  - pymdownx.tabbed
+  - toc:
+      permalink: true
+
+nav:
+  - Inicio: index.md
+  - Arquitectura:
+      - Visión general: architecture/overview.md
+      - Modelo de datos: architecture/data-model.md
+      - Flujo de extracción: architecture/extraction-flow.md
+  - Apps:
+      - catalogs: apps/catalogs.md
+      - layouts: apps/layouts.md
+      - templates: apps/templates.md
+      - extraction: apps/extraction.md
+  - Convenciones:
+      - Estilo de código: conventions/code-style.md
+      - API (errores, respuestas): conventions/api-conventions.md
+      - Soft delete: conventions/soft-delete.md
+  - Guías:
+      - Setup local: guides/add-setup.md
+      - Deploy (Railway): guides/deploy.md
