@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from core.mixins import SoftDeleteAdminMixin
 from core.utils.admin import BaseAdmin
 
 from .models import (
@@ -26,7 +27,7 @@ class SupplierCatalogColumnLayoutFieldInline(admin.TabularInline):
 
 
 @admin.register(SupplierCatalogColumnLayoutField)
-class SupplierCatalogColumnLayoutFieldAdmin(BaseAdmin):
+class SupplierCatalogColumnLayoutFieldAdmin(BaseAdmin, SoftDeleteAdminMixin):
     list_display = (
         "column",
         "layout_field",
@@ -53,7 +54,7 @@ class SupplierCatalogColumnLayoutFieldAdmin(BaseAdmin):
 # -------------------------
 
 @admin.register(Supplier)
-class SupplierAdmin(BaseAdmin):
+class SupplierAdmin(BaseAdmin, SoftDeleteAdminMixin):
     list_display = (
         "code",
         "name",
@@ -76,7 +77,7 @@ class SupplierAdmin(BaseAdmin):
 # -------------------------
 
 @admin.register(Currency)
-class CurrencyAdmin(BaseAdmin):
+class CurrencyAdmin(BaseAdmin, SoftDeleteAdminMixin):
     list_display = (
         "code",
         "country",
@@ -99,7 +100,7 @@ class CurrencyAdmin(BaseAdmin):
 # -------------------------
 
 @admin.register(Umc)
-class UmcAdmin(BaseAdmin):
+class UmcAdmin(BaseAdmin, SoftDeleteAdminMixin):
     list_display = (
         "code",
         "description",
@@ -131,7 +132,7 @@ class SupplierCatalogColumnInline(admin.TabularInline):
 
 
 @admin.register(SupplierCatalogColumn)
-class SupplierCatalogColumnAdmin(BaseAdmin):
+class SupplierCatalogColumnAdmin(BaseAdmin, SoftDeleteAdminMixin):
     list_display = (
         "supplier_catalog",
         "source_name",
@@ -161,7 +162,7 @@ class SupplierCatalogColumnAdmin(BaseAdmin):
 # -------------------------
 
 @admin.register(SupplierCatalog)
-class SupplierCatalogAdmin(BaseAdmin):
+class SupplierCatalogAdmin(BaseAdmin, SoftDeleteAdminMixin):
     list_display = (
         "supplier",
         "name",
@@ -200,7 +201,7 @@ class SupplierCatalogAdmin(BaseAdmin):
 # -------------------------
 
 @admin.register(SupplierCatalogRow)
-class SupplierCatalogRowAdmin(BaseAdmin):
+class SupplierCatalogRowAdmin(BaseAdmin, SoftDeleteAdminMixin):
     list_display = (
         "supplier_catalog",
         "pivot_value",
