@@ -19,6 +19,8 @@ from django.urls import path
 from django.urls import include, path
 from catalogs.urls import urlpatterns as catalogpatterns
 from extraction.urls import urlpatterns as extractionpatterns
+from templates.urls import urlpatterns as templatespatterns
+from layouts.urls import urlpatterns as layoutspatterns
 from drf_spectacular.views import (
     SpectacularAPIView,
     SpectacularSwaggerView,
@@ -30,8 +32,10 @@ api_v1_patterns = [
 ]
 
 api_v1_patterns = [
-    path('catalogs/', include(catalogpatterns)),
-    path('extractions/', include(extractionpatterns))
+    path('', include(catalogpatterns)),
+    path('extractions/', include(extractionpatterns)),
+    path('', include(templatespatterns)),
+    path('', include(layoutspatterns)),
 ]
 
 urlpatterns = [

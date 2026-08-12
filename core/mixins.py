@@ -455,3 +455,12 @@ class OwnerCheckMixin:
             return int(self.kwargs.get('pk')) == self.request.user.id
         except (ValueError, TypeError, AttributeError):
             return False
+
+
+class IntPkLookupMixin:
+    """Fuerza que el lookup (pk propio, y el _pk que hereda cualquier
+    router anidado sobre este viewset) sea numérico. Sin esto,
+    drf-nested-routers arma los kwargs con el regex genérico [^/.]+,
+    y drf-spectacular no puede tipar los path params como integer."""
+
+    lookup_value_regex = r"\d+"

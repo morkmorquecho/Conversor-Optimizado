@@ -24,7 +24,7 @@ import warnings
 #IGNORAR WARNINGS INNUTILES
 warnings.filterwarnings('ignore', module='dj_rest_auth.registration.serializers')
 
-DEBUG = config('DEBUG')
+DEBUG = config('DEBUG', cast=bool)
 
 #========================================== APPS INSTALADAS ==========================================
 INSTALLED_APPS = [
@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'drf_spectacular',
+    'corsheaders',
 
     #APPS DEL PROYECYO
     'templates',
@@ -233,7 +234,6 @@ USE_TZ = True
 
 #================================================ EXTRAS ======================================================
 SECRET_KEY = config('SECRET_KEY')
-DEBUG = config('DEBUG', cast=bool)
 WSGI_APPLICATION = 'config.wsgi.application'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
