@@ -17,12 +17,22 @@ services:
       timeout: 5s
       retries: 5
 
+  adminer:
+    image: adminer:latest
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+
   api:
     build:
       context: .
       dockerfile: Dockerfile
     restart: unless-stopped
-    env_file: .env
+    env_file:
+      - .env
     depends_on:
       db:
         condition: service_healthy

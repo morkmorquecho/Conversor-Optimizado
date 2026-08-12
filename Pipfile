@@ -11,11 +11,12 @@ python-decouple = "*"
 drf-spectacular = "*"
 psycopg = {extras = ["binary"], version = "*"}
 psycopg2-binary = "*"
-django-cors-headers = "*"
 requests = "*"
 pandas = "*"
 openpyxl = "*"
 mkdocs-material = "*"
+drf-nested-routers = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 
