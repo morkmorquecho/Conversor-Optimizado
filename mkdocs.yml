@@ -38,4 +38,3 @@ nav:
       - Soft delete: conventions/soft-delete.md
   - Guías:
       - Setup local: guides/add-setup.md
-      - Deploy (Railway): guides/deploy.md
