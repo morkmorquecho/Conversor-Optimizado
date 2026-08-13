@@ -1,6 +1,6 @@
 # Modelo de datos
 
-Este documento describe el modelo de datos del sistema de conversión de facturas (**Invoice Converter**). El sistema está dividido en cuatro apps de Django, cada una con una responsabilidad distinta:
+Este documento describe el modelo de datos del sistema de conversión de facturas (**Conversor Optimizado**). El sistema está dividido en cuatro apps de Django, cada una con una responsabilidad distinta:
 
 | App | Responsabilidad |
 |---|---|

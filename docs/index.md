@@ -1,4 +1,4 @@
-# Invoice Converter
+# Conversor Optimizado
 
 Sistema interno para automatizar la conversión de facturas de proveedores hacia formatos estructurados y definidos por la organización.
 
@@ -10,7 +10,7 @@ El objetivo principal del sistema es reemplazar el proceso manual utilizado ante
 
 El sistema legacy dependía de una lógica específica para cada archivo y utilizaba archivos Excel como parte del proceso de transformación. Los layouts se manejaban mediante archivos Excel vacíos que eran rellenados durante cada ejecución y posteriormente almacenados. De igual forma, los catálogos de información eran archivos Excel de gran tamaño que debían editarse y mantenerse manualmente.
 
-Invoice Converter busca reemplazar este flujo por un sistema centralizado, configurable y escalable que permita:
+Conversor Optimizado busca reemplazar este flujo por un sistema centralizado, configurable y escalable que permita:
 
 * Automatizar la conversión de facturas de proveedores al formato requerido por CASA.
 * Reducir la dependencia de archivos Excel utilizados como fuente de configuración y procesamiento.
