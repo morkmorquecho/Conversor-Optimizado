@@ -81,6 +81,9 @@ class LayoutFieldViewSet(IntPkLookupMixin, ViewSetSentryMixin, viewsets.ModelVie
     def perform_create(self, serializer):
         serializer.save(layout_id=self.kwargs["layout_pk"])
 
+    def perform_destroy(self, instance):
+        instance.hard_delete()
+
     @action(detail=False, methods=["post"])
     def reorder(self, request, layout_pk=None):
         """Actualiza sort_order en bloque para reordenar los campos del layout.
