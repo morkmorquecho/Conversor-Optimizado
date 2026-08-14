@@ -2,7 +2,7 @@
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-
+from django.db import transaction
 from core.api_response.error_codes import ErrorCodes
 from core.docs.schema_utils import auto_schema_view
 from core.mixins import IntPkLookupMixin, ViewSetSentryMixin
@@ -86,42 +86,32 @@ class LayoutFieldViewSet(IntPkLookupMixin, ViewSetSentryMixin, viewsets.ModelVie
 
     @action(detail=False, methods=["post"])
     def reorder(self, request, layout_pk=None):
-        """Actualiza sort_order en bloque para reordenar los campos del layout.
-
-        Body esperado: {"order": [field_id_1, field_id_2, ...]}, donde la
-        posición en la lista determina el nuevo sort_order (1-indexed).
-        """
         order = request.data.get("order")
         if not isinstance(order, list) or not order:
             return Response(
-                {
-                    "code": ErrorCodes.VALIDATION_ERROR,
-                    "detail": "Se requiere 'order' como lista de IDs de LayoutField.",
-                },
+                {"code": ErrorCodes.VALIDATION_ERROR,
+                "detail": "Se requiere 'order' como lista de IDs de LayoutField."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         fields_by_id = {
             f.id: f
-            for f in LayoutField.objects.filter(
-                layout_id=layout_pk, id__in=order, is_active=True
-            )
+            for f in LayoutField.objects.filter(layout_id=layout_pk, id__in=order, is_active=True)
         }
         if set(fields_by_id) != set(order):
             return Response(
-                {
-                    "code": ErrorCodes.VALIDATION_ERROR,
-                    "detail": "Algunos IDs no pertenecen a este layout o no existen.",
-                },
+                {"code": ErrorCodes.VALIDATION_ERROR,
+                "detail": "Algunos IDs no pertenecen a este layout o no existen."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        to_update = []
-        for sort_order, field_id in enumerate(order, start=1):
-            layout_field = fields_by_id[field_id]
-            layout_field.sort_order = sort_order
-            to_update.append(layout_field)
-        LayoutField.objects.bulk_update(to_update, ["sort_order"])
+        with transaction.atomic():
+            to_update = []
+            for sort_order, field_id in enumerate(order, start=1):
+                layout_field = fields_by_id[field_id]
+                layout_field.sort_order = sort_order
+                to_update.append(layout_field)
+            LayoutField.objects.bulk_update(to_update, ["sort_order"])
 
         return Response(LayoutFieldSerializer(to_update, many=True).data)
 

@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.constraints import Deferrable
 from core.models import BaseModel
 
 
@@ -33,6 +34,7 @@ class LayoutField(BaseModel):
             models.UniqueConstraint(
                 fields=["layout", "sort_order"],
                 name="unique_sort_order_per_layout",
+                deferrable=Deferrable.DEFERRED, 
             ),
         ]
         ordering = ["layout", "sort_order"]
