@@ -114,6 +114,10 @@ class TemplateFieldViewSet(IntPkLookupMixin,ViewSetSentryMixin, viewsets.ModelVi
         instance = serializer.save()
         self._full_clean(instance)
 
+    def perform_destroy(self, instance):
+        instance.hard_delete()
+
+
     @staticmethod
     def _full_clean(instance):
         try:
