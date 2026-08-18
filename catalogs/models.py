@@ -122,7 +122,7 @@ class SupplierCatalogRow(BaseModel):
         return f"{self.supplier_catalog} - {self.pivot_value}"
 
 
-class SupplierCatalogColumnLayoutField(models.Model):
+class SupplierCatalogColumnLayoutField(BaseModel):
     """Maps a catalog column to a layout_field, per layout.
  
     A catalog is reused across every layout that needs it (Casa Azul,
