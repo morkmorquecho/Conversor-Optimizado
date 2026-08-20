@@ -17,6 +17,7 @@ openpyxl = "*"
 mkdocs-material = "*"
 drf-nested-routers = "*"
 django-cors-headers = "*"
+lxml = "*"
 
 [dev-packages]
 
