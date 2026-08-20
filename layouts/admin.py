@@ -38,25 +38,25 @@ class LayoutAdmin(BaseAdmin):
 class LayoutFieldAdmin(BaseAdmin):
     list_display = (
         "layout",
-        "sort_order",
         "name",
-        "created_at",
+        "sort_order",
+        "system_field_key",
     )
-    list_filter = (
-        "layout",
-    )
+
     search_fields = (
         "name",
         "layout__code",
-        "layout__name",
     )
+
+    list_filter = (
+        "system_field_key",
+        "layout",
+    )
+
     autocomplete_fields = (
         "layout",
     )
-    ordering = (
-        "layout__code",
-        "sort_order",
-    )
+
     readonly_fields = (
         "created_at",
         "updated_at",

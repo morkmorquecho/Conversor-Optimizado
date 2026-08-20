@@ -630,3 +630,300 @@ SUPPLIER_CATALOG_ROW_DESTROY_SCHEMA = dict(
         },
     },
 )
+
+
+SUPPLIER_CATALOG_PIVOT_MAPPING_LIST_SCHEMA = dict(
+    tags=["catalog"],
+    summary="Listar mapeos de campos pivote",
+    description=(
+        "Obtiene los mapeos de campos pivote configurados para un catálogo "
+        "específico de un proveedor."
+    ),
+    responses={
+        200: {
+            "description": "Lista de mapeos de campos pivote",
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                },
+                                "template": {
+                                    "type": "integer",
+                                },
+                                "pivot_template_field": {
+                                    "type": "integer",
+                                },
+                            },
+                        },
+                    }
+                }
+            },
+        },
+        404: RESPONSE_404,
+    },
+)
+
+
+SUPPLIER_CATALOG_PIVOT_MAPPING_RETRIEVE_SCHEMA = dict(
+    tags=["catalog"],
+    summary="Obtener mapeo de campo pivote",
+    description=(
+        "Obtiene un mapeo de campo pivote específico por su ID dentro "
+        "del catálogo indicado."
+    ),
+    responses={
+        200: {
+            "description": "Detalle del mapeo de campo pivote",
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                            },
+                            "template": {
+                                "type": "integer",
+                            },
+                            "pivot_template_field": {
+                                "type": "integer",
+                            },
+                        },
+                    }
+                }
+            },
+        },
+        404: RESPONSE_404,
+    },
+)
+
+
+SUPPLIER_CATALOG_PIVOT_MAPPING_CREATE_SCHEMA = dict(
+    tags=["catalog"],
+    summary="Crear mapeo de campo pivote",
+    description=(
+        "Crea un mapeo entre un Template y un TemplateField que será "
+        "utilizado como campo pivote para el catálogo indicado.\n\n"
+        "El template seleccionado debe pertenecer al mismo proveedor "
+        "que el catálogo. Además, el pivot_template_field debe "
+        "pertenecer al template indicado."
+    ),
+    request={
+        "application/json": {
+            "type": "object",
+            "properties": {
+                "template": {
+                    "type": "integer",
+                    "description": "ID del template.",
+                },
+                "pivot_template_field": {
+                    "type": "integer",
+                    "description": "ID del campo del template utilizado como pivote.",
+                },
+            },
+            "required": [
+                "template",
+                "pivot_template_field",
+            ],
+        }
+    },
+    responses={
+        201: {
+            "description": "Mapeo de campo pivote creado",
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                            },
+                            "template": {
+                                "type": "integer",
+                            },
+                            "pivot_template_field": {
+                                "type": "integer",
+                            },
+                        },
+                    }
+                }
+            },
+        },
+        400: {
+            "description": "Datos de la solicitud inválidos",
+            "content": {
+                "application/json": {
+                    "examples": {
+                        "pivot_field_template_mismatch": {
+                            "summary": "Campo pivote de otro template",
+                            "value": {
+                                "pivot_template_field": [
+                                    "Debe pertenecer al template indicado."
+                                ]
+                            },
+                        }
+                    }
+                }
+            },
+        },
+        404: RESPONSE_404,
+    },
+)
+
+
+SUPPLIER_CATALOG_PIVOT_MAPPING_UPDATE_SCHEMA = dict(
+    tags=["catalog"],
+    summary="Actualizar mapeo de campo pivote",
+    description=(
+        "Actualiza completamente un mapeo de campo pivote existente.\n\n"
+        "El pivot_template_field debe pertenecer al template indicado."
+    ),
+    request={
+        "application/json": {
+            "type": "object",
+            "properties": {
+                "template": {
+                    "type": "integer",
+                    "description": "ID del template.",
+                },
+                "pivot_template_field": {
+                    "type": "integer",
+                    "description": "ID del campo del template utilizado como pivote.",
+                },
+            },
+            "required": [
+                "template",
+                "pivot_template_field",
+            ],
+        }
+    },
+    responses={
+        200: {
+            "description": "Mapeo de campo pivote actualizado",
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                            },
+                            "template": {
+                                "type": "integer",
+                            },
+                            "pivot_template_field": {
+                                "type": "integer",
+                            },
+                        },
+                    }
+                }
+            },
+        },
+        400: {
+            "description": "Datos de la solicitud inválidos",
+            "content": {
+                "application/json": {
+                    "examples": {
+                        "pivot_field_template_mismatch": {
+                            "summary": "Campo pivote de otro template",
+                            "value": {
+                                "pivot_template_field": [
+                                    "Debe pertenecer al template indicado."
+                                ]
+                            },
+                        }
+                    }
+                }
+            },
+        },
+        404: RESPONSE_404,
+    },
+)
+
+
+SUPPLIER_CATALOG_PIVOT_MAPPING_PARTIAL_UPDATE_SCHEMA = dict(
+    tags=["catalog"],
+    summary="Actualizar parcialmente mapeo de campo pivote",
+    description=(
+        "Actualiza parcialmente un mapeo de campo pivote existente. "
+        "Si se proporcionan ambos campos, el pivot_template_field debe "
+        "pertenecer al template indicado."
+    ),
+    request={
+        "application/json": {
+            "type": "object",
+            "properties": {
+                "template": {
+                    "type": "integer",
+                    "description": "ID del template.",
+                },
+                "pivot_template_field": {
+                    "type": "integer",
+                    "description": "ID del campo del template utilizado como pivote.",
+                },
+            },
+        }
+    },
+    responses={
+        200: {
+            "description": "Mapeo de campo pivote actualizado",
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                            },
+                            "template": {
+                                "type": "integer",
+                            },
+                            "pivot_template_field": {
+                                "type": "integer",
+                            },
+                        },
+                    }
+                }
+            },
+        },
+        400: {
+            "description": "Datos de la solicitud inválidos",
+            "content": {
+                "application/json": {
+                    "examples": {
+                        "pivot_field_template_mismatch": {
+                            "summary": "Campo pivote de otro template",
+                            "value": {
+                                "pivot_template_field": [
+                                    "Debe pertenecer al template indicado."
+                                ]
+                            },
+                        }
+                    }
+                }
+            },
+        },
+        404: RESPONSE_404,
+    },
+)
+
+
+SUPPLIER_CATALOG_PIVOT_MAPPING_DESTROY_SCHEMA = dict(
+    tags=["catalog"],
+    summary="Eliminar mapeo de campo pivote",
+    description=(
+        "Elimina permanentemente el mapeo de campo pivote indicado. "
+        "La eliminación utiliza hard delete."
+    ),
+    responses={
+        204: {
+            "description": "Mapeo de campo pivote eliminado correctamente.",
+        },
+        404: RESPONSE_404,
+    },
+)

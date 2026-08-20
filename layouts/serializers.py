@@ -6,7 +6,7 @@ from .models import Layout, LayoutField, NormalizationRule
 class LayoutFieldSerializer(serializers.ModelSerializer):
     class Meta:
         model = LayoutField
-        fields = ["id", "layout", "name", "sort_order"]
+        fields = ["id", "layout", "name", "sort_order", "system_field_key"]
         read_only_fields = ["id", "layout"]
 
 

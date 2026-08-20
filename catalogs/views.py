@@ -15,6 +15,12 @@ from catalogs.docs.schemas import (
     SUPPLIER_CATALOG_DESTROY_SCHEMA,
     SUPPLIER_CATALOG_LIST_SCHEMA,
     SUPPLIER_CATALOG_PARTIAL_UPDATE_SCHEMA,
+    SUPPLIER_CATALOG_PIVOT_MAPPING_CREATE_SCHEMA,
+    SUPPLIER_CATALOG_PIVOT_MAPPING_DESTROY_SCHEMA,
+    SUPPLIER_CATALOG_PIVOT_MAPPING_LIST_SCHEMA,
+    SUPPLIER_CATALOG_PIVOT_MAPPING_PARTIAL_UPDATE_SCHEMA,
+    SUPPLIER_CATALOG_PIVOT_MAPPING_RETRIEVE_SCHEMA,
+    SUPPLIER_CATALOG_PIVOT_MAPPING_UPDATE_SCHEMA,
     SUPPLIER_CATALOG_RETRIEVE_SCHEMA,
     SUPPLIER_CATALOG_ROW_CREATE_SCHEMA,
     SUPPLIER_CATALOG_ROW_DESTROY_SCHEMA,
@@ -29,12 +35,14 @@ from catalogs.docs.schemas import (
 from core.api_response.error_codes import ErrorCodes
 from core.docs.schema_utils import auto_schema, auto_schema_view
 from core.mixins import IntPkLookupMixin, ViewSetSentryMixin
+from templates.models import Template
 
-from .models import Supplier, SupplierCatalog, SupplierCatalogColumn, SupplierCatalogRow
+from .models import Supplier, SupplierCatalog, SupplierCatalogColumn, SupplierCatalogPivotMapping, SupplierCatalogRow
 from .serializers import (
     ExcelDeduplicateSerializer,
     SupplierCatalogDetailSerializer,
     SupplierCatalogFromExcelSerializer,
+    SupplierCatalogPivotMappingSerializer,
     SupplierCatalogRowSerializer,
     SupplierCatalogSerializer,
     SupplierCatalogUploadSerializer,
@@ -295,3 +303,33 @@ class ExcelDeduplicateView(APIView):
         response["X-Duplicates-Removed"] = str(removed)
         return response
 
+
+@auto_schema_view(
+    list=SUPPLIER_CATALOG_PIVOT_MAPPING_LIST_SCHEMA,
+    retrieve=SUPPLIER_CATALOG_PIVOT_MAPPING_RETRIEVE_SCHEMA,
+    create=SUPPLIER_CATALOG_PIVOT_MAPPING_CREATE_SCHEMA,
+    update=SUPPLIER_CATALOG_PIVOT_MAPPING_UPDATE_SCHEMA,
+    partial_update=SUPPLIER_CATALOG_PIVOT_MAPPING_PARTIAL_UPDATE_SCHEMA,
+    destroy=SUPPLIER_CATALOG_PIVOT_MAPPING_DESTROY_SCHEMA,
+)
+class SupplierCatalogPivotMappingViewSet(IntPkLookupMixin, ViewSetSentryMixin, viewsets.ModelViewSet):
+    serializer_class = SupplierCatalogPivotMappingSerializer
+
+    def get_catalog(self):
+        return SupplierCatalog.objects.get(
+            pk=self.kwargs["catalog_pk"], supplier_id=self.kwargs["supplier_pk"]
+        )
+
+    def get_queryset(self):
+        return SupplierCatalogPivotMapping.objects.filter(supplier_catalog_id=self.kwargs["catalog_pk"])
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx["catalog"] = self.get_catalog()
+        return ctx
+
+    def perform_create(self, serializer):
+        serializer.save(supplier_catalog=self.get_catalog())
+
+    def perform_destroy(self, instance):
+        instance.hard_delete()  # mismo criterio que LayoutField, evita fantasmas del unique_together

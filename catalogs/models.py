@@ -2,6 +2,7 @@ from django.db import models
 
 from core.models import BaseModel
 from layouts.models import LayoutField
+from django.core.exceptions import ValidationError
 
 #Se registran a todos los provedores, la idea es que un provedor pueda tener diferentes tipo de templates pero siempre relacionados a su provedor
 class Supplier(BaseModel):
@@ -165,4 +166,36 @@ class SupplierCatalogColumnLayoutField(BaseModel):
  
     def __str__(self):
         return f"{self.column} -> {self.layout_field}"
- 
+
+
+class SupplierCatalogPivotMapping(BaseModel):
+    """
+    Define, para una combinación específica de Template + SupplierCatalog,
+    cuál TemplateField (campo extraído de la factura) se usa para hacer
+    match contra el pivot_field_name del catálogo.
+    """
+    template = models.ForeignKey(
+        "templates.Template", on_delete=models.CASCADE, related_name="catalog_pivot_mappings"
+    )
+    supplier_catalog = models.ForeignKey(
+        SupplierCatalog, on_delete=models.CASCADE, related_name="pivot_mappings"
+    )
+    pivot_template_field = models.ForeignKey(
+        "templates.TemplateField", on_delete=models.PROTECT, related_name="+",
+        help_text="Campo extraído de la factura cuyo valor se usa para buscar "
+                    "la fila correspondiente en el catálogo.",
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["template", "supplier_catalog"],
+                name="unique_pivot_mapping_per_template_catalog",
+            )
+        ]
+
+    def clean(self):
+        if self.pivot_template_field.template_id != self.template_id:
+            raise ValidationError("pivot_template_field debe pertenecer al template indicado.")
+        if self.supplier_catalog.supplier_id != self.template.supplier_id:
+            raise ValidationError("El catálogo y el template deben pertenecer al mismo proveedor.")

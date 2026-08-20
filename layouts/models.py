@@ -20,11 +20,23 @@ class Layout(BaseModel):
 class LayoutField(BaseModel):
     """Destination field within a specific layout (supplier_code, invoice_date, etc.)."""
 
+    class SystemFieldKey(models.TextChoices):
+        NONE = "", "No es campo de sistema"
+        SUPPLIER_CODE = "supplier_code", "Código del proveedor"
+
     layout = models.ForeignKey(
         Layout, on_delete=models.CASCADE, related_name="fields"
     )
     name = models.CharField(max_length=64)
     sort_order = models.PositiveIntegerField()
+    system_field_key = models.CharField(          # ← campo nuevo
+        max_length=64,
+        choices=SystemFieldKey.choices,
+        blank=True,
+        default="",
+        help_text="Si se define, este campo se resuelve automáticamente por el "
+                  "sistema en vez de mapearse desde un TemplateField.",
+    )
 
     class Meta:
         constraints = [
@@ -34,7 +46,7 @@ class LayoutField(BaseModel):
             models.UniqueConstraint(
                 fields=["layout", "sort_order"],
                 name="unique_sort_order_per_layout",
-                deferrable=Deferrable.DEFERRED, 
+                deferrable=Deferrable.DEFERRED,
             ),
         ]
         ordering = ["layout", "sort_order"]

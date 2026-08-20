@@ -6,6 +6,7 @@ from core.utils.admin import BaseAdmin
 from .models import (
     Supplier,
     Currency,
+    SupplierCatalogPivotMapping,
     Umc,
     SupplierCatalog,
     SupplierCatalogColumn,
@@ -227,4 +228,30 @@ class SupplierCatalogRowAdmin(BaseAdmin, SoftDeleteAdminMixin):
     ordering = (
         "supplier_catalog",
         "pivot_value",
+    )
+
+
+@admin.register(SupplierCatalogPivotMapping)
+class SupplierCatalogPivotMappingAdmin(BaseAdmin):
+    list_display = (
+        "template",
+        "supplier_catalog",
+        "pivot_template_field",
+    )
+
+    list_filter = (
+        "template",
+        "supplier_catalog",
+    )
+
+    search_fields = (
+        "template__name",
+        "supplier_catalog__name",
+        "pivot_template_field__name",
+    )
+
+    autocomplete_fields = (
+        "template",
+        "supplier_catalog",
+        "pivot_template_field",
     )

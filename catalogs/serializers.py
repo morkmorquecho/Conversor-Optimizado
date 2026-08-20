@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 from templates.models import Template
 
-from .models import Supplier, SupplierCatalog, SupplierCatalogColumn, SupplierCatalogRow
+from .models import Supplier, SupplierCatalog, SupplierCatalogColumn, SupplierCatalogPivotMapping, SupplierCatalogRow
 
 
 class SupplierCatalogRowSerializer(serializers.ModelSerializer):
@@ -134,4 +134,26 @@ class SupplierCatalogFromExcelSerializer(serializers.Serializer):
         attrs["dataframe"] = df  # se pasa ya validado, sin releer el archivo en la view
         return attrs
 
-    
+
+class SupplierCatalogPivotMappingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SupplierCatalogPivotMapping
+        fields = ["id", "template", "pivot_template_field"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        catalog = self.context.get("catalog")
+        if catalog:
+            # Acota template a los del mismo proveedor del catálogo
+            self.fields["template"].queryset = Template.objects.filter(
+                supplier_id=catalog.supplier_id
+            )
+
+    def validate(self, attrs):
+        template = attrs["template"]
+        pivot_field = attrs["pivot_template_field"]
+        if pivot_field.template_id != template.id:
+            raise serializers.ValidationError(
+                {"pivot_template_field": "Debe pertenecer al template indicado."}
+            )
+        return attrs

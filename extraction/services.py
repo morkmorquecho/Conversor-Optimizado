@@ -23,17 +23,13 @@ from typing import Optional
 import openpyxl
 from django.apps import apps
 from django.utils import timezone
-from catalogs.models import SupplierCatalog, SupplierCatalogColumnLayoutField
+from catalogs.models import SupplierCatalog, SupplierCatalogColumnLayoutField, SupplierCatalogPivotMapping
 from extraction.models import ExtractionBatch, ExtractionError as ExtractionErrorModel, ExtractionJob, ExtractionResult
 from layouts.models import LayoutField, NormalizationRule
 from templates.models import Template, TemplateField
-
+from layouts.system_fields import SYSTEM_FIELD_REGISTRY
 class ExtractionProcessingError(Exception):
     """Error de configuración o de datos que impide continuar el proceso."""
-
-SYSTEM_FIELD_HANDLERS = {
-    "CLAVE DEL PROVEEDOR": lambda job, row_data: (job.extraction_batch.supplier.code),
-}
 
 def _stringify_cell(value) -> str:
     """Convierte un valor de una celda Excel a string."""
@@ -135,18 +131,21 @@ class InvoiceXlsxExtractionService:
             raise ExtractionProcessingError("El template no tiene campos configurados para extracción por encabezado.")
         self.layout_fields = list(self.layout.fields.order_by("sort_order"))
         self._catalog_mappings = []
+        self._pivot_mapping = None
         if self.supplier_catalog is not None:
             self._catalog_mappings = self._resolve_catalog_mappings()
+            self._pivot_mapping = (
+                SupplierCatalogPivotMapping.objects
+                .filter(template=self.template, supplier_catalog=self.supplier_catalog)
+                .select_related("pivot_template_field__layout_field")
+                .first()
+            )
 
     def _resolve_catalog_mappings(self):
         """
-        Obtiene únicamente las columnas del catálogo que están configuradas para ser extraídas hacia el Layout.
-        El pivot_field_name NO se valida aquí.
-        El pivote:
-            - No necesita ser SupplierCatalogColumn.
-            - No se extrae del catálogo.
-            - Solo sirve como referencia para encontrar la fila.
-        Los mappings representan exclusivamente los datos que queremos extraer del catálogo.
+        Obtiene únicamente las columnas del catálogo configuradas para
+        extraerse hacia el Layout. El pivote se resuelve por separado,
+        vía SupplierCatalogPivotMapping (ver __init__).
         """
         return list(
             SupplierCatalogColumnLayoutField.objects.filter(
@@ -287,19 +286,19 @@ class InvoiceXlsxExtractionService:
             - NO se extrae el campo pivote.
             - Solo se extraen las columnas configuradas mediante SupplierCatalogColumnLayoutField.
         """
-        pivot_mapping = next(
-            (mapping for mapping in self._catalog_mappings if mapping.column.source_name == self.supplier_catalog.pivot_field_name),
-            None,
-        )
-        if pivot_mapping is None:
+        if self._pivot_mapping is None:
             ExtractionErrorModel.objects.create(
                 extraction_job=job,
-                message=f"No se encontró un LayoutField asociado al campo pivote '{self.supplier_catalog.pivot_field_name}'.",
+                message=(
+                    f"No hay configuración de pivote para el template "
+                    f"'{self.template.name}' y catálogo '{self.supplier_catalog.name}'."
+                ),
             )
             return False
+        pivot_layout_field = self._pivot_mapping.pivot_template_field.layout_field
         pivot_result = ExtractionResult.objects.filter(
             extraction_job=job,
-            layout_field=pivot_mapping.layout_field,
+            layout_field=pivot_layout_field,
         ).first()
         pivot_value = ""
         if pivot_result:
@@ -307,7 +306,7 @@ class InvoiceXlsxExtractionService:
         if not pivot_value:
             ExtractionErrorModel.objects.create(
                 extraction_job=job,
-                layout_field=pivot_mapping.layout_field,
+                layout_field=pivot_layout_field.layout_field,
                 message="No se pudo obtener el valor pivote desde el Excel para consultar el catálogo.",
             )
             return False
@@ -315,13 +314,11 @@ class InvoiceXlsxExtractionService:
         if catalog_row is None:
             ExtractionErrorModel.objects.create(
                 extraction_job=job,
-                layout_field=pivot_mapping.layout_field,
+                layout_field=pivot_layout_field.layout_field,
                 message=f"No se encontró una fila en el catálogo '{self.supplier_catalog.name}' para el valor pivote '{pivot_value}'.",
             )
             return False
         for mapping in self._catalog_mappings:
-            if mapping.column.source_name == self.supplier_catalog.pivot_field_name:
-                continue
             value = _stringify_cell(catalog_row.data.get(mapping.column.source_name))
             ExtractionResult.objects.update_or_create(
                 extraction_job=job,
@@ -333,7 +330,9 @@ class InvoiceXlsxExtractionService:
     def _fill_system_fields(self, job: ExtractionJob, raw_values_by_tf_id: dict):
         """Resuelve campos calculados por el sistema."""
         for layout_field in self.layout_fields:
-            handler = SYSTEM_FIELD_HANDLERS.get(layout_field.name)
+            if not layout_field.system_field_key:
+                continue
+            handler = SYSTEM_FIELD_REGISTRY.get(layout_field.system_field_key)
             if handler is None:
                 continue
             value = _stringify_cell(handler(job, raw_values_by_tf_id))

@@ -5,6 +5,7 @@ from rest_framework_nested.routers import NestedDefaultRouter
 
 from catalogs.views import (
     ExcelDeduplicateView,
+    SupplierCatalogPivotMappingViewSet,
     SupplierCatalogRowViewSet,
     SupplierCatalogViewSet,
     SupplierViewSet,
@@ -26,10 +27,16 @@ rows_router.register(
     "rows", SupplierCatalogRowViewSet, basename="catalog-row"
 )
 
+pivot_mappings_router = NestedDefaultRouter(catalogs_router, "catalogs", lookup="catalog")
+pivot_mappings_router.register(
+    "pivot-mappings", SupplierCatalogPivotMappingViewSet, basename="catalog-pivot-mapping"
+)
+
 urlpatterns = (
     router.urls
     + catalogs_router.urls
     + rows_router.urls
+    + pivot_mappings_router.urls
     + [
         path(
             "catalogs/deduplicate/",
