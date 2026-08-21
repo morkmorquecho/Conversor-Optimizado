@@ -61,16 +61,23 @@ def clark_path_to_xpath(path: str) -> tuple[str, dict]:
     return head + "/".join(out), namespaces
 
 
-def resolve_xpath_value(xml_root, path: str) -> Optional[str]:
-    """Devuelve el primer match como string, o None si no hay coincidencias."""
+def resolve_xpath_values(xml_root, path: str) -> list[str]:
+    """Devuelve todas las coincidencias del XPath convertidas a texto."""
     xpath_expr, namespaces = clark_path_to_xpath(path)
     try:
         result = xml_root.xpath(xpath_expr, namespaces=namespaces)
     except etree.XPathEvalError as exc:
         raise ValueError(f"XPath inválido para '{path}' -> '{xpath_expr}': {exc}") from exc
-    if not result:
-        return None
-    value = result[0]
-    if isinstance(value, etree._Element):
-        return (value.text or "").strip()
-    return str(value).strip()
+    values = []
+    for value in result:
+        if isinstance(value, etree._Element):
+            values.append((value.text or "").strip())
+        else:
+            values.append(str(value).strip())
+    return values
+
+
+def resolve_xpath_value(xml_root, path: str) -> Optional[str]:
+    """Devuelve el primer match como string, o None si no hay coincidencias."""
+    values = resolve_xpath_values(xml_root, path)
+    return values[0] if values else None
