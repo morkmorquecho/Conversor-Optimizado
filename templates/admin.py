@@ -5,7 +5,6 @@ from .models import (
     Template,
     TemplateField,
     TemplateFieldRule,
-    PdfExtractionConfig,
 )
 
 
@@ -134,36 +133,3 @@ class TemplateFieldRuleAdmin(BaseAdmin):
         "sort_order",
     )
 
-
-@admin.register(PdfExtractionConfig)
-class PdfExtractionConfigAdmin(BaseAdmin):
-    list_display = (
-        "supplier",
-        "layout",
-        "is_active",
-        "created_at",
-    )
-    list_filter = (
-        "supplier",
-        "layout",
-        "is_active",
-    )
-    search_fields = (
-        "supplier__code",
-        "supplier__name",
-        "layout__code",
-        "layout__name",
-    )
-    autocomplete_fields = (
-        "supplier",
-        "layout",
-    )
-    readonly_fields = (
-        "created_at",
-        "updated_at",
-    )
-    ordering = (
-        "supplier__code",
-        "-created_at",
-    )
-    list_per_page = 100

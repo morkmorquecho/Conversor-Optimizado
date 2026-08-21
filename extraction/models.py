@@ -4,7 +4,7 @@ from django.db import models
 from catalogs.models import Supplier, SupplierCatalog
 from core.models import BaseModel
 from layouts.models import LayoutField
-from templates.models import PdfExtractionConfig, Template
+from templates.models import Template
 
 class ExtractionBatch(BaseModel):
     """
@@ -49,13 +49,7 @@ class ExtractionBatch(BaseModel):
         null=True,
         blank=True,
     )
-    pdf_extraction_config = models.ForeignKey(
-        PdfExtractionConfig,
-        on_delete=models.PROTECT,
-        related_name="extraction_batches",
-        null=True,
-        blank=True,
-    )
+
     supplier_catalog = models.ForeignKey(
         SupplierCatalog,
         on_delete=models.PROTECT,

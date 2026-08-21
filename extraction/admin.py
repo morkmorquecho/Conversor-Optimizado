@@ -76,7 +76,6 @@ class ExtractionBatchAdmin(BaseAdmin):
     autocomplete_fields = (
         "supplier",
         "template",
-        "pdf_extraction_config",
         "supplier_catalog",
     )
 
