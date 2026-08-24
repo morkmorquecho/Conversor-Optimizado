@@ -1,6 +1,10 @@
 from django.urls import path
 
-from .views import ProcessInvoiceXlsxView, ProcessInvoiceXmlView
+from .views import (
+    ProcessInvoicePdfView,
+    ProcessInvoiceXlsxView,
+    ProcessInvoiceXmlView,
+)
 
 urlpatterns = [
     path(
@@ -9,4 +13,5 @@ urlpatterns = [
         name="process-invoice-xlsx",
     ),
     path("process-xml/", ProcessInvoiceXmlView.as_view(), name="process-invoice-xml"),
+    path("process-pdf/", ProcessInvoicePdfView.as_view(), name="process-invoice-pdf"),
 ]

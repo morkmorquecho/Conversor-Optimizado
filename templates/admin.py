@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from core.utils.admin import BaseAdmin
 
 from .models import (
@@ -11,12 +12,18 @@ from .models import (
 class TemplateFieldInline(admin.TabularInline):
     model = TemplateField
     extra = 0
-    autocomplete_fields = ("layout_field",)
     fields = (
         "layout_field",
-        "source_field",
         "extraction_type",
+        "source_field",
         "worksheet",
+        "header_occurrence",
+        "scope",
+        "anchor_text",
+        "anchor_position",
+        "block_start_anchor",
+        "block_end_anchor",
+        "expected_data_type",
     )
 
 
@@ -27,82 +34,56 @@ class TemplateAdmin(BaseAdmin):
         "supplier",
         "layout",
         "document_type",
-        "is_active",
-        "created_at",
+        "pdf_extraction_mode",
     )
     list_filter = (
+        "document_type",
+        "pdf_extraction_mode",
         "supplier",
         "layout",
-        "document_type",
-        "is_active",
     )
     search_fields = (
         "name",
-        "supplier__code",
         "supplier__name",
-        "layout__code",
+        "supplier__code",
         "layout__name",
+        "layout__code",
     )
-    autocomplete_fields = (
+    list_select_related = (
         "supplier",
         "layout",
     )
-    readonly_fields = (
-        "created_at",
-        "updated_at",
-    )
-    ordering = (
-        "supplier__code",
-        "layout__code",
-        "name",
-    )
-    list_per_page = 100
     inlines = (TemplateFieldInline,)
-
-
-class TemplateFieldRuleInline(admin.TabularInline):
-    model = TemplateFieldRule
-    extra = 0
-    autocomplete_fields = ("normalization_rule",)
-    fields = (
-        "sort_order",
-        "normalization_rule",
-    )
-    ordering = ("sort_order",)
 
 
 @admin.register(TemplateField)
 class TemplateFieldAdmin(BaseAdmin):
     list_display = (
-        "template",
         "layout_field",
-        "source_field",
+        "template",
         "extraction_type",
-        "worksheet",
+        "scope",
+        "source_field",
+        "expected_data_type",
     )
     list_filter = (
         "extraction_type",
-        "template__supplier",
+        "scope",
+        "expected_data_type",
+        "template__document_type",
     )
     search_fields = (
         "source_field",
-        "layout_field__name",
+        "anchor_text",
+        "block_start_anchor",
+        "block_end_anchor",
         "template__name",
-        "template__supplier__code",
+        "layout_field__name",
     )
-    autocomplete_fields = (
+    list_select_related = (
         "template",
         "layout_field",
     )
-    readonly_fields = (
-        "created_at",
-        "updated_at",
-    )
-    ordering = (
-        "template",
-        "layout_field__sort_order",
-    )
-    inlines = (TemplateFieldRuleInline,)
 
 
 @admin.register(TemplateFieldRule)
@@ -113,23 +94,16 @@ class TemplateFieldRuleAdmin(BaseAdmin):
         "sort_order",
     )
     list_filter = (
-        "normalization_rule__rule_type",
+        "normalization_rule",
+        "template_field__template",
     )
     search_fields = (
+        "template_field__source_field",
+        "template_field__anchor_text",
         "template_field__template__name",
-        "template_field__layout_field__name",
         "normalization_rule__name",
     )
-    autocomplete_fields = (
+    list_select_related = (
         "template_field",
         "normalization_rule",
     )
-    readonly_fields = (
-        "created_at",
-        "updated_at",
-    )
-    ordering = (
-        "template_field",
-        "sort_order",
-    )
-

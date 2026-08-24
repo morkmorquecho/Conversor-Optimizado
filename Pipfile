@@ -18,6 +18,8 @@ mkdocs-material = "*"
 drf-nested-routers = "*"
 django-cors-headers = "*"
 lxml = "*"
+google-genai = "*"
+pdfplumber = "*"
 
 [dev-packages]
 
