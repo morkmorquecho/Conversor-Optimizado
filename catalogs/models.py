@@ -19,7 +19,7 @@ class Supplier(BaseModel):
 
 #Catalogo de formato de monedas de casa
 class Currency(BaseModel):
-    code = models.CharField(max_length=8, unique=True)
+    code = models.CharField(max_length=8)
     country = models.CharField(max_length=64)
 
     class Meta:

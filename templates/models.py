@@ -6,6 +6,9 @@ from layouts.models import Layout, LayoutField, NormalizationRule
 from core.models import BaseModel
 
 
+from django.utils.text import slugify
+
+
 class Template(BaseModel):
     """Supplier template for XML/XLSX/PDF extraction, mapping into a target Layout."""
 
@@ -24,7 +27,7 @@ class Template(BaseModel):
     layout = models.ForeignKey(
         Layout, on_delete=models.PROTECT, related_name="templates"
     )
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, blank=True, editable=False)
     document_type = models.CharField(max_length=8, choices=DocumentType.choices)
 
     # --- PDF only ---
@@ -58,6 +61,18 @@ class Template(BaseModel):
         ]
         ordering = ["supplier", "layout", "name"]
 
+    def _build_name(self):
+        raw = "_".join([
+            self.supplier.code,
+            self.layout.code,
+            self.document_type,
+        ])
+        return slugify(raw, allow_unicode=False).replace("-", "_")
+
+    def save(self, *args, **kwargs):
+        self.name = self._build_name()
+        super().save(*args, **kwargs)
+
     def clean(self):
         from django.core.exceptions import ValidationError
 
@@ -75,9 +90,6 @@ class Template(BaseModel):
                     "line_pattern_hint solo aplica cuando document_type='pdf'."
                 )
 
-        # Si hay campos line_item, forzamos text_and_tables (mejor esfuerzo:
-        # si pdfplumber no detecta tabla real, el pipeline degrada a texto
-        # usando block_start_anchor/block_end_anchor/line_pattern_hint).
         if self.pk and self.document_type == self.DocumentType.PDF:
             has_line_items = self.fields.filter(
                 scope=TemplateField.Scope.LINE_ITEM
@@ -90,8 +102,6 @@ class Template(BaseModel):
 
     def __str__(self):
         return f"{self.supplier.code} -> {self.layout.code} ({self.document_type})"
-
-
 class TemplateField(BaseModel):
     """Defines which source field is extracted and mapped to a layout field."""
 
