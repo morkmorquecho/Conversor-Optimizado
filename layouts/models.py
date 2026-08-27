@@ -62,7 +62,8 @@ class NormalizationRule(BaseModel):
         REGEX_REPLACE = "regex_replace", "Regex replace"
         TRIM = "trim", "Trim"
         UPPERCASE = "uppercase", "Uppercase"
-
+        SPANISH_DATE = "spanish_date", "Fecha en español (ej. 22 de julio de 2026)"
+        
     name = models.CharField(
         max_length=128,
         unique=True,

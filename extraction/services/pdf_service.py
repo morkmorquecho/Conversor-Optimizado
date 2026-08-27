@@ -5,8 +5,10 @@ from dataclasses import dataclass
 from typing import Any
 
 import pdfplumber
+import pytesseract
 from decouple import config
 from google import genai
+from PIL import Image, ImageFilter, ImageOps
 
 from extraction.extraction_prompts import SYSTEM_PROMPT, build_json_schema, build_user_prompt
 from extraction.models import ExtractionBatch
@@ -15,7 +17,8 @@ from templates.models import Template, TemplateField
 
 
 GEMINI_MODEL = "gemini-3.5-flash"
-# GEMINI_MODEL = "gemini-3.1-flash-lite"
+OCR_RASTER_RESOLUTION = 350
+OCR_LANGUAGE = "spa"
 
 
 @dataclass(frozen=True)
@@ -55,6 +58,13 @@ class InvoicePdfExtractionService(BaseInvoiceExtractionService):
             with pdfplumber.open(uploaded_file) as pdf:
                 text_by_page = [page.extract_text() or "" for page in pdf.pages]
                 tables = self._extract_tables(pdf)
+                has_text = any(text.strip() for text in text_by_page)
+
+                if not has_text:
+                    # PDF escaneado / basado en imagen: no hay texto extraíble
+                    # directamente, se usa OCR local con Tesseract (sin costo
+                    # de API, corre dentro del contenedor).
+                    text_by_page = self._ocr_pages(pdf)
         except Exception as exc:
             raise ExtractionProcessingError(
                 "No se pudo leer el archivo como un PDF con texto extraíble."
@@ -66,9 +76,10 @@ class InvoicePdfExtractionService(BaseInvoiceExtractionService):
             f"--- PÁGINA {page_number} ---\n{text}"
             for page_number, text in enumerate(text_by_page, start=1)
         ).strip()
-        if not extracted_text:
+
+        if not any(text.strip() for text in text_by_page):
             raise ExtractionProcessingError(
-                "El PDF no contiene texto extraíble; se requiere OCR para procesarlo."
+                "No se pudo extraer texto del PDF, ni directamente ni vía OCR."
             )
 
         return PdfLlmPayload(
@@ -93,6 +104,32 @@ class InvoicePdfExtractionService(BaseInvoiceExtractionService):
         return tables
 
     @staticmethod
+    def _preprocess_for_ocr(image: Image.Image) -> Image.Image:
+        """Mejora el contraste/nitidez antes de pasar la imagen a Tesseract."""
+        gray = ImageOps.grayscale(image)
+        # Aumenta contraste automáticamente
+        gray = ImageOps.autocontrast(gray, cutoff=1)
+        # Binariza: blanco/negro puro, ayuda mucho con texto escaneado
+        threshold = 150
+        binary = gray.point(lambda p: 255 if p > threshold else 0)
+        # Nitidez leve
+        binary = binary.filter(ImageFilter.SHARPEN)
+        return binary
+
+    @staticmethod
+    def _ocr_pages(pdf, resolution: int = OCR_RASTER_RESOLUTION) -> list[str]:
+        """Rasteriza cada página, la preprocesa, y le aplica OCR local con
+        Tesseract. No hace ninguna llamada a la API de Gemini ni consume
+        tokens."""
+        texts: list[str] = []
+        for page in pdf.pages:
+            page_image = page.to_image(resolution=resolution)
+            processed = InvoicePdfExtractionService._preprocess_for_ocr(page_image.original)
+            text = pytesseract.image_to_string(processed, lang=OCR_LANGUAGE)
+            texts.append(text or "")
+        return texts
+
+    @staticmethod
     def _rewind(uploaded_file) -> None:
         if hasattr(uploaded_file, "seek"):
             uploaded_file.seek(0)
@@ -106,53 +143,29 @@ class InvoicePdfExtractionService(BaseInvoiceExtractionService):
             )
         return api_key
 
-    # def _extract_with_gemini(self, payload: PdfLlmPayload) -> dict[str, Any]:
-    #     try:
-    #         client = genai.Client(api_key=self._gemini_api_key())
-            
-    #         # PRUEBA SIN SCHEMA
-    #         response = client.models.generate_content(
-    #             model=GEMINI_MODEL,
-    #             contents=payload.user_prompt,
-    #             config={
-    #                 "system_instruction": payload.system_prompt,
-    #                 "response_mime_type": "application/json",
-    #                 # "response_json_schema": payload.json_schema,  # COMENTADO
-    #             },
-    #         )
-            
-    #         print(f"RESPUESTA: {response.text[:500]}")  # LOG
-    #         return json.loads(response.text)
-            
-    #     except Exception as exc:
-    #         print(f"ERROR: {exc}")  # LOG
-    #         raise ExtractionProcessingError(
-    #             f"No fue posible obtener la extracción estructurada desde Gemini: {str(exc)}"
-    #         ) from exc
-
     def _extract_with_gemini(self, payload: PdfLlmPayload) -> dict[str, Any]:
-            try:
-                client = genai.Client(api_key=self._gemini_api_key())
-                response = client.models.generate_content(
-                    model=GEMINI_MODEL,
-                    contents=payload.user_prompt,
-                    config={
-                        "system_instruction": payload.system_prompt,
-                        "response_mime_type": "application/json",
-                        "response_json_schema": payload.json_schema,
-                    },
-                )
-                return json.loads(response.text)
-            except ExtractionProcessingError:
-                raise
-            except (TypeError, ValueError, json.JSONDecodeError) as exc:
-                raise ExtractionProcessingError(
-                    "Gemini no devolvió una respuesta JSON válida para el template."
-                ) from exc
-            except Exception as exc:
-                raise ExtractionProcessingError(
-                    "No fue posible obtener la extracción estructurada desde Gemini."
-                ) from exc
+        try:
+            client = genai.Client(api_key=self._gemini_api_key())
+            response = client.models.generate_content(
+                model=GEMINI_MODEL,
+                contents=payload.user_prompt,
+                config={
+                    "system_instruction": payload.system_prompt,
+                    "response_mime_type": "application/json",
+                    "response_json_schema": payload.json_schema,
+                },
+            )
+            return json.loads(response.text)
+        except ExtractionProcessingError:
+            raise
+        except (TypeError, ValueError, json.JSONDecodeError) as exc:
+            raise ExtractionProcessingError(
+                "Gemini no devolvió una respuesta JSON válida para el template."
+            ) from exc
+        except Exception as exc:
+            raise ExtractionProcessingError(
+                "No fue posible obtener la extracción estructurada desde Gemini."
+            ) from exc
 
     def _build_source_units(self, llm_result: dict[str, Any]):
         if not isinstance(llm_result, dict):

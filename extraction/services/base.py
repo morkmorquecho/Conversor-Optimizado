@@ -28,6 +28,34 @@ def _stringify_cell(value) -> str:
     return str(value).strip()
 
 
+# --- Soporte para fechas en español (no depende del locale del sistema) ---
+
+_SPANISH_MONTHS = {
+    "enero": 1, "febrero": 2, "marzo": 3, "abril": 4,
+    "mayo": 5, "junio": 6, "julio": 7, "agosto": 8,
+    "septiembre": 9, "setiembre": 9, "octubre": 10,
+    "noviembre": 11, "diciembre": 12,
+}
+
+_SPANISH_DATE_RE = re.compile(
+    r"(?P<day>\d{1,2})\s+de\s+(?P<month>[a-záéíóúñ]+)\s+de\s+(?P<year>\d{4})",
+    re.IGNORECASE,
+)
+
+
+def _parse_spanish_date(value: str) -> Optional[datetime]:
+    match = _SPANISH_DATE_RE.search(value.strip().lower())
+    if not match:
+        return None
+    month_number = _SPANISH_MONTHS.get(match.group("month"))
+    if month_number is None:
+        return None
+    try:
+        return datetime(int(match.group("year")), month_number, int(match.group("day")))
+    except ValueError:
+        return None
+
+
 def apply_normalization_rule(rule: NormalizationRule, value: str) -> str:
     if value in (None, ""):
         return value
@@ -41,13 +69,28 @@ def apply_normalization_rule(rule: NormalizationRule, value: str) -> str:
         replacement = config.get("replacement", "")
         return re.sub(pattern, replacement, value) if pattern else value
     if rule.rule_type == NormalizationRule.RuleType.DATE_FORMAT:
-        input_format = config.get("input_format")
         output_format = config.get("output_format")
-        if not input_format or not output_format:
+        if not output_format:
             return value
-        try:
-            parsed = datetime.strptime(value.strip(), input_format)
-        except ValueError:
+        # Soporta una lista de formatos candidatos (input_formats) y, por
+        # compatibilidad con reglas ya guardadas, el formato singular viejo
+        # (input_format). Se intentan en orden hasta que uno funcione.
+        input_formats = config.get("input_formats") or (
+            [config["input_format"]] if config.get("input_format") else []
+        )
+        for input_format in input_formats:
+            try:
+                parsed = datetime.strptime(value.strip(), input_format)
+            except ValueError:
+                continue
+            return parsed.strftime(output_format)
+        return value
+    if rule.rule_type == NormalizationRule.RuleType.SPANISH_DATE:
+        output_format = config.get("output_format")
+        if not output_format:
+            return value
+        parsed = _parse_spanish_date(value)
+        if parsed is None:
             return value
         return parsed.strftime(output_format)
     if rule.rule_type == NormalizationRule.RuleType.VALUE_MAP:
