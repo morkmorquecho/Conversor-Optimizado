@@ -1,7 +1,6 @@
 from drf_spectacular.utils import extend_schema, OpenApiResponse, OpenApiParameter, OpenApiExample
 from catalogs.serializers import SupplierCatalogDetailSerializer, SupplierCatalogRowSerializer, SupplierCatalogSerializer, SupplierSerializer
 from core.responses.messages import AuthMessages, UserMessages
-from core.responses.schemas import UserResponses
 from core.docs.response import RESPONSE_400_OAUTH, RESPONSE_401, RESPONSE_404, RESPONSE_409, response_400, response_429
 
 SUPPLIER_CATALOG_ROW_SCHEMA = dict(
