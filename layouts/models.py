@@ -1,17 +1,18 @@
 from django.db import models
 from django.db.models.constraints import Deferrable
 from core.models import BaseModel
-
+from core.utils.model_utils import active_unique_constraint
 
 class Layout(BaseModel):
     """A target output layout (e.g. Casa Azul, Casa Roja)."""
 
-    code = models.CharField(max_length=32, unique=True)
+    code = models.CharField(max_length=32)
     name = models.CharField(max_length=255)
 
 
     class Meta:
         ordering = ["code"]
+        constraints = [active_unique_constraint("name")]
 
     def __str__(self):
         return self.name
